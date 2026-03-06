@@ -15,10 +15,14 @@
 body{
 margin:0;
 overflow:hidden;
-background:linear-gradient(180deg,#ffd1dc,#ffb6c1);
+background:linear-gradient(180deg,#ff9eb5,#ffc6d4);
 font-family:'Dancing Script', cursive;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
 text-align:center;
-color:#5a0030;
+color:#7a003c;
 }
 
 /* CORAÇÃO */
@@ -65,18 +69,21 @@ z-index:4;
 
 }
 
-/* MENSAGEM */
+/* MENSAGEM CENTRALIZADA */
 
 #mensagem{
-position:absolute;
-bottom:12%;
-width:90%;
-left:5%;
-font-size:32px;
+
+max-width:90%;
+font-size:34px;
 line-height:1.5;
-color:#5a0030;
-font-weight:700;
-z-index:2;
+padding:30px;
+
+background:rgba(255,255,255,0.75);
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
 }
 
 /* PÉTALAS */
@@ -94,8 +101,6 @@ z-index:1;
 100%{transform:translateY(110vh) rotate(360deg)}
 }
 
-/* PARTÍCULAS */
-
 .particula{
 position:absolute;
 font-size:22px;
@@ -109,6 +114,7 @@ pointer-events:none;
 <body>
 
 <div id="coracao">❤️</div>
+
 <div id="dedo">👆</div>
 
 <div id="mensagem"></div>
@@ -135,7 +141,7 @@ navigator.vibrate([120,60,120])
 
 }
 
-/* TEXTO SENDO ESCRITO */
+/* TEXTO */
 
 const texto = `Geovana,
 
