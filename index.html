@@ -8,13 +8,15 @@
 
 <title>Para Geovana ❤️</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+
 <style>
 
 body{
 margin:0;
 overflow:hidden;
 background:linear-gradient(180deg,#ffd1dc,#ffb6c1);
-font-family:Arial, sans-serif;
+font-family:'Dancing Script', cursive;
 text-align:center;
 color:#5a0030;
 }
@@ -38,7 +40,7 @@ z-index:3;
 100%{transform:translate(-50%,-50%) scale(1)}
 }
 
-/* DEDO INDICANDO CLIQUE */
+/* DEDO */
 
 #dedo{
 position:absolute;
@@ -70,21 +72,11 @@ position:absolute;
 bottom:12%;
 width:90%;
 left:5%;
-font-size:24px;
-line-height:1.6;
+font-size:32px;
+line-height:1.5;
 color:#5a0030;
-opacity:0;
-transition:opacity 2s;
-font-weight:500;
+font-weight:700;
 z-index:2;
-}
-
-/* PARTÍCULAS */
-
-.particula{
-position:absolute;
-font-size:22px;
-pointer-events:none;
 }
 
 /* PÉTALAS */
@@ -102,6 +94,14 @@ z-index:1;
 100%{transform:translateY(110vh) rotate(360deg)}
 }
 
+/* PARTÍCULAS */
+
+.particula{
+position:absolute;
+font-size:22px;
+pointer-events:none;
+}
+
 </style>
 
 </head>
@@ -109,28 +109,9 @@ z-index:1;
 <body>
 
 <div id="coracao">❤️</div>
-
 <div id="dedo">👆</div>
 
-<div id="mensagem">
-
-Geovana,<br><br>
-
-Hoje é o Dia da Mulher,<br>
-mas a verdade é que qualquer dia<br>
-fica mais bonito quando você aparece.<br><br>
-
-Seu sorriso ilumina,<br>
-seu carinho acolhe,<br>
-e seu jeito torna tudo mais especial.<br><br>
-
-Que a vida sempre te abrace<br>
-com a mesma delicadeza<br>
-que você espalha por onde passa.<br><br>
-
-💖 Feliz Dia da Mulher 💖
-
-</div>
+<div id="mensagem"></div>
 
 <script>
 
@@ -146,11 +127,56 @@ document.getElementById("dedo").style.display="none"
 
 coracao.style.display="none"
 
-document.getElementById("mensagem").style.opacity=1
+escreverMensagem()
 
 if(navigator.vibrate){
 navigator.vibrate([120,60,120])
 }
+
+}
+
+/* TEXTO SENDO ESCRITO */
+
+const texto = `Geovana,
+
+Hoje é o Dia da Mulher,
+mas qualquer dia
+fica mais bonito
+quando você aparece.
+
+Seu sorriso ilumina,
+seu carinho acolhe,
+e seu jeito torna
+tudo mais especial.
+
+Que a vida sempre
+te abrace com a mesma
+delicadeza que você
+espalha por onde passa.
+
+Feliz Dia da Mulher 💖`
+
+let i=0
+
+function escreverMensagem(){
+
+const el = document.getElementById("mensagem")
+
+function digitar(){
+
+if(i < texto.length){
+
+el.innerHTML += texto.charAt(i)
+
+i++
+
+setTimeout(digitar,40)
+
+}
+
+}
+
+digitar()
 
 }
 
