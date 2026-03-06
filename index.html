@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
@@ -12,18 +13,19 @@
 body{
 margin:0;
 overflow:hidden;
-background:linear-gradient(180deg,#14000a,#000);
-font-family:serif;
+background:linear-gradient(180deg,#20000a,#000);
+font-family:Arial, sans-serif;
 text-align:center;
 color:white;
 }
 
 #instrucao{
 position:absolute;
-top:18%;
+top:15%;
 width:100%;
 font-size:24px;
-color:#ffd6e7;
+color:#ffd6e0;
+z-index:2;
 }
 
 #coracao{
@@ -31,9 +33,10 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:90px;
+font-size:120px;
 cursor:pointer;
-animation:pulse 1.6s infinite;
+z-index:3;
+animation:pulse 1.5s infinite;
 }
 
 @keyframes pulse{
@@ -44,36 +47,40 @@ animation:pulse 1.6s infinite;
 
 #mensagem{
 position:absolute;
-bottom:18%;
+bottom:15%;
 width:90%;
 left:5%;
 font-size:26px;
 line-height:1.6;
-color:#fff;
+color:#ffffff;
 opacity:0;
 transition:opacity 2s;
+z-index:2;
+text-shadow:0 0 10px #ff2e6e;
 }
 
 .particula{
 position:absolute;
-font-size:20px;
+font-size:22px;
 pointer-events:none;
 }
 
 .petala{
 position:absolute;
 font-size:20px;
+pointer-events:none;
 animation:cair linear infinite;
 }
 
 @keyframes cair{
-0%{transform:translateY(-50px)}
-100%{transform:translateY(110vh)}
+0%{transform:translateY(-50px) rotate(0deg)}
+100%{transform:translateY(110vh) rotate(360deg)}
 }
 
 </style>
 
 </head>
+
 <body>
 
 <div id="instrucao">Toque no coração ❤️</div>
@@ -84,17 +91,17 @@ animation:cair linear infinite;
 
 Geovana,<br><br>
 
-Hoje é Dia da Mulher,  
-mas a verdade é que qualquer dia  
+Hoje é o Dia da Mulher,<br>
+mas a verdade é que qualquer dia<br>
 fica mais bonito quando você aparece.<br><br>
 
-Seu jeito, seu sorriso  
-e a luz que você traz  
-fazem tudo ao redor ganhar mais cor.<br><br>
+Seu sorriso ilumina,<br>
+sua presença acalma,<br>
+e seu jeito torna tudo mais especial.<br><br>
 
-Que a vida sempre te trate  
-com a mesma delicadeza  
-que você traz para o mundo.<br><br>
+Que a vida sempre te abrace<br>
+com a mesma delicadeza<br>
+que você espalha pelo mundo.<br><br>
 
 ❤️ Feliz Dia da Mulher ❤️
 
@@ -102,9 +109,11 @@ que você traz para o mundo.<br><br>
 
 <script>
 
-let coracao = document.getElementById("coracao")
+const coracao = document.getElementById("coracao")
 
-coracao.onclick = () => {
+coracao.addEventListener("click",abrir)
+
+function abrir(){
 
 explodir()
 
@@ -112,35 +121,31 @@ document.getElementById("instrucao").style.display="none"
 
 coracao.style.display="none"
 
-let msg = document.getElementById("mensagem")
+document.getElementById("mensagem").style.opacity=1
 
-msg.style.opacity = 1
-
-if(navigator.vibrate)
-navigator.vibrate([100,50,100])
+if(navigator.vibrate){
+navigator.vibrate([120,60,120])
+}
 
 }
 
-
-// explosão
-
 function explodir(){
 
-for(let i=0;i<40;i++){
+for(let i=0;i<50;i++){
 
 let p = document.createElement("div")
 
 p.className="particula"
 
-p.innerHTML = Math.random() > 0.5 ? "💖" : "✨"
+p.innerHTML=Math.random()>0.5?"💖":"✨"
 
-p.style.left = "50vw"
-p.style.top = "50vh"
+p.style.left="50vw"
+p.style.top="50vh"
 
 document.body.appendChild(p)
 
-let x = (Math.random()-0.5)*600
-let y = (Math.random()-0.5)*600
+let x=(Math.random()-0.5)*700
+let y=(Math.random()-0.5)*700
 
 p.animate([
 {transform:"translate(0,0)",opacity:1},
@@ -156,12 +161,9 @@ setTimeout(()=>p.remove(),1500)
 
 }
 
-
-// pétalas caindo
-
 function criarPetala(){
 
-let p = document.createElement("div")
+let p=document.createElement("div")
 
 p.className="petala"
 
@@ -169,7 +171,7 @@ p.innerHTML="🌸"
 
 p.style.left=Math.random()*100+"vw"
 
-p.style.animationDuration=(5+Math.random()*4)+"s"
+p.style.animationDuration=(6+Math.random()*4)+"s"
 
 document.body.appendChild(p)
 
