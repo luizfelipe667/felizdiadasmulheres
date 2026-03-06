@@ -5,150 +5,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Feliz Dia da Mulher</title>
+<title>Feliz Dia da Mulher 🌹</title>
 
 <style>
 
 body{
 margin:0;
-padding:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(180deg,#ffdde1,#ee9ca7);
-font-family:Arial, Helvetica, sans-serif;
 overflow:hidden;
-}
-
-/* PETALAS */
-
-.petalas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-}
-
-.petala{
-position:absolute;
-top:-20px;
-font-size:20px;
-animation:cair linear infinite;
-opacity:0.8;
-}
-
-@keyframes cair{
-0%{
-transform:translateY(-20px) rotate(0deg);
-opacity:0;
-}
-10%{
-opacity:1;
-}
-100%{
-transform:translateY(110vh) rotate(360deg);
-opacity:0;
-}
-}
-
-/* CONTAINER */
-
-.container{
-text-align:center;
-position:relative;
-z-index:2;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(180deg,#1b0010,#3d001e);
+color:white;
 }
 
 /* INSTRUÇÃO */
 
-.instrucao{
-color:#8b0030;
-font-size:18px;
-margin-bottom:20px;
+#instrucao{
+position:absolute;
+top:40%;
+width:100%;
+text-align:center;
+font-size:20px;
+opacity:0.8;
 animation:pulsar 2s infinite;
 }
 
 @keyframes pulsar{
-0%{opacity:0.6}
+0%{opacity:0.4}
 50%{opacity:1}
-100%{opacity:0.6}
+100%{opacity:0.4}
 }
 
-/* ROSA */
+/* MENSAGEM */
 
-.rosa{
-width:120px;
-height:120px;
-background:radial-gradient(circle at center,#ff4d6d,#b0003a);
-border-radius:50%;
-margin:auto;
-cursor:pointer;
-transition:transform 0.4s;
-}
-
-.rosa:hover{
-transform:scale(1.05);
-}
-
-.rosa.aberta{
-animation:abrirRosa 1.5s forwards;
-}
-
-@keyframes abrirRosa{
-0%{transform:scale(1)}
-50%{transform:scale(1.2)}
-100%{transform:scale(0);opacity:0}
-}
-
-/* CARTA */
-
-.carta{
+#mensagem{
 position:absolute;
-top:50%;
+bottom:10%;
 left:50%;
-transform:translate(-50%,50px);
-width:85vw;
-max-width:320px;
-background:white;
+transform:translateX(-50%);
+width:85%;
+max-width:360px;
+background:rgba(255,255,255,0.95);
+color:#333;
 padding:25px;
 border-radius:14px;
-box-shadow:0 10px 35px rgba(0,0,0,0.2);
+text-align:center;
 opacity:0;
-transition:all 1s ease;
+transition:1.2s;
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
 
-.carta.mostrar{
+#mensagem.mostrar{
 opacity:1;
-transform:translate(-50%,-50%);
+transform:translate(-50%,0);
 }
 
 h1{
-color:#d10047;
+color:#c0004b;
 margin-bottom:10px;
 }
 
 p{
 font-size:16px;
 line-height:1.5;
-color:#333;
 }
 
-.botao{
-margin-top:15px;
-background:#ff4d6d;
-color:white;
-border:none;
-padding:10px 20px;
-border-radius:8px;
-font-size:15px;
-cursor:pointer;
-}
-
-.botao:hover{
-background:#d10047;
+canvas{
+display:block;
 }
 
 </style>
@@ -156,91 +78,160 @@ background:#d10047;
 
 <body>
 
-<div class="petalas" id="petalas"></div>
+<div id="instrucao">🌹 Toque na rosa</div>
 
-<div class="container">
+<div id="mensagem">
 
-<div class="instrucao">🌹 Toque na rosa</div>
-
-<div class="rosa" id="rosa"></div>
-
-<div class="carta" id="carta">
-
-<h1>Feliz Dia da Mulher 🌹</h1>
+<h1>Feliz Dia da Mulher</h1>
 
 <p>
 Geovana,
 
-Assim como uma rosa se abre para mostrar sua beleza,
-meu coração também se abre sempre que penso em você.
+Assim como essa rosa se abre lentamente
+revelando sua beleza,
 
-Seu carinho ilumina meus dias,
-seu sorriso acalma minha alma,
-e sua presença transforma o simples em especial.
+assim também é você no mundo:
+delicada, forte e cheia de luz.
 
-Hoje é o dia das mulheres,
+Seu carinho transforma os dias,
+seu sorriso ilumina tudo ao redor,
+e sua presença faz o coração florescer.
+
+Hoje é o Dia da Mulher,
 mas para mim,
-todo dia é dia de agradecer
-por existir alguém tão incrível quanto você.
+todos os dias são especiais
+por existir alguém como você.
 
 Com todo meu carinho ❤️
 </p>
 
-<button class="botao" onclick="surpresa()">Clique aqui</button>
-
 </div>
 
-</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script>
 
-const rosa = document.getElementById("rosa")
-const carta = document.getElementById("carta")
+const scene = new THREE.Scene()
 
-rosa.addEventListener("click", () => {
+const camera = new THREE.PerspectiveCamera(
+60,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+)
+
+const renderer = new THREE.WebGLRenderer({antialias:true})
+renderer.setSize(window.innerWidth,window.innerHeight)
+document.body.appendChild(renderer.domElement)
+
+camera.position.z = 6
+
+/* LUZES */
+
+const light1 = new THREE.PointLight(0xff6699,2,50)
+light1.position.set(5,5,5)
+scene.add(light1)
+
+const light2 = new THREE.AmbientLight(0xffffff,0.6)
+scene.add(light2)
+
+/* MATERIAL ROSA */
+
+const material = new THREE.MeshStandardMaterial({
+color:0xff2a6d,
+roughness:0.4,
+metalness:0.1
+})
+
+/* PETALAS */
+
+const petalas=[]
+
+for(let i=0;i<8;i++){
+
+const geo = new THREE.SphereGeometry(1.2,32,32,0,Math.PI)
+const petala = new THREE.Mesh(geo,material)
+
+petala.rotation.z = i * (Math.PI/4)
+petala.rotation.x = -1.3
+
+scene.add(petala)
+
+petalas.push(petala)
+
+}
+
+/* BOTAO / TOQUE */
+
+let aberta=false
+
+window.addEventListener("click",()=>{
+
+if(aberta) return
+aberta=true
 
 if(navigator.vibrate){
 navigator.vibrate(120)
 }
 
-rosa.classList.add("aberta")
+document.getElementById("instrucao").style.display="none"
 
-setTimeout(()=>{
-carta.classList.add("mostrar")
-},900)
+abrirRosa()
 
 })
 
-function surpresa(){
-if(navigator.vibrate){
-navigator.vibrate([80,40,80])
-}
-alert("Você é especial demais 🌹")
-}
+function abrirRosa(){
 
-/* GERAR PETALAS */
+let progresso=0
 
-const containerPetalas = document.getElementById("petalas")
+function animar(){
 
-function criarPetala(){
+progresso+=0.01
 
-const petala = document.createElement("div")
-petala.classList.add("petala")
-petala.innerHTML="🌸"
+petalas.forEach((p,i)=>{
+p.rotation.x = -1.3 + progresso*1.4
+})
 
-petala.style.left = Math.random()*100+"vw"
-petala.style.animationDuration = (6 + Math.random()*6)+"s"
-petala.style.fontSize = (16 + Math.random()*20)+"px"
+if(progresso<1){
 
-containerPetalas.appendChild(petala)
+requestAnimationFrame(animar)
 
-setTimeout(()=>{
-petala.remove()
-},12000)
+}else{
+
+document.getElementById("mensagem").classList.add("mostrar")
 
 }
 
-setInterval(criarPetala,500)
+}
+
+animar()
+
+}
+
+/* ANIMAÇÃO */
+
+function animate(){
+
+requestAnimationFrame(animate)
+
+scene.rotation.y += 0.003
+
+renderer.render(scene,camera)
+
+}
+
+animate()
+
+/* RESPONSIVO */
+
+window.addEventListener("resize",()=>{
+
+camera.aspect=window.innerWidth/window.innerHeight
+camera.updateProjectionMatrix()
+
+renderer.setSize(window.innerWidth,window.innerHeight)
+
+})
 
 </script>
 
