@@ -16,7 +16,7 @@ body{
 margin:0;
 overflow:hidden;
 background:linear-gradient(180deg,#ff9eb5,#ffc6d4);
-font-family:'Dancing Script', cursive;
+font-family:'Dancing Script',cursive;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -58,18 +58,13 @@ z-index:4;
 }
 
 @keyframes clicar{
-
-0%{transform:translate(-50%,0); opacity:0}
-
+0%{transform:translate(-50%,0);opacity:0}
 30%{opacity:1}
-
 60%{transform:translate(-50%,-20px)}
-
 100%{opacity:0}
-
 }
 
-/* MENSAGEM CENTRALIZADA */
+/* MENSAGEM */
 
 #mensagem{
 
@@ -83,6 +78,38 @@ background:rgba(255,255,255,0.75);
 border-radius:20px;
 
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+/* FRASE FINAL */
+
+#final{
+
+position:absolute;
+bottom:10%;
+left:50%;
+transform:translateX(-50%);
+font-size:28px;
+color:#a00050;
+opacity:0;
+transition:opacity 2s ease;
+font-weight:700;
+cursor:pointer;
+
+}
+
+/* ASSINATURA */
+
+#assinatura{
+
+position:absolute;
+bottom:5%;
+left:50%;
+transform:translateX(-50%);
+font-size:24px;
+color:#7a003c;
+opacity:0;
+transition:opacity 1.5s ease;
 
 }
 
@@ -101,10 +128,27 @@ z-index:1;
 100%{transform:translateY(110vh) rotate(360deg)}
 }
 
+/* PARTÍCULAS */
+
 .particula{
 position:absolute;
 font-size:22px;
 pointer-events:none;
+}
+
+/* CORAÇÕES SUBINDO */
+
+.coracaoSubindo{
+position:absolute;
+bottom:0;
+font-size:24px;
+animation:subir 4s linear forwards;
+pointer-events:none;
+}
+
+@keyframes subir{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-120vh);opacity:0}
 }
 
 </style>
@@ -119,9 +163,13 @@ pointer-events:none;
 
 <div id="mensagem"></div>
 
+<div id="final">Feito com carinho pra você. Te amo! 💖</div>
+
+<div id="assinatura">— Luiz Felipe</div>
+
 <script>
 
-const coracao = document.getElementById("coracao")
+const coracao=document.getElementById("coracao")
 
 coracao.addEventListener("click",abrir)
 
@@ -143,7 +191,7 @@ navigator.vibrate([120,60,120])
 
 /* TEXTO */
 
-const texto = `Geovana,
+const texto=`Geovana,
 
 Hoje é o Dia da Mulher,
 mas qualquer dia
@@ -166,17 +214,21 @@ let i=0
 
 function escreverMensagem(){
 
-const el = document.getElementById("mensagem")
+const el=document.getElementById("mensagem")
 
 function digitar(){
 
-if(i < texto.length){
+if(i<texto.length){
 
-el.innerHTML += texto.charAt(i)
+el.innerHTML+=texto.charAt(i)
 
 i++
 
 setTimeout(digitar,40)
+
+}else{
+
+mostrarFinal()
 
 }
 
@@ -185,6 +237,36 @@ setTimeout(digitar,40)
 digitar()
 
 }
+
+/* FRASE FINAL */
+
+function mostrarFinal(){
+
+const final=document.getElementById("final")
+
+setTimeout(()=>{
+
+final.style.opacity=1
+
+subirCoracoes()
+
+if(navigator.vibrate){
+navigator.vibrate([100,50,100])
+}
+
+},1500)
+
+}
+
+/* ASSINATURA */
+
+document.getElementById("final").addEventListener("click",()=>{
+
+const assinatura=document.getElementById("assinatura")
+
+assinatura.style.opacity=1
+
+})
 
 /* EXPLOSÃO */
 
@@ -241,6 +323,28 @@ setTimeout(()=>p.remove(),9000)
 }
 
 setInterval(criarPetala,400)
+
+/* CORAÇÕES SUBINDO */
+
+function subirCoracoes(){
+
+setInterval(()=>{
+
+let c=document.createElement("div")
+
+c.className="coracaoSubindo"
+
+c.innerHTML="💖"
+
+c.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(c)
+
+setTimeout(()=>c.remove(),4000)
+
+},700)
+
+}
 
 </script>
 
