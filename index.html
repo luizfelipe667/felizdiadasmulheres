@@ -19,14 +19,7 @@ text-align:center;
 color:#5a0030;
 }
 
-#instrucao{
-position:absolute;
-top:15%;
-width:100%;
-font-size:26px;
-color:#8b004a;
-z-index:2;
-}
+/* CORAÇÃO */
 
 #coracao{
 position:absolute;
@@ -45,6 +38,33 @@ z-index:3;
 100%{transform:translate(-50%,-50%) scale(1)}
 }
 
+/* DEDO INDICANDO CLIQUE */
+
+#dedo{
+position:absolute;
+top:60%;
+left:50%;
+transform:translate(-50%,0);
+font-size:50px;
+animation:clicar 1.5s infinite;
+pointer-events:none;
+z-index:4;
+}
+
+@keyframes clicar{
+
+0%{transform:translate(-50%,0); opacity:0}
+
+30%{opacity:1}
+
+60%{transform:translate(-50%,-20px)}
+
+100%{opacity:0}
+
+}
+
+/* MENSAGEM */
+
 #mensagem{
 position:absolute;
 bottom:12%;
@@ -59,11 +79,15 @@ font-weight:500;
 z-index:2;
 }
 
+/* PARTÍCULAS */
+
 .particula{
 position:absolute;
 font-size:22px;
 pointer-events:none;
 }
+
+/* PÉTALAS */
 
 .petala{
 position:absolute;
@@ -84,9 +108,9 @@ z-index:1;
 
 <body>
 
-<div id="instrucao"> Toque no coração</div>
-
 <div id="coracao">❤️</div>
+
+<div id="dedo">👆</div>
 
 <div id="mensagem">
 
@@ -118,7 +142,7 @@ function abrir(){
 
 explodir()
 
-document.getElementById("instrucao").style.display="none"
+document.getElementById("dedo").style.display="none"
 
 coracao.style.display="none"
 
@@ -130,11 +154,13 @@ navigator.vibrate([120,60,120])
 
 }
 
+/* EXPLOSÃO */
+
 function explodir(){
 
 for(let i=0;i<60;i++){
 
-let p = document.createElement("div")
+let p=document.createElement("div")
 
 p.className="particula"
 
@@ -161,6 +187,8 @@ setTimeout(()=>p.remove(),1500)
 }
 
 }
+
+/* PÉTALAS */
 
 function criarPetala(){
 
