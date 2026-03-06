@@ -1,185 +1,172 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Para Geovana ❤️</title>
+<title>Feliz Dia da Mulher</title>
 
 <style>
 
 body{
 margin:0;
+padding:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(180deg,#ffdde1,#ee9ca7);
+font-family:Arial, Helvetica, sans-serif;
 overflow:hidden;
-background:linear-gradient(180deg,#20000a,#000);
-font-family:Arial, sans-serif;
+}
+
+.container{
 text-align:center;
-color:white;
+position:relative;
 }
 
-#instrucao{
-position:absolute;
-top:15%;
-width:100%;
-font-size:24px;
-color:#ffd6e0;
-z-index:2;
+/* ROSA */
+
+.rosa{
+width:120px;
+height:120px;
+background:radial-gradient(circle at center,#ff4d6d,#b0003a);
+border-radius:50%;
+margin:auto;
+cursor:pointer;
+transition:transform 0.4s;
 }
 
-#coracao{
+.rosa:hover{
+transform:scale(1.05);
+}
+
+/* PETALAS ABRINDO */
+
+.rosa.aberta{
+animation:abrirRosa 1.5s forwards;
+}
+
+@keyframes abrirRosa{
+0%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.2);
+}
+100%{
+transform:scale(0);
+opacity:0;
+}
+}
+
+/* CARTA */
+
+.carta{
 position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%);
-font-size:120px;
-cursor:pointer;
-z-index:3;
-animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-0%{transform:translate(-50%,-50%) scale(1)}
-50%{transform:translate(-50%,-50%) scale(1.25)}
-100%{transform:translate(-50%,-50%) scale(1)}
-}
-
-#mensagem{
-position:absolute;
-bottom:15%;
-width:90%;
-left:5%;
-font-size:26px;
-line-height:1.6;
-color:#ffffff;
+transform:translate(-50%,50px);
+width:85vw;
+max-width:320px;
+background:white;
+padding:25px;
+border-radius:14px;
+box-shadow:0 10px 35px rgba(0,0,0,0.2);
 opacity:0;
-transition:opacity 2s;
-z-index:2;
-text-shadow:0 0 10px #ff2e6e;
+transition:all 1s ease;
 }
 
-.particula{
-position:absolute;
-font-size:22px;
-pointer-events:none;
+/* CARTA APARECE */
+
+.carta.mostrar{
+opacity:1;
+transform:translate(-50%,-50%);
 }
 
-.petala{
-position:absolute;
-font-size:20px;
-pointer-events:none;
-animation:cair linear infinite;
+/* TEXTO */
+
+h1{
+color:#d10047;
+margin-bottom:10px;
 }
 
-@keyframes cair{
-0%{transform:translateY(-50px) rotate(0deg)}
-100%{transform:translateY(110vh) rotate(360deg)}
+p{
+font-size:16px;
+line-height:1.5;
+color:#333;
+}
+
+.botao{
+margin-top:15px;
+background:#ff4d6d;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+font-size:15px;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#d10047;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="instrucao">Toque no coração ❤️</div>
+<div class="container">
 
-<div id="coracao">❤️</div>
+<div class="rosa" id="rosa"></div>
 
-<div id="mensagem">
+<div class="carta" id="carta">
 
-Geovana,<br><br>
+<h1>Feliz Dia da Mulher 🌹</h1>
 
-Hoje é o Dia da Mulher,<br>
-mas a verdade é que qualquer dia<br>
-fica mais bonito quando você aparece.<br><br>
+<p>
+Geovana,
 
-Seu sorriso ilumina,<br>
-sua presença acalma,<br>
-e seu jeito torna tudo mais especial.<br><br>
+Assim como uma rosa se abre para mostrar sua beleza,
+meu coração também se abre sempre que penso em você.
 
-Que a vida sempre te abrace<br>
-com a mesma delicadeza<br>
-que você espalha pelo mundo.<br><br>
+Seu carinho ilumina meus dias,
+seu sorriso acalma minha alma,
+e sua presença transforma o simples em especial.
 
-❤️ Feliz Dia da Mulher ❤️
+Hoje é o dia das mulheres,
+mas para mim,
+todo dia é dia de agradecer
+por existir alguém tão incrível quanto você.
+
+Com todo meu carinho ❤️
+</p>
+
+<button class="botao" onclick="surpresa()">Clique aqui</button>
+
+</div>
 
 </div>
 
 <script>
 
-const coracao = document.getElementById("coracao")
+const rosa = document.getElementById("rosa")
+const carta = document.getElementById("carta")
 
-coracao.addEventListener("click",abrir)
+rosa.addEventListener("click", () => {
 
-function abrir(){
+rosa.classList.add("aberta")
 
-explodir()
+setTimeout(()=>{
+carta.classList.add("mostrar")
+},900)
 
-document.getElementById("instrucao").style.display="none"
-
-coracao.style.display="none"
-
-document.getElementById("mensagem").style.opacity=1
-
-if(navigator.vibrate){
-navigator.vibrate([120,60,120])
-}
-
-}
-
-function explodir(){
-
-for(let i=0;i<50;i++){
-
-let p = document.createElement("div")
-
-p.className="particula"
-
-p.innerHTML=Math.random()>0.5?"💖":"✨"
-
-p.style.left="50vw"
-p.style.top="50vh"
-
-document.body.appendChild(p)
-
-let x=(Math.random()-0.5)*700
-let y=(Math.random()-0.5)*700
-
-p.animate([
-{transform:"translate(0,0)",opacity:1},
-{transform:`translate(${x}px,${y}px)`,opacity:0}
-],{
-duration:1500,
-easing:"ease-out"
 })
 
-setTimeout(()=>p.remove(),1500)
-
+function surpresa(){
+alert("Você é especial demais 🌹")
 }
-
-}
-
-function criarPetala(){
-
-let p=document.createElement("div")
-
-p.className="petala"
-
-p.innerHTML="🌸"
-
-p.style.left=Math.random()*100+"vw"
-
-p.style.animationDuration=(6+Math.random()*4)+"s"
-
-document.body.appendChild(p)
-
-setTimeout(()=>p.remove(),9000)
-
-}
-
-setInterval(criarPetala,400)
 
 </script>
 
