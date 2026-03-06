@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Feliz Dia da Mulher</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Arial, sans-serif;
+background:linear-gradient(180deg,#ffb6d5,#ffe4f1);
+overflow:hidden;
+text-align:center;
+}
+
+.container{
+max-width:420px;
+padding:20px;
+}
+
+h1{
+color:#c2185b;
+font-size:28px;
+margin-bottom:20px;
+}
+
+.rose{
+position:relative;
+width:130px;
+height:130px;
+margin:30px auto;
+cursor:pointer;
+}
+
+.petala{
+position:absolute;
+width:80px;
+height:100px;
+background:#ff2e63;
+border-radius:50% 50% 0 50%;
+opacity:0;
+transform-origin:bottom center;
+transition:all .7s ease;
+}
+
+.petala:nth-child(1){left:25px;top:10px;}
+.petala:nth-child(2){left:5px;top:35px;}
+.petala:nth-child(3){left:45px;top:35px;}
+.petala:nth-child(4){left:25px;top:55px;}
+
+.caule{
+position:absolute;
+width:6px;
+height:140px;
+background:#2e7d32;
+left:62px;
+top:100px;
+border-radius:10px;
+}
+
+.tip{
+font-size:14px;
+opacity:.8;
+color:#7a0044;
+}
+
+.message{
+margin-top:30px;
+font-size:18px;
+line-height:1.6;
+color:#880e4f;
+min-height:140px;
+}
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation: subir 4s linear forwards;
+}
+
+@keyframes subir{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-110vh);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Feliz Dia da Mulher 🌹</h1>
+
+<div class="rose" onclick="abrirRosa()">
+
+<div class="petala"></div>
+<div class="petala"></div>
+<div class="petala"></div>
+<div class="petala"></div>
+
+<div class="caule"></div>
+
+</div>
+
+<div class="tip">Toque na rosa...</div>
+
+<div class="message" id="mensagem"></div>
+
+</div>
+
+<script>
+
+let etapa=0;
+
+const petalas=document.querySelectorAll(".petala");
+
+const texto=`Geovana,
+
+Hoje é um dia para lembrar o quanto mulheres especiais fazem diferença no mundo.
+
+E você é exatamente assim.
+
+Com sua dedicação, inteligência e carinho com as pessoas,
+você ilumina os lugares por onde passa.
+
+Que sua caminhada seja sempre cheia de sonhos,
+realizações e muitos sorrisos.
+
+Feliz Dia da Mulher 🌹`;
+
+function abrirRosa(){
+
+if(etapa<petalas.length){
+
+petalas[etapa].style.opacity="1";
+petalas[etapa].style.transform="rotate("+(etapa*30-30)+"deg) translateY(-10px)";
+etapa++;
+
+}else{
+
+escreverMensagem();
+coracoes();
+
+}
+
+}
+
+function escreverMensagem(){
+
+let i=0;
+
+function digitar(){
+
+if(i<texto.length){
+
+document.getElementById("mensagem").innerHTML+=texto.charAt(i);
+
+i++;
+
+setTimeout(digitar,35);
+
+}
+
+}
+
+digitar();
+
+}
+
+function coracoes(){
+
+setInterval(()=>{
+
+let heart=document.createElement("div");
+
+heart.classList.add("heart");
+
+heart.innerHTML="💖";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.fontSize=(Math.random()*20+15)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),4000);
+
+},400);
+
+}
+
+</script>
+
+</body>
+</html>
