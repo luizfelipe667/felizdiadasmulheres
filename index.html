@@ -1,223 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Feliz Dia da Mulher 🌹</title>
+<title>Para Você 🌹</title>
 
 <style>
 
 body{
 margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:radial-gradient(circle at center,#3b001d,#120008);
-font-family:Arial;
 overflow:hidden;
+background:#140010;
+font-family:serif;
 color:white;
 }
 
-/* INSTRUÇÃO */
-
-#instrucao{
+#texto{
 position:absolute;
-top:40%;
+top:15%;
+width:100%;
+text-align:center;
 font-size:22px;
-animation:pulse 2s infinite;
+opacity:0.8;
+letter-spacing:2px;
 }
-
-@keyframes pulse{
-0%{opacity:0.4}
-50%{opacity:1}
-100%{opacity:0.4}
-}
-
-/* ROSA */
-
-.rosa{
-position:relative;
-width:120px;
-height:120px;
-cursor:pointer;
-}
-
-.petala{
-position:absolute;
-width:80px;
-height:80px;
-background:radial-gradient(circle,#ff2e6e,#c0003f);
-border-radius:50%;
-top:20px;
-left:20px;
-transform-origin:center bottom;
-transition:1.8s ease;
-}
-
-.petala:nth-child(1){transform:rotate(0deg)}
-.petala:nth-child(2){transform:rotate(45deg)}
-.petala:nth-child(3){transform:rotate(90deg)}
-.petala:nth-child(4){transform:rotate(135deg)}
-.petala:nth-child(5){transform:rotate(180deg)}
-.petala:nth-child(6){transform:rotate(225deg)}
-.petala:nth-child(7){transform:rotate(270deg)}
-.petala:nth-child(8){transform:rotate(315deg)}
-
-/* HASTE */
-
-.haste{
-position:absolute;
-width:6px;
-height:140px;
-background:#1aa33c;
-left:57px;
-top:100px;
-border-radius:3px;
-}
-
-/* ABERTURA */
-
-.aberta .petala{
-transform:scale(1.4) rotate(var(--rot));
-}
-
-/* CARTA */
 
 #mensagem{
 position:absolute;
-bottom:8%;
-background:white;
-color:#333;
-padding:25px;
-width:85%;
-max-width:350px;
-border-radius:14px;
+bottom:15%;
+width:100%;
 text-align:center;
+font-size:26px;
 opacity:0;
-transform:translateY(30px);
-transition:1.5s;
-box-shadow:0 15px 40px rgba(0,0,0,0.4);
+transition:2s;
 }
 
-#mensagem.mostrar{
-opacity:1;
-transform:translateY(0);
-}
-
-h1{
-color:#c0004b;
-margin-top:0;
-}
-
-/* PETALAS CAINDO */
-
-.petala-caindo{
-position:absolute;
-top:-20px;
-color:#ff3d7a;
-font-size:22px;
-animation:cair linear forwards;
-}
-
-@keyframes cair{
-0%{transform:translateY(-20px) rotate(0)}
-100%{transform:translateY(110vh) rotate(360deg)}
+canvas{
+display:block;
 }
 
 </style>
-</head>
 
+</head>
 <body>
 
-<div id="instrucao">🌹 Toque na rosa</div>
-
-<div class="rosa" id="rosa">
-
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-
-<div class="haste"></div>
-
-</div>
+<div id="texto">Toque na rosa 🌹</div>
 
 <div id="mensagem">
-
-<h1>Feliz Dia da Mulher</h1>
-
-<p>
-
-Geovana,
-
-Assim como essa rosa floresce lentamente,
-sua presença ilumina tudo ao redor.
-
-Sua delicadeza, sua força
-e seu carinho tornam o mundo
-um lugar mais bonito.
-
-Que hoje você se lembre
-do quanto é especial.
-
-Com todo carinho ❤️
-
-</p>
-
+Feliz Dia da Mulher<br>
+Com todo meu carinho ❤️
 </div>
 
-<script>
+<script type="module">
 
-const rosa = document.getElementById("rosa")
-const mensagem = document.getElementById("mensagem")
-const instrucao = document.getElementById("instrucao")
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js";
+import {GLTFLoader} from "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js";
 
-rosa.addEventListener("click", ()=>{
+let scene = new THREE.Scene()
 
-rosa.classList.add("aberta")
+let camera = new THREE.PerspectiveCamera(
+60,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+)
 
-instrucao.style.display="none"
+camera.position.z = 5
 
-if(navigator.vibrate){
-navigator.vibrate([80,40,80])
-}
+let renderer = new THREE.WebGLRenderer({antialias:true,alpha:true})
 
-setTimeout(()=>{
-mensagem.classList.add("mostrar")
-},1200)
+renderer.setSize(window.innerWidth,window.innerHeight)
+
+document.body.appendChild(renderer.domElement)
+
+scene.background = new THREE.Color("#140010")
+
+// LUZ CINEMATOGRÁFICA
+
+let light = new THREE.PointLight(0xff4da6,4,100)
+light.position.set(5,5,5)
+scene.add(light)
+
+let light2 = new THREE.PointLight(0xffffff,2,100)
+light2.position.set(-5,3,3)
+scene.add(light2)
+
+let ambient = new THREE.AmbientLight(0xffffff,1.2)
+scene.add(ambient)
+
+let loader = new GLTFLoader()
+
+let rose
+
+loader.load("rose.glb", function(gltf){
+
+rose = gltf.scene
+
+rose.scale.set(2,2,2)
+
+scene.add(rose)
 
 })
 
-/* PETALAS CAINDO */
+let petals=[]
 
-function criarPetala(){
+function createPetal(){
 
-const petala = document.createElement("div")
-petala.classList.add("petala-caindo")
+let geometry = new THREE.PlaneGeometry(0.2,0.2)
 
-petala.innerHTML="🌸"
+let material = new THREE.MeshBasicMaterial({
+color:0xff4da6,
+side:THREE.DoubleSide
+})
 
-petala.style.left = Math.random()*100+"vw"
-petala.style.animationDuration = 4 + Math.random()*4 + "s"
+let petal = new THREE.Mesh(geometry,material)
 
-document.body.appendChild(petala)
+petal.position.x = (Math.random()-0.5)*6
+petal.position.y = 4
+petal.position.z = (Math.random()-0.5)*2
 
-setTimeout(()=>{
-petala.remove()
-},8000)
+scene.add(petal)
+
+petals.push(petal)
 
 }
 
-setInterval(criarPetala,600)
+setInterval(createPetal,200)
+
+window.addEventListener("click",()=>{
+
+if(navigator.vibrate)
+navigator.vibrate(200)
+
+document.getElementById("mensagem").style.opacity=1
+
+})
+
+function animate(){
+
+requestAnimationFrame(animate)
+
+if(rose){
+
+rose.rotation.y +=0.003
+
+}
+
+petals.forEach(p=>{
+
+p.position.y -=0.02
+
+p.rotation.z+=0.02
+
+})
+
+renderer.render(scene,camera)
+
+}
+
+animate()
 
 </script>
 
