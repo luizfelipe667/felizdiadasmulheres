@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,83 +18,171 @@ box-sizing:border-box;
 body{
 height:100vh;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#ffb6d5,#ffe4f1);
+background:linear-gradient(180deg,#ffb6d0,#ffeaf5);
 overflow:hidden;
 text-align:center;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:420px;
 padding:20px;
+position:relative;
+z-index:5;
 }
 
+/* TITULO */
+
 h1{
-color:#c2185b;
-font-size:28px;
+color:#b0004c;
 margin-bottom:20px;
 }
 
-.rose{
-position:relative;
-width:130px;
-height:130px;
-margin:30px auto;
+/* BOTÃO */
+
+.btn{
+background:#ff2e6e;
+border:none;
+padding:15px 26px;
+border-radius:30px;
+color:white;
+font-size:16px;
 cursor:pointer;
+box-shadow:0 6px 20px rgba(0,0,0,0.2);
+transition:.3s;
 }
 
-.petala{
-position:absolute;
-width:80px;
-height:100px;
-background:#ff2e63;
-border-radius:50% 50% 0 50%;
-opacity:0;
-transform-origin:bottom center;
-transition:all .7s ease;
+.btn:hover{
+transform:scale(1.05);
 }
 
-.petala:nth-child(1){left:25px;top:10px;}
-.petala:nth-child(2){left:5px;top:35px;}
-.petala:nth-child(3){left:45px;top:35px;}
-.petala:nth-child(4){left:25px;top:55px;}
+/* ROSA */
 
-.caule{
-position:absolute;
-width:6px;
-height:140px;
-background:#2e7d32;
-left:62px;
-top:100px;
+.rose{
+font-size:90px;
+margin:20px 0;
+display:none;
+animation:crescer 2s ease forwards;
+}
+
+@keyframes crescer{
+
+0%{
+transform:scale(0);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* ENVELOPE */
+
+.envelope{
+
+width:200px;
+height:120px;
+background:#fff;
+margin:20px auto;
+position:relative;
 border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+display:none;
+
 }
 
-.tip{
-font-size:14px;
-opacity:.8;
-color:#7a0044;
+.envelope:before{
+
+content:'';
+position:absolute;
+top:-60px;
+left:0;
+width:0;
+height:0;
+border-left:100px solid transparent;
+border-right:100px solid transparent;
+border-bottom:60px solid #fff;
+transition:1s;
+
+}
+
+.envelope.open:before{
+
+transform:rotateX(180deg);
+
+}
+
+/* CARTA */
+
+.card{
+
+display:none;
+background:white;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+
 }
 
 .message{
-margin-top:30px;
-font-size:18px;
+
+font-size:17px;
 line-height:1.6;
 color:#880e4f;
-min-height:140px;
+white-space:pre-line;
+
 }
 
+/* CORAÇÕES */
+
 .heart{
+
 position:fixed;
 bottom:-20px;
 font-size:20px;
-animation: subir 4s linear forwards;
+animation:subir 6s linear forwards;
+opacity:.7;
+
 }
 
 @keyframes subir{
-0%{transform:translateY(0);opacity:1;}
-100%{transform:translateY(-110vh);opacity:0;}
+
+0%{transform:translateY(0)}
+100%{transform:translateY(-110vh); opacity:0}
+
+}
+
+/* PARTÍCULAS */
+
+.sparkle{
+
+position:fixed;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+opacity:.7;
+animation:flutuar 5s linear forwards;
+
+}
+
+@keyframes flutuar{
+
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(-100vh);
+opacity:0;
+}
+
 }
 
 </style>
@@ -105,79 +194,107 @@ animation: subir 4s linear forwards;
 
 <h1>Feliz Dia da Mulher 🌹</h1>
 
-<div class="rose" onclick="abrirRosa()">
+<button class="btn" onclick="iniciar()">Abrir Surpresa</button>
 
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
-<div class="petala"></div>
+<div class="rose" id="rose">🌹</div>
 
-<div class="caule"></div>
+<div class="envelope" id="envelope"></div>
+
+<div class="card" id="card">
+
+<h2>💌 Para Geovana</h2>
+
+<div class="message" id="msg"></div>
 
 </div>
-
-<div class="tip">Toque na rosa...</div>
-
-<div class="message" id="mensagem"></div>
 
 </div>
 
 <script>
 
-let etapa=0;
-
-const petalas=document.querySelectorAll(".petala");
-
 const texto=`Geovana,
 
-Hoje é um dia para lembrar o quanto mulheres especiais fazem diferença no mundo.
+Hoje é um dia especial para lembrar o quanto mulheres incríveis fazem diferença no mundo.
 
-E você é exatamente assim.
+E você é exatamente uma dessas pessoas.
 
-Com sua dedicação, inteligência e carinho com as pessoas,
-você ilumina os lugares por onde passa.
+Com sua dedicação, inteligência e carinho com todos ao seu redor,
+você ilumina os caminhos das pessoas.
 
-Que sua caminhada seja sempre cheia de sonhos,
-realizações e muitos sorrisos.
+Que sua vida seja sempre cheia de sonhos,
+conquistas e momentos felizes.
 
 Feliz Dia da Mulher 🌹`;
 
-function abrirRosa(){
+function iniciar(){
 
-if(etapa<petalas.length){
+document.querySelector(".btn").style.display="none";
 
-petalas[etapa].style.opacity="1";
-petalas[etapa].style.transform="rotate("+(etapa*30-30)+"deg) translateY(-10px)";
-etapa++;
+document.getElementById("rose").style.display="block";
 
-}else{
+particulas();
 
-escreverMensagem();
+setTimeout(()=>{
+
+abrirEnvelope();
+
+},2000);
+
+}
+
+function abrirEnvelope(){
+
+let env=document.getElementById("envelope");
+
+env.style.display="block";
+
+setTimeout(()=>{
+
+env.classList.add("open");
+
+mostrarCarta();
+
+},800);
+
+}
+
+function mostrarCarta(){
+
+setTimeout(()=>{
+
+let card=document.getElementById("card");
+
+card.style.display="block";
+
+digitar();
+
 coracoes();
 
-}
+},1000);
 
 }
-
-function escreverMensagem(){
-
-let i=0;
 
 function digitar(){
 
+let i=0;
+
+let area=document.getElementById("msg");
+
+function escrever(){
+
 if(i<texto.length){
 
-document.getElementById("mensagem").innerHTML+=texto.charAt(i);
+area.innerHTML+=texto.charAt(i);
 
 i++;
 
-setTimeout(digitar,35);
+setTimeout(escrever,35);
 
 }
 
 }
 
-digitar();
+escrever();
 
 }
 
@@ -193,13 +310,33 @@ heart.innerHTML="💖";
 
 heart.style.left=Math.random()*100+"vw";
 
-heart.style.fontSize=(Math.random()*20+15)+"px";
+heart.style.fontSize=(Math.random()*20+18)+"px";
 
 document.body.appendChild(heart);
 
-setTimeout(()=>heart.remove(),4000);
+setTimeout(()=>heart.remove(),6000);
 
-},400);
+},500);
+
+}
+
+function particulas(){
+
+setInterval(()=>{
+
+let p=document.createElement("div");
+
+p.classList.add("sparkle");
+
+p.style.left=Math.random()*100+"vw";
+
+p.style.bottom="0px";
+
+document.body.appendChild(p);
+
+setTimeout(()=>p.remove(),5000);
+
+},200);
 
 }
 
