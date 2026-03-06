@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Feliz Dia da Mulher</title>
 
 <style>
@@ -10,103 +11,105 @@
 body{
 margin:0;
 padding:0;
-background:linear-gradient(180deg,#ffdde1,#ee9ca7);
-font-family:Arial, sans-serif;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+background:linear-gradient(180deg,#ffdde1,#ee9ca7);
+font-family:Arial, Helvetica, sans-serif;
 overflow:hidden;
-text-align:center;
 }
 
 .container{
+text-align:center;
 position:relative;
-width:100%;
-max-width:400px;
 }
 
-h1{
-color:#fff;
-font-size:28px;
-margin-bottom:20px;
-}
+/* ROSA */
 
-.rose{
+.rosa{
 width:120px;
 height:120px;
+background:radial-gradient(circle at center,#ff4d6d,#b0003a);
+border-radius:50%;
 margin:auto;
-position:relative;
+cursor:pointer;
+transition:transform 0.4s;
+}
+
+.rosa:hover{
+transform:scale(1.05);
+}
+
+/* PETALAS ABRINDO */
+
+.rosa.aberta{
+animation:abrirRosa 1.5s forwards;
+}
+
+@keyframes abrirRosa{
+0%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.2);
+}
+100%{
+transform:scale(0);
+opacity:0;
+}
+}
+
+/* CARTA */
+
+.carta{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,50px);
+width:85vw;
+max-width:320px;
+background:white;
+padding:25px;
+border-radius:14px;
+box-shadow:0 10px 35px rgba(0,0,0,0.2);
+opacity:0;
+transition:all 1s ease;
+}
+
+/* CARTA APARECE */
+
+.carta.mostrar{
+opacity:1;
+transform:translate(-50%,-50%);
+}
+
+/* TEXTO */
+
+h1{
+color:#d10047;
+margin-bottom:10px;
+}
+
+p{
+font-size:16px;
+line-height:1.5;
+color:#333;
+}
+
+.botao{
+margin-top:15px;
+background:#ff4d6d;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+font-size:15px;
 cursor:pointer;
 }
 
-.petal{
-position:absolute;
-width:60px;
-height:80px;
-background:#ff2e63;
-border-radius:60px 60px 0 0;
-top:20px;
-left:30px;
-transform-origin:bottom center;
-transition:transform 1s ease;
-}
-
-.petal:nth-child(1){ transform:rotate(0deg);}
-.petal:nth-child(2){ transform:rotate(30deg);}
-.petal:nth-child(3){ transform:rotate(-30deg);}
-.petal:nth-child(4){ transform:rotate(60deg);}
-.petal:nth-child(5){ transform:rotate(-60deg);}
-
-.open .petal:nth-child(1){ transform:rotate(0deg) translateY(-50px);}
-.open .petal:nth-child(2){ transform:rotate(60deg) translateY(-50px);}
-.open .petal:nth-child(3){ transform:rotate(-60deg) translateY(-50px);}
-.open .petal:nth-child(4){ transform:rotate(120deg) translateY(-50px);}
-.open .petal:nth-child(5){ transform:rotate(-120deg) translateY(-50px);}
-
-.stem{
-width:6px;
-height:120px;
-background:#2ecc71;
-margin:auto;
-margin-top:-20px;
-border-radius:3px;
-}
-
-.letter{
-position:absolute;
-bottom:-300px;
-left:50%;
-transform:translateX(-50%);
-width:90%;
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-opacity:0;
-transition:all 1.2s ease;
-}
-
-.show{
-bottom:-20px;
-opacity:1;
-}
-
-.message{
-font-size:18px;
-color:#444;
-line-height:1.5;
-}
-
-.heart{
-font-size:30px;
-animation:beat 1s infinite;
-}
-
-@keyframes beat{
-0%{transform:scale(1)}
-50%{transform:scale(1.2)}
-100%{transform:scale(1)}
+.botao:hover{
+background:#d10047;
 }
 
 </style>
@@ -116,77 +119,54 @@ animation:beat 1s infinite;
 
 <div class="container">
 
-<h1>Feliz Dia da Mulher</h1>
+<div class="rosa" id="rosa"></div>
 
-<div class="rose" id="rose">
-<div class="petal"></div>
-<div class="petal"></div>
-<div class="petal"></div>
-<div class="petal"></div>
-<div class="petal"></div>
-</div>
+<div class="carta" id="carta">
 
-<div class="stem"></div>
-
-<div class="letter" id="letter">
-<div class="message">
-
-<p>Geovana,</p>
+<h1>Feliz Dia da Mulher 🌹</h1>
 
 <p>
-Assim como uma rosa se abre lentamente para revelar sua beleza,
-você ilumina o mundo ao seu redor de um jeito único.
+Geovana,
+
+Assim como uma rosa se abre para mostrar sua beleza,
+meu coração também se abre sempre que penso em você.
+
+Seu carinho ilumina meus dias,
+seu sorriso acalma minha alma,
+e sua presença transforma o simples em especial.
+
+Hoje é o dia das mulheres,
+mas para mim,
+todo dia é dia de agradecer
+por existir alguém tão incrível quanto você.
+
+Com todo meu carinho ❤️
 </p>
 
-<p>
-Hoje é Dia da Mulher, mas a verdade é que
-todos os dias são especiais quando existe
-alguém tão carinhosa, doce e cheia de luz como você.
-</p>
+<button class="botao" onclick="surpresa()">Clique aqui</button>
 
-<p>
-Que sua vida floresça sempre,
-com amor, alegria e sonhos realizados.
-</p>
-
-<p class="heart">❤️</p>
-
-</div>
 </div>
 
 </div>
 
 <script>
 
-let rose = document.getElementById("rose");
-let letter = document.getElementById("letter");
-let opened = false;
+const rosa = document.getElementById("rosa")
+const carta = document.getElementById("carta")
 
-rose.addEventListener("click", function(){
+rosa.addEventListener("click", () => {
 
-if(!opened){
-
-rose.classList.add("open");
+rosa.classList.add("aberta")
 
 setTimeout(()=>{
-letter.classList.add("show");
-},900);
+carta.classList.add("mostrar")
+},900)
 
-opened = true;
+})
 
-}else{
-
-letter.classList.remove("show");
-
-setTimeout(()=>{
-rose.classList.remove("open");
-},400);
-
-opened = false;
-
+function surpresa(){
+alert("Você é especial demais 🌹")
 }
-
-});
 
 </script>
 
