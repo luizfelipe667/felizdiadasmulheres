@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-
 <title>Para Geovana ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
+background:#ff9bb3;
 font-family:'Dancing Script',cursive;
-background:#ff8fb1;
-overflow-x:hidden;
 color:white;
 text-align:center;
+overflow:hidden;
 }
 
-section{
+.container{
 height:100vh;
 display:flex;
 flex-direction:column;
@@ -29,8 +29,7 @@ padding:20px;
 }
 
 h1{
-font-size:40px;
-margin-bottom:20px;
+font-size:38px;
 }
 
 .heart{
@@ -40,15 +39,14 @@ animation:beat 1s infinite;
 }
 
 @keyframes beat{
-0%{transform:scale(1);}
-50%{transform:scale(1.2);}
-100%{transform:scale(1);}
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
 }
 
 .finger{
 font-size:40px;
 animation:tap 1.2s infinite;
-margin-bottom:10px;
 }
 
 @keyframes tap{
@@ -57,16 +55,13 @@ margin-bottom:10px;
 100%{opacity:0}
 }
 
-.hidden{
-display:none;
-}
-
-#scrollText{
+.text{
 font-size:30px;
-max-width:300px;
+max-width:320px;
+line-height:1.4;
 }
 
-#buttonNext{
+button{
 margin-top:30px;
 padding:15px 25px;
 border:none;
@@ -77,8 +72,12 @@ color:#ff4f87;
 cursor:pointer;
 }
 
+.hidden{
+display:none;
+}
+
 .final{
-font-size:40px;
+font-size:38px;
 opacity:0;
 transition:1.5s;
 }
@@ -94,47 +93,41 @@ pointer-events:none;
 
 <body>
 
-<!-- TELA 1 -->
-<section id="tela1">
+<div class="container" id="tela1">
 
 <div class="finger">👇</div>
 
 <h1>Clique no coração</h1>
 
-<div class="heart" onclick="explodir()">❤️</div>
+<div class="heart" onclick="start()">❤️</div>
 
-</section>
+</div>
 
-<!-- TELA 2 -->
 
-<section id="tela2" class="hidden">
+<div class="container hidden" id="tela2">
 
-<h1>Agora role a tela ❤️</h1>
+<div class="text" id="text"></div>
 
-</section>
+<button onclick="mostrarFinal()">Toque aqui Geovana</button>
 
-<!-- TELA 3 -->
+</div>
 
-<section id="tela3">
 
-<div id="scrollText"></div>
-
-<button id="buttonNext" onclick="final()">Toque aqui Geovana</button>
-
-</section>
-
-<!-- TELA FINAL -->
-
-<section id="telaFinal">
+<div class="container hidden" id="tela3">
 
 <div class="final" id="finalMsg">
 
-Feliz Dia da Mulher 💐
+Feliz Dia da Mulher 🌹
 
 <br><br>
 
 Geovana,  
 você é uma das coisas mais bonitas que já aconteceram na minha vida.
+
+<br><br>
+
+Seu sorriso ilumina meus dias  
+e sua presença deixa tudo mais especial.
 
 <br><br>
 
@@ -150,15 +143,57 @@ Te amo.
 
 </div>
 
-</section>
+</div>
 
 <script>
 
-function explodir(){
+let texto="Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir.";
 
+let i=0
+
+function start(){
+
+explosao()
+
+document.getElementById("tela1").classList.add("hidden")
 document.getElementById("tela2").classList.remove("hidden")
 
-for(let i=0;i<30;i++){
+escrever()
+
+}
+
+function escrever(){
+
+let area=document.getElementById("text")
+
+let interval=setInterval(()=>{
+
+area.innerHTML+=texto.charAt(i)
+
+i++
+
+if(i>=texto.length)clearInterval(interval)
+
+},45)
+
+}
+
+function mostrarFinal(){
+
+document.getElementById("tela2").classList.add("hidden")
+document.getElementById("tela3").classList.remove("hidden")
+
+setTimeout(()=>{
+
+document.getElementById("finalMsg").style.opacity=1
+
+},200)
+
+}
+
+function explosao(){
+
+for(let i=0;i<35;i++){
 
 let p=document.createElement("div")
 
@@ -179,36 +214,6 @@ p.animate([
 setTimeout(()=>p.remove(),1500)
 
 }
-
-}
-
-let texto="Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir."
-
-let i=0
-
-window.addEventListener("scroll",()=>{
-
-let el=document.getElementById("scrollText")
-
-if(i<texto.length){
-
-let interval=setInterval(()=>{
-
-el.innerHTML+=texto.charAt(i)
-
-i++
-
-if(i>=texto.length)clearInterval(interval)
-
-},40)
-
-}
-
-})
-
-function final(){
-
-document.getElementById("finalMsg").style.opacity=1
 
 }
 
