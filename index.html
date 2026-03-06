@@ -1,188 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Feliz Dia da Mulher</title>
 
 <style>
 
-*{
+body{
 margin:0;
 padding:0;
-box-sizing:border-box;
-}
-
-body{
-height:100vh;
+background:linear-gradient(180deg,#ffdde1,#ee9ca7);
+font-family:Arial, sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#ffb6d0,#ffeaf5);
+height:100vh;
 overflow:hidden;
 text-align:center;
 }
 
-/* CONTAINER */
-
 .container{
-max-width:420px;
-padding:20px;
 position:relative;
-z-index:5;
+width:100%;
+max-width:400px;
 }
 
-/* TITULO */
-
 h1{
-color:#b0004c;
+color:#fff;
+font-size:28px;
 margin-bottom:20px;
 }
 
-/* BOTÃO */
-
-.btn{
-background:#ff2e6e;
-border:none;
-padding:15px 26px;
-border-radius:30px;
-color:white;
-font-size:16px;
-cursor:pointer;
-box-shadow:0 6px 20px rgba(0,0,0,0.2);
-transition:.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
-}
-
-/* ROSA */
-
 .rose{
-font-size:90px;
-margin:20px 0;
-display:none;
-animation:crescer 2s ease forwards;
-}
-
-@keyframes crescer{
-
-0%{
-transform:scale(0);
-}
-
-100%{
-transform:scale(1);
-}
-
-}
-
-/* ENVELOPE */
-
-.envelope{
-
-width:200px;
+width:120px;
 height:120px;
-background:#fff;
-margin:20px auto;
+margin:auto;
 position:relative;
-border-radius:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-display:none;
-
+cursor:pointer;
 }
 
-.envelope:before{
-
-content:'';
+.petal{
 position:absolute;
-top:-60px;
-left:0;
-width:0;
-height:0;
-border-left:100px solid transparent;
-border-right:100px solid transparent;
-border-bottom:60px solid #fff;
-transition:1s;
-
+width:60px;
+height:80px;
+background:#ff2e63;
+border-radius:60px 60px 0 0;
+top:20px;
+left:30px;
+transform-origin:bottom center;
+transition:transform 1s ease;
 }
 
-.envelope.open:before{
+.petal:nth-child(1){ transform:rotate(0deg);}
+.petal:nth-child(2){ transform:rotate(30deg);}
+.petal:nth-child(3){ transform:rotate(-30deg);}
+.petal:nth-child(4){ transform:rotate(60deg);}
+.petal:nth-child(5){ transform:rotate(-60deg);}
 
-transform:rotateX(180deg);
+.open .petal:nth-child(1){ transform:rotate(0deg) translateY(-50px);}
+.open .petal:nth-child(2){ transform:rotate(60deg) translateY(-50px);}
+.open .petal:nth-child(3){ transform:rotate(-60deg) translateY(-50px);}
+.open .petal:nth-child(4){ transform:rotate(120deg) translateY(-50px);}
+.open .petal:nth-child(5){ transform:rotate(-120deg) translateY(-50px);}
 
+.stem{
+width:6px;
+height:120px;
+background:#2ecc71;
+margin:auto;
+margin-top:-20px;
+border-radius:3px;
 }
 
-/* CARTA */
-
-.card{
-
-display:none;
+.letter{
+position:absolute;
+bottom:-300px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
 background:white;
-padding:20px;
+padding:25px;
 border-radius:15px;
-margin-top:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
+opacity:0;
+transition:all 1.2s ease;
+}
 
+.show{
+bottom:-20px;
+opacity:1;
 }
 
 .message{
-
-font-size:17px;
-line-height:1.6;
-color:#880e4f;
-white-space:pre-line;
-
+font-size:18px;
+color:#444;
+line-height:1.5;
 }
-
-/* CORAÇÕES */
 
 .heart{
-
-position:fixed;
-bottom:-20px;
-font-size:20px;
-animation:subir 6s linear forwards;
-opacity:.7;
-
+font-size:30px;
+animation:beat 1s infinite;
 }
 
-@keyframes subir{
-
-0%{transform:translateY(0)}
-100%{transform:translateY(-110vh); opacity:0}
-
-}
-
-/* PARTÍCULAS */
-
-.sparkle{
-
-position:fixed;
-width:6px;
-height:6px;
-background:white;
-border-radius:50%;
-opacity:.7;
-animation:flutuar 5s linear forwards;
-
-}
-
-@keyframes flutuar{
-
-0%{
-transform:translateY(0);
-}
-
-100%{
-transform:translateY(-100vh);
-opacity:0;
-}
-
+@keyframes beat{
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
 }
 
 </style>
@@ -192,153 +116,77 @@ opacity:0;
 
 <div class="container">
 
-<h1>Feliz Dia da Mulher 🌹</h1>
+<h1>Feliz Dia da Mulher</h1>
 
-<button class="btn" onclick="iniciar()">Abrir Surpresa</button>
+<div class="rose" id="rose">
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+</div>
 
-<div class="rose" id="rose">🌹</div>
+<div class="stem"></div>
 
-<div class="envelope" id="envelope"></div>
+<div class="letter" id="letter">
+<div class="message">
 
-<div class="card" id="card">
+<p>Geovana,</p>
 
-<h2>💌 Para Geovana</h2>
+<p>
+Assim como uma rosa se abre lentamente para revelar sua beleza,
+você ilumina o mundo ao seu redor de um jeito único.
+</p>
 
-<div class="message" id="msg"></div>
+<p>
+Hoje é Dia da Mulher, mas a verdade é que
+todos os dias são especiais quando existe
+alguém tão carinhosa, doce e cheia de luz como você.
+</p>
 
+<p>
+Que sua vida floresça sempre,
+com amor, alegria e sonhos realizados.
+</p>
+
+<p class="heart">❤️</p>
+
+</div>
 </div>
 
 </div>
 
 <script>
 
-const texto=`Geovana,
+let rose = document.getElementById("rose");
+let letter = document.getElementById("letter");
+let opened = false;
 
-Hoje é um dia especial para lembrar o quanto mulheres incríveis fazem diferença no mundo.
+rose.addEventListener("click", function(){
 
-E você é exatamente uma dessas pessoas.
+if(!opened){
 
-Com sua dedicação, inteligência e carinho com todos ao seu redor,
-você ilumina os caminhos das pessoas.
-
-Que sua vida seja sempre cheia de sonhos,
-conquistas e momentos felizes.
-
-Feliz Dia da Mulher 🌹`;
-
-function iniciar(){
-
-document.querySelector(".btn").style.display="none";
-
-document.getElementById("rose").style.display="block";
-
-particulas();
+rose.classList.add("open");
 
 setTimeout(()=>{
+letter.classList.add("show");
+},900);
 
-abrirEnvelope();
+opened = true;
 
-},2000);
+}else{
 
-}
-
-function abrirEnvelope(){
-
-let env=document.getElementById("envelope");
-
-env.style.display="block";
+letter.classList.remove("show");
 
 setTimeout(()=>{
+rose.classList.remove("open");
+},400);
 
-env.classList.add("open");
-
-mostrarCarta();
-
-},800);
+opened = false;
 
 }
 
-function mostrarCarta(){
-
-setTimeout(()=>{
-
-let card=document.getElementById("card");
-
-card.style.display="block";
-
-digitar();
-
-coracoes();
-
-},1000);
-
-}
-
-function digitar(){
-
-let i=0;
-
-let area=document.getElementById("msg");
-
-function escrever(){
-
-if(i<texto.length){
-
-area.innerHTML+=texto.charAt(i);
-
-i++;
-
-setTimeout(escrever,35);
-
-}
-
-}
-
-escrever();
-
-}
-
-function coracoes(){
-
-setInterval(()=>{
-
-let heart=document.createElement("div");
-
-heart.classList.add("heart");
-
-heart.innerHTML="💖";
-
-heart.style.left=Math.random()*100+"vw";
-
-heart.style.fontSize=(Math.random()*20+18)+"px";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),6000);
-
-},500);
-
-}
-
-function particulas(){
-
-setInterval(()=>{
-
-let p=document.createElement("div");
-
-p.classList.add("sparkle");
-
-p.style.left=Math.random()*100+"vw";
-
-p.style.bottom="0px";
-
-document.body.appendChild(p);
-
-setTimeout(()=>p.remove(),5000);
-
-},200);
-
-}
+});
 
 </script>
 
