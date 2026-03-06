@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Dia da Mulher</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Arial, sans-serif;
+background:linear-gradient(180deg,#ff9ac6,#ffd6e8);
+overflow:hidden;
+text-align:center;
+}
+
+.container{
+max-width:420px;
+width:100%;
+padding:20px;
+}
+
+h1{
+color:#b30059;
+margin-bottom:20px;
+font-size:28px;
+}
+
+.rose{
+position:relative;
+width:120px;
+height:120px;
+margin:40px auto;
+cursor:pointer;
+}
+
+.petala{
+position:absolute;
+width:70px;
+height:90px;
+background:#ff2e63;
+border-radius:50% 50% 0 50%;
+transform-origin:bottom center;
+opacity:0;
+transition:all 0.6s ease;
+}
+
+.petala:nth-child(1){left:25px;top:10px;}
+.petala:nth-child(2){left:10px;top:30px;}
+.petala:nth-child(3){left:45px;top:30px;}
+.petala:nth-child(4){left:25px;top:45px;}
+
+.caule{
+position:absolute;
+width:6px;
+height:120px;
+background:#2f9e44;
+left:57px;
+top:100px;
+border-radius:10px;
+}
+
+.message{
+margin-top:30px;
+font-size:18px;
+color:#7a0044;
+opacity:0;
+transform:translateY(20px);
+transition:all 1s ease;
+line-height:1.5;
+}
+
+.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+.tip{
+margin-top:15px;
+font-size:14px;
+color:#6b0040;
+opacity:0.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Feliz Dia da Mulher 🌹</h1>
+
+<div class="rose" onclick="abrirRosa()">
+
+<div class="petala"></div>
+<div class="petala"></div>
+<div class="petala"></div>
+<div class="petala"></div>
+
+<div class="caule"></div>
+
+</div>
+
+<div class="tip">Toque na rosa...</div>
+
+<div class="message" id="msg">
+
+Geovana,
+
+Assim como uma rosa se abre lentamente revelando sua beleza,  
+você também ilumina o mundo com sua delicadeza, inteligência e coração.
+
+Hoje é o Dia da Mulher, mas a verdade é que pessoas como você  
+merecem ser celebradas todos os dias.
+
+Que nunca faltem sonhos, sorrisos e amor na sua caminhada.
+
+🌹 Feliz Dia da Mulher 🌹
+
+</div>
+
+</div>
+
+<script>
+
+let etapa = 0;
+const petalas = document.querySelectorAll(".petala");
+const mensagem = document.getElementById("msg");
+
+function abrirRosa(){
+
+if(etapa < petalas.length){
+
+petalas[etapa].style.opacity = "1";
+
+petalas[etapa].style.transform =
+"rotate(" + (etapa * 30 - 30) + "deg) translateY(-10px)";
+
+etapa++;
+
+}else{
+
+mensagem.classList.add("visible");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
