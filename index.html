@@ -5,40 +5,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Para você 🌹</title>
+<title>Para Geovana ❤️</title>
 
 <style>
 
 body{
 margin:0;
 overflow:hidden;
-background:radial-gradient(circle,#3a001d,#120008);
+background:radial-gradient(circle,#3b001d,#000);
 font-family:serif;
 color:white;
+text-align:center;
 }
 
-#texto{
+#instrucao{
 position:absolute;
-top:18%;
+top:15%;
 width:100%;
-text-align:center;
 font-size:22px;
-opacity:0.9;
-letter-spacing:2px;
+opacity:0.8;
 }
 
 #mensagem{
 position:absolute;
 bottom:20%;
 width:100%;
-text-align:center;
 font-size:28px;
-opacity:0;
-transition:2s;
+line-height:1.6;
+padding:20px;
 }
 
-canvas{
-display:block;
+#coracao{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:80px;
+cursor:pointer;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:translate(-50%,-50%) scale(1)}
+50%{transform:translate(-50%,-50%) scale(1.2)}
+100%{transform:translate(-50%,-50%) scale(1)}
+}
+
+.petala{
+position:absolute;
+font-size:20px;
+animation:cair linear infinite;
+}
+
+@keyframes cair{
+0%{transform:translateY(-50px)}
+100%{transform:translateY(110vh)}
 }
 
 </style>
@@ -46,195 +67,73 @@ display:block;
 </head>
 <body>
 
-<div id="texto">🌹 Toque na rosa</div>
+<div id="instrucao">Toque no coração ❤️</div>
 
-<div id="mensagem">
-Feliz Dia da Mulher ❤️
-</div>
+<div id="coracao">❤️</div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160/build/three.min.js"></script>
+<div id="mensagem"></div>
 
 <script>
 
-let scene = new THREE.Scene()
+let partes = [
 
-let camera = new THREE.PerspectiveCamera(
-60,
-window.innerWidth/window.innerHeight,
-0.1,
-1000
-)
+"Geovana,",
 
-camera.position.z = 6
+"você é uma das pessoas mais especiais",
 
-let renderer = new THREE.WebGLRenderer({antialias:true})
+"que já apareceram na minha vida.",
 
-renderer.setSize(window.innerWidth,window.innerHeight)
+"Seu jeito, seu sorriso",
 
-document.body.appendChild(renderer.domElement)
+"e a forma como você ilumina tudo ao redor",
 
+"fazem o mundo ficar mais bonito.",
 
-// LUZ
+"Feliz Dia da Mulher ❤️"
 
-let light1 = new THREE.PointLight(0xff6699,3)
-light1.position.set(5,5,5)
-scene.add(light1)
+]
 
-let light2 = new THREE.PointLight(0xffffff,2)
-light2.position.set(-5,3,3)
-scene.add(light2)
+let etapa = 0
 
-let ambient = new THREE.AmbientLight(0xffffff,1.5)
-scene.add(ambient)
+let coracao = document.getElementById("coracao")
+let mensagem = document.getElementById("mensagem")
 
+coracao.onclick = () => {
 
-// GRUPO DA ROSA
+if(etapa < partes.length){
 
-let rose = new THREE.Group()
-
-scene.add(rose)
-
-
-// CRIAR PETALAS
-
-let petalas=[]
-
-for(let i=0;i<20;i++){
-
-let geo = new THREE.SphereGeometry(0.8,32,32)
-
-let mat = new THREE.MeshStandardMaterial({
-color:0xff2e6e,
-roughness:0.6,
-metalness:0.1
-})
-
-let petala = new THREE.Mesh(geo,mat)
-
-petala.scale.set(0.5,0.15,0.7)
-
-let angle = i * (Math.PI*2/20)
-
-petala.position.x = Math.cos(angle)*1
-petala.position.y = Math.sin(angle)*1
-
-petala.rotation.z = angle
-
-rose.add(petala)
-
-petalas.push(petala)
-
-}
-
-
-// CENTRO DA ROSA
-
-let centroGeo = new THREE.SphereGeometry(0.4,32,32)
-
-let centroMat = new THREE.MeshStandardMaterial({
-color:0xff0044
-})
-
-let centro = new THREE.Mesh(centroGeo,centroMat)
-
-rose.add(centro)
-
-
-// CAULE
-
-let cauleGeo = new THREE.CylinderGeometry(0.05,0.05,4,16)
-
-let cauleMat = new THREE.MeshStandardMaterial({
-color:0x1fa63a
-})
-
-let caule = new THREE.Mesh(cauleGeo,cauleMat)
-
-caule.position.y=-2
-
-rose.add(caule)
-
-
-// PÉTALAS CAINDO
-
-let petals=[]
-
-function createPetal(){
-
-let geo = new THREE.PlaneGeometry(0.25,0.25)
-
-let mat = new THREE.MeshBasicMaterial({
-color:0xff6699,
-side:THREE.DoubleSide
-})
-
-let p = new THREE.Mesh(geo,mat)
-
-p.position.x=(Math.random()-0.5)*6
-p.position.y=4
-p.position.z=(Math.random()-0.5)*3
-
-scene.add(p)
-
-petals.push(p)
-
-}
-
-setInterval(createPetal,200)
-
-
-// INTERAÇÃO
-
-let aberta=false
-
-window.addEventListener("click",()=>{
-
-if(!aberta){
-
-aberta=true
+mensagem.innerHTML += partes[etapa] + "<br>"
+etapa++
 
 if(navigator.vibrate)
-navigator.vibrate(200)
-
-document.getElementById("mensagem").style.opacity=1
-
-petalas.forEach((p,i)=>{
-
-setTimeout(()=>{
-
-p.rotation.x += 1.5
-p.position.y +=0.5
-
-},i*100)
-
-})
+navigator.vibrate(50)
 
 }
 
-})
+}
 
 
-// ANIMAÇÃO
+// pétalas caindo
 
-function animate(){
+function criarPetala(){
 
-requestAnimationFrame(animate)
+let p = document.createElement("div")
 
-rose.rotation.y+=0.01
+p.className="petala"
 
-petals.forEach(p=>{
+p.innerHTML="🌸"
 
-p.position.y -=0.02
+p.style.left=Math.random()*100+"vw"
 
-p.rotation.z+=0.03
+p.style.animationDuration=(4+Math.random()*4)+"s"
 
-})
+document.body.appendChild(p)
 
-renderer.render(scene,camera)
+setTimeout(()=>p.remove(),8000)
 
 }
 
-animate()
+setInterval(criarPetala,400)
 
 </script>
 
