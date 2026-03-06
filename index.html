@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,9 +21,60 @@ font-family:Arial, Helvetica, sans-serif;
 overflow:hidden;
 }
 
+/* PETALAS */
+
+.petalas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.petala{
+position:absolute;
+top:-20px;
+font-size:20px;
+animation:cair linear infinite;
+opacity:0.8;
+}
+
+@keyframes cair{
+0%{
+transform:translateY(-20px) rotate(0deg);
+opacity:0;
+}
+10%{
+opacity:1;
+}
+100%{
+transform:translateY(110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* CONTAINER */
+
 .container{
 text-align:center;
 position:relative;
+z-index:2;
+}
+
+/* INSTRUÇÃO */
+
+.instrucao{
+color:#8b0030;
+font-size:18px;
+margin-bottom:20px;
+animation:pulsar 2s infinite;
+}
+
+@keyframes pulsar{
+0%{opacity:0.6}
+50%{opacity:1}
+100%{opacity:0.6}
 }
 
 /* ROSA */
@@ -41,23 +93,14 @@ transition:transform 0.4s;
 transform:scale(1.05);
 }
 
-/* PETALAS ABRINDO */
-
 .rosa.aberta{
 animation:abrirRosa 1.5s forwards;
 }
 
 @keyframes abrirRosa{
-0%{
-transform:scale(1);
-}
-50%{
-transform:scale(1.2);
-}
-100%{
-transform:scale(0);
-opacity:0;
-}
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(0);opacity:0}
 }
 
 /* CARTA */
@@ -77,14 +120,10 @@ opacity:0;
 transition:all 1s ease;
 }
 
-/* CARTA APARECE */
-
 .carta.mostrar{
 opacity:1;
 transform:translate(-50%,-50%);
 }
-
-/* TEXTO */
 
 h1{
 color:#d10047;
@@ -117,7 +156,11 @@ background:#d10047;
 
 <body>
 
+<div class="petalas" id="petalas"></div>
+
 <div class="container">
+
+<div class="instrucao">🌹 Toque na rosa</div>
 
 <div class="rosa" id="rosa"></div>
 
@@ -156,6 +199,10 @@ const carta = document.getElementById("carta")
 
 rosa.addEventListener("click", () => {
 
+if(navigator.vibrate){
+navigator.vibrate(120)
+}
+
 rosa.classList.add("aberta")
 
 setTimeout(()=>{
@@ -165,10 +212,38 @@ carta.classList.add("mostrar")
 })
 
 function surpresa(){
+if(navigator.vibrate){
+navigator.vibrate([80,40,80])
+}
 alert("Você é especial demais 🌹")
 }
+
+/* GERAR PETALAS */
+
+const containerPetalas = document.getElementById("petalas")
+
+function criarPetala(){
+
+const petala = document.createElement("div")
+petala.classList.add("petala")
+petala.innerHTML="🌸"
+
+petala.style.left = Math.random()*100+"vw"
+petala.style.animationDuration = (6 + Math.random()*6)+"s"
+petala.style.fontSize = (16 + Math.random()*20)+"px"
+
+containerPetalas.appendChild(petala)
+
+setTimeout(()=>{
+petala.remove()
+},12000)
+
+}
+
+setInterval(criarPetala,500)
 
 </script>
 
 </body>
 </html>
+```
