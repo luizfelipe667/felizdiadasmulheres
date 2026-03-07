@@ -19,7 +19,6 @@
             overflow: hidden;
         }
 
-        /* FUNDO FIXO */
         .fundo {
             position: fixed;
             width: 100%; height: 100%;
@@ -27,7 +26,7 @@
             z-index: 1;
         }
 
-        /* TEXTO (FICA POR BAIXO) */
+        /* TEXTO QUE FICA POR BAIXO */
         #texto-container {
             width: 85%;
             max-width: 400px;
@@ -44,45 +43,44 @@
         .destaque { color: #ffccd5; font-weight: 600; }
         .assinatura { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
 
-        /* CORTINAS (LATERAIS) */
-        .cortina {
+        /* PAINÉIS DE ABERTURA (4 PARTES) */
+        .painel {
             position: fixed;
-            top: 0;
             width: 50%;
-            height: 100%;
-            background: #1a1a1a;
+            height: 50%;
             background: linear-gradient(135deg, #2b0610 0%, #000 100%);
-            border: 1px solid rgba(255, 183, 197, 0.2);
+            border: 0.5px solid rgba(255, 183, 197, 0.2);
             z-index: 50;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
         }
 
-        .esquerda { left: 0; border-right: 1px solid #ff4d6d; }
-        .direita { right: 0; border-left: 1px solid #ff4d6d; }
+        .topo-esq { top: 0; left: 0; }
+        .topo-dir { top: 0; right: 0; }
+        .baixo-esq { bottom: 0; left: 0; }
+        .baixo-dir { bottom: 0; right: 0; }
 
-        .lacre {
-            position: absolute;
-            font-size: 60px;
+        .lacre-central {
+            position: fixed;
             z-index: 60;
-            transition: all 0.5s ease;
+            font-size: 65px;
             filter: drop-shadow(0 0 15px #ff4d6d);
+            transition: all 0.6s ease;
+            cursor: pointer;
         }
 
-        .aviso {
-            position: absolute;
-            bottom: 60px;
+        .instrucao-clique {
+            position: fixed;
+            bottom: 80px;
             color: white;
-            letter-spacing: 4px;
-            font-size: 10px;
+            letter-spacing: 3px;
+            font-size: 11px;
             text-transform: uppercase;
-            opacity: 0.6;
-            animation: piscar 2s infinite;
+            z-index: 65;
+            opacity: 0.8;
+            animation: pulsar 2s infinite;
         }
 
-        @keyframes piscar { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+        @keyframes pulsar { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.05); opacity: 1; } }
 
         .estrela {
             position: fixed;
@@ -92,14 +90,17 @@
         }
     </style>
 </head>
-<body onclick="abrirSurpresa(event)">
+<body onclick="abrirTudo(event)">
 
     <div class="fundo"></div>
 
-    <div class="cortina esquerda" id="esq"></div>
-    <div class="cortina direita" id="dir"></div>
-    <div class="lacre" id="rosa">🌹</div>
-    <div class="aviso" id="msg-aviso">Toque para Geovana</div>
+    <div class="painel topo-esq" id="p1"></div>
+    <div class="painel topo-dir" id="p2"></div>
+    <div class="painel baixo-esq" id="p3"></div>
+    <div class="painel baixo-dir" id="p4"></div>
+
+    <div class="lacre-central" id="rosa">🌹</div>
+    <div class="instrucao-clique" id="aviso">Toque para abrir ✨</div>
 
     <div id="texto-container">
         <h1>Geovana 🌹</h1>
@@ -116,34 +117,38 @@
     </div>
 
 <script>
-    let aberto = false;
+    let jaAberto = false;
 
-    function abrirSurpresa(e) {
-        // Estrelinhas no toque (o efeito que você gosta)
+    function abrirTudo(e) {
+        // Estrelinhas no rastro do clique
         criarEstrela(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
 
-        if (aberto) return;
-        aberto = true;
+        if (jaAberto) return;
+        jaAberto = true;
 
-        // Animação das cortinas e elementos
-        document.getElementById('esq').style.transform = 'translateX(-100%)';
-        document.getElementById('dir').style.transform = 'translateX(100%)';
-        document.getElementById('rosa').style.transform = 'scale(0) rotate(360deg)';
-        document.getElementById('msg-aviso').style.opacity = '0';
+        // Animação de abertura em 4 direções (Vertical + Horizontal)
+        document.getElementById('p1').style.transform = 'translate(-100%, -100%)';
+        document.getElementById('p2').style.transform = 'translate(100%, -100%)';
+        document.getElementById('p3').style.transform = 'translate(-100%, 100%)';
+        document.getElementById('p4').style.transform = 'translate(100%, 100%)';
 
-        // Mostra o texto com zoom suave
+        // Elementos centrais somem
+        document.getElementById('rosa').style.transform = 'scale(0) rotate(180deg)';
+        document.getElementById('aviso').style.opacity = '0';
+
+        // Revelação do texto
         setTimeout(() => {
             const container = document.getElementById('texto-container');
             container.style.opacity = '1';
             container.style.transform = 'scale(1)';
             
-            // Chuva de estrelinhas automática ao abrir
-            for(let i=0; i<25; i++) {
+            // Chuva de brilho automática
+            for(let i=0; i<30; i++) {
                 setTimeout(() => {
                     const x = Math.random() * window.innerWidth;
                     const y = Math.random() * window.innerHeight;
                     criarEstrela(x, y);
-                }, i * 60);
+                }, i * 50);
             }
         }, 500);
     }
@@ -158,7 +163,7 @@
         
         s.animate([
             { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-            { transform: `translate(${(Math.random()-0.5)*150}px, ${(Math.random()-0.5)*150}px) scale(0)`, opacity: 0 }
+            { transform: `translate(${(Math.random()-0.5)*180}px, ${(Math.random()-0.5)*180}px) scale(0)`, opacity: 0 }
         ], { duration: 1000, easing: 'ease-out' });
 
         setTimeout(() => s.remove(), 1000);
