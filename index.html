@@ -2,91 +2,159 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Geovana</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Geovana ❤️</title>
     <style>
         body {
-            background-color: #ffebee;
+            background-color: #fff0f3;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
+            touch-action: manipulation;
         }
+
+        /* Cartão com efeito de Brilho */
         #cartao {
             background: white;
-            width: 85%;
-            max-width: 350px;
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 88%;
+            max-width: 360px;
+            padding: 45px 25px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(255, 64, 129, 0.2);
             text-align: center;
-            border: 2px solid #ff4081;
+            border: 3px solid #ff4081;
             cursor: pointer;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
-        .coracao {
-            font-size: 80px;
+
+        .coracao-principal {
+            font-size: 90px;
             margin-bottom: 20px;
+            display: inline-block;
+            animation: pulsar 1.5s infinite;
         }
-        h1 { color: #ff4081; font-size: 24px; margin-bottom: 10px; }
-        p { color: #555; line-height: 1.5; }
-        
-        /* Escondido no começo */
-        #mensagem { display: none; }
-        
-        .emoji {
+
+        @keyframes pulsar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h1 { color: #ff4081; font-size: 28px; margin-bottom: 15px; }
+        p { color: #4a1324; line-height: 1.7; font-size: 17px; }
+
+        #mensagem { display: none; opacity: 0; }
+
+        /* Partículas de efeito */
+        .emoji-efeito {
             position: absolute;
             pointer-events: none;
             z-index: 100;
+            user-select: none;
+        }
+
+        /* Animação de brilho na borda */
+        .brilho-premium {
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ffccd5; }
+            to { box-shadow: 0 0 30px #ff4081; }
         }
     </style>
 </head>
-<body onclick="abrir()">
+<body onclick="ativarEfeito(event)">
 
-    <div id="cartao">
+    <div id="cartao" class="brilho-premium">
         <div id="capa">
-            <div class="coracao">❤️</div>
+            <div class="coracao-principal">🌹</div>
             <h1>Para Geovana</h1>
-            <p>Toque em qualquer lugar da tela...</p>
+            <p>Toque para uma surpresa...</p>
         </div>
 
         <div id="mensagem">
-            <h1 style="font-size: 30px;">Geovana 🌹</h1>
+            <h1 style="font-size: 32px;">Geovana 🌹</h1>
             <p><strong>Feliz Dia da Mulher!</strong></p>
             <p>Hoje o dia é seu, mas o presente é meu por ter você. Sua força e beleza inspiram tudo ao seu redor. Você é extraordinária!</p>
-            <p style="margin-top: 20px; color: #ff4081; font-weight: bold;">— Luiz Felipe ❤️</p>
+            <p style="margin-top: 25px; color: #ff4081; font-weight: bold; font-size: 22px;">— Luiz Felipe ❤️</p>
         </div>
     </div>
 
     <script>
-        function abrir() {
-            // Mostra a mensagem e esconde a capa
-            document.getElementById('capa').style.display = 'none';
-            document.getElementById('mensagem').style.display = 'block';
-            document.getElementById('cartao').style.borderColor = '#ff80ab';
+        let jaAberto = false;
 
-            // Efeito simples de corações subindo
-            for(let i=0; i<15; i++) {
-                let e = document.createElement('div');
-                e.className = 'emoji';
-                e.innerHTML = '❤️';
-                e.style.left = Math.random() * 100 + 'vw';
-                e.style.top = '100vh';
-                e.style.fontSize = '30px';
-                document.body.appendChild(e);
+        function ativarEfeito(e) {
+            // Explosão de corações no clique
+            const mouseX = e.clientX || window.innerWidth / 2;
+            const mouseY = e.clientY || window.innerHeight / 2;
+            explodir(mouseX, mouseY);
+
+            if (!jaAberto) {
+                jaAberto = true;
                 
-                let pos = 100;
-                let intervalo = setInterval(() => {
-                    pos -= 2;
-                    e.style.top = pos + 'vh';
-                    if(pos < -10) {
-                        clearInterval(intervalo);
-                        e.remove();
-                    }
-                }, 20);
+                // Animação do Cartão
+                const cartao = document.getElementById('cartao');
+                cartao.style.transform = 'scale(1.05) rotate(2deg)';
+                
+                setTimeout(() => {
+                    document.getElementById('capa').style.display = 'none';
+                    const msg = document.getElementById('mensagem');
+                    msg.style.display = 'block';
+                    setTimeout(() => { msg.style.opacity = '1'; }, 50);
+                    cartao.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+
+                // Começa chuva infinita de pétalas
+                setInterval(chuva, 300);
             }
+        }
+
+        function explodir(x, y) {
+            for(let i=0; i<20; i++) {
+                criarParticula(x, y, true);
+            }
+        }
+
+        function chuva() {
+            criarParticula(Math.random() * window.innerWidth, -50, false);
+        }
+
+        function criarParticula(x, y, isExplosao) {
+            const el = document.createElement('div');
+            el.className = 'emoji-efeito';
+            const emojis = ['❤️', '🌹', '🌸', '✨', '💖'];
+            el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(el);
+
+            if (isExplosao) {
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 200 + 50;
+                const destX = Math.cos(angle) * dist;
+                const destY = Math.sin(angle) * dist;
+
+                el.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                    { transform: `translate(${destX}px, ${destY}px) scale(0)`, opacity: 0 }
+                ], { duration: 1000, easing: 'ease-out' });
+            } else {
+                const duracao = Math.random() * 3000 + 3000;
+                el.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 0.8 },
+                    { transform: `translate(${(Math.random()-0.5)*100}px, 110vh) rotate(360deg)`, opacity: 0 }
+                ], { duration: duracao, easing: 'linear' });
+            }
+
+            setTimeout(() => el.remove(), 4000);
         }
     </script>
 </body>
