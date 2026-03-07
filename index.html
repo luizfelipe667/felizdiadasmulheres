@@ -1,65 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Geovana</title>
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --accent: #ff85a1;
-            --glass: rgba(255, 255, 255, 0.98);
-        }
-
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
+            background-color: #ffebee;
             margin: 0;
-            padding: 0;
-            background: #fff0f3;
-            background: radial-gradient(circle at center, #ffffff 0%, #ffd1dc 100%);
-            font-family: 'Montserrat', sans-serif;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
             overflow: hidden;
-            touch-action: none;
         }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 50px 30px;
-            box-shadow: 0 30px 60px rgba(255, 79, 135, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+        #cartao {
+            background: white;
+            width: 85%;
+            max-width: 350px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             text-align: center;
-            position: relative;
-            z-index: 100;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* Estágio Inicial */
-        .trigger-area {
+            border: 2px solid #ff4081;
             cursor: pointer;
-            transition: transform 0.3s ease;
         }
-
-        .main-heart {
-            font-size: 100px;
-            display: inline-block;
-            filter: drop-shadow(0 10px 20px rgba(255, 77, 109, 0.3));
-            animation: floating 2.5s infinite ease-in-out;
+        .coracao {
+            font-size: 80px;
+            margin-bottom: 20px;
         }
+        h1 { color: #ff4081; font-size: 24px; margin-bottom: 10px; }
+        p { color: #555; line-height: 1.5; }
+        
+        /* Escondido no começo */
+        #mensagem { display: none; }
+        
+        .emoji {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body onclick="abrir()">
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(
+    <div id="cartao">
+        <div id="capa">
+            <div class="coracao">❤️</div>
+            <h1>Para Geovana</h1>
+            <p>Toque em qualquer lugar da tela...</p>
+        </div>
+
+        <div id="mensagem">
+            <h1 style="font-size: 30px;">Geovana 🌹</h1>
+            <p><strong>Feliz Dia da Mulher!</strong></p>
+            <p>Hoje o dia é seu, mas o presente é meu por ter você. Sua força e beleza inspiram tudo ao seu redor. Você é extraordinária!</p>
+            <p style="margin-top: 20px; color: #ff4081; font-weight: bold;">— Luiz Felipe ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        function abrir() {
+            // Mostra a mensagem e esconde a capa
+            document.getElementById('capa').style.display = 'none';
+            document.getElementById('mensagem').style.display = 'block';
+            document.getElementById('cartao').style.borderColor = '#ff80ab';
+
+            // Efeito simples de corações subindo
+            for(let i=0; i<15; i++) {
+                let e = document.createElement('div');
+                e.className = 'emoji';
+                e.innerHTML = '❤️';
+                e.style.left = Math.random() * 100 + 'vw';
+                e.style.top = '100vh';
+                e.style.fontSize = '30px';
+                document.body.appendChild(e);
+                
+                let pos = 100;
+                let intervalo = setInterval(() => {
+                    pos -= 2;
+                    e.style.top = pos + 'vh';
+                    if(pos < -10) {
+                        clearInterval(intervalo);
+                        e.remove();
+                    }
+                }, 20);
+            }
+        }
+    </script>
+</body>
+</html>
