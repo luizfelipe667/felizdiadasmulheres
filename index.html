@@ -3,91 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Homenagem para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Para Geovana ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
-            background: #fff0f3;
-            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fce4ec; /* Cor sólida de segurança */
+            background: linear-gradient(135deg, #fce4ec 0%, #ffc1e3 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #3d1422;
             height: 100vh;
-            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: fixed;
         }
 
-        /* Card Principal */
-        .card {
+        .container {
             width: 90%;
             max-width: 380px;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 40px;
-            padding: 50px 30px;
-            box-shadow: 0 25px 50px rgba(255, 79, 135, 0.2);
+            background: #ffffff; /* Fundo branco sólido para evitar erro de transparência */
+            border-radius: 20px;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(255, 79, 135, 0.2);
             text-align: center;
+            z-index: 10;
             position: relative;
-            z-index: 100;
-            border: 1px solid rgba(255, 79, 135, 0.1);
         }
 
-        /* Conteúdo Inicial */
-        #camada-inicial {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-
-        .rosa-flutuante {
+        .heart-area {
             font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
             margin-bottom: 20px;
-            animation: flutuar 3s infinite ease-in-out;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .btn-reveal {
+            background: #ff4f87;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+            margin: 20px auto 0;
             cursor: pointer;
         }
 
-        @keyframes flutuar {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.1); }
-        }
-
-        /* Mensagem da Homenagem (Escondida) */
-        #mensagem-homenagem {
+        .final-content {
             display: none;
-            opacity: 0;
-            transition: opacity 1s ease;
+            animation: fadeIn 1s ease;
         }
 
-        h1 { 
-            font-family: 'Dancing Script', cursive; 
-            color: #ff4d6d; 
-            font-size: 38px; 
-            margin-bottom: 20px; 
-        }
-
-        .texto-principal {
-            color: #594149;
-            font-size: 17px;
-            line-height: 1.8;
-            margin-bottom: 25px;
-        }
-
-        .assinatura {
+        h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 28px;
-            color: #ff4d6d;
-            margin-top: 20px;
+            color: #ff4f87;
+            font-size: 32px;
+            margin-bottom: 15px;
         }
 
-        /* Pétalas e Partículas */
-        .petala {
+        .message {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            margin-top: 25px;
+            color: #777;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .particle {
             position: fixed;
             pointer-events: none;
-            z-index:
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="card">
+    <div id="step1">
+        <div class="heart-area" onclick="handleHeartClick()" ontouchstart="handleHeartClick()">❤️</div>
+        <p style="color: #888;">Toque no coração, Geovana</p>
+        <button class="btn-reveal" id="nextBtn" onclick="handleNextClick()" ontouchstart="handleNextClick()">Para você...</button>
+    </div>
+
+    <div id="step2" class="final-content">
+        <h1>Feliz Dia da Mulher 🌹</h1>
+        <div class="message">
+            Geovana, você é uma das coisas mais bonitas que já aconteceram na minha vida.
+            <br><br>
+            Seu sorriso ilumina meus dias e sua presença deixa tudo mais especial.
+            <br><br>
+            <strong>Te amo.</strong>
+        </div>
+        <div class="signature">— Luiz Felipe ❤️</div>
+    </div>
+</div>
+
+<script>
+    let clicked = false;
+
+    function handleHeartClick() {
+        if(clicked) return;
+        clicked = true;
+        
+        // Explosão simples
+        explode();
+        
+        document.querySelector('.heart-area').style.display = 'none';
+        document.querySelector('#step1 p').style.display = 'none';
+        document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function handleNextClick() {
+        explode();
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    }
+
+    function explode() {
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.innerHTML = '❤️';
+            p.style.left = '50%';
+            p.style.top = '50%';
+            p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            
+            const dx = (Math.random() - 0.5) * 300;
+            const dy = (Math.random() - 0.5) * 300;
+
+            document.body.appendChild(p);
+
+            p.animate([
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
+            ], { duration: 1000 });
+
+            setTimeout(() => p.remove(), 1000);
+        }
+    }
+</script>
+
+</body>
+</html>
