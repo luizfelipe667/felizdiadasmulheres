@@ -12,7 +12,10 @@
             --glass: rgba(255, 255, 255, 0.9);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
         body {
             margin: 0;
@@ -27,7 +30,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            touch-action: none; /* Necessário para o efeito de rastro */
         }
 
         @keyframes gradientBG {
@@ -36,7 +38,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Container Principal */
         .container {
             width: 85%;
             max-width: 380px;
@@ -52,25 +53,32 @@
             position: relative;
         }
 
-        .text-area {
-            font-size: 19px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            min-height: 100px;
-        }
-
         .heart-btn {
-            font-size: 60px;
+            font-size: 80px;
             cursor: pointer;
             display: inline-block;
-            transition: transform 0.3s;
+            position: relative;
+            z-index: 20; /* Garante que fique acima de tudo para o clique */
+            transition: transform 0.2s;
             animation: float 2s ease-in-out infinite;
-            filter: drop-shadow(0 5px 10px rgba(255, 79, 135, 0.3));
+            filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.4));
+            user-select: none;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
+            50% { transform: translateY(-12px) scale(1.1); }
+        }
+
+        .heart-btn:active {
+            transform: scale(0.9);
+        }
+
+        .text-area {
+            font-size: 19px;
+            line-height: 1.6;
+            margin-top: 15px;
+            min-height: 50px;
         }
 
         .btn-final {
@@ -84,7 +92,8 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 79, 135, 0.3);
             display: none;
-            margin: 0 auto;
+            margin: 20px auto 0;
+            animation: fadeIn 0.5s ease;
         }
 
         .final-msg {
@@ -99,26 +108,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Partículas de rastro (efeito pro) */
+        /* Partículas de rastro corrigidas */
         .trail {
             position: fixed;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--primary);
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 100;
-            filter: blur(2px);
+            pointer-events: none; /* ESSENCIAL: ignora toques para não bloquear o botão */
+            z-index: 5;
+            filter: blur(1px);
         }
 
-        .hidden { display: none; }
+        .particle-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            user-select: none;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container" id="mainCard">
     <div id="content1">
-        <div class="heart-btn" onclick="iniciarLeitura()">❤️</div>
+        <div class="heart-btn" id="btnCorao" onclick="iniciarLeitura()">❤️</div>
         <div class="text-area" id="typewriter"></div>
         <button class="btn-final" id="btnNext" onclick="mostrarFinal()">Toque aqui, Geovana</button>
     </div>
@@ -139,17 +155,6 @@
 <script>
     const texto = "Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir.";
     let charIndex = 0;
+    let jaClicou = false;
 
-    // Efeito de Rastro Mágico (Pro)
-    window.addEventListener('pointermove', (e) => {
-        const trail = document.createElement('div');
-        trail.className = 'trail';
-        trail.style.left = e.clientX + 'px';
-        trail.style.top = e.clientY + 'px';
-        trail.style.background = `hsl(${Math.random() * 30 + 340}, 100%, 75%)`;
-        document.body.appendChild(trail);
-
-        trail.animate([
-            { transform: 'scale(1)', opacity: 1 },
-            { transform: 'scale(0)', opacity: 0 }
-        ],
+    // Efeito de Rastro Mágico (Pointer Events None para não bloquear o clique)
