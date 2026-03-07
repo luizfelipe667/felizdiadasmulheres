@@ -6,12 +6,10 @@
     <title>Para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Reset para evitar qualquer bloqueio de clique */
         * { 
             box-sizing: border-box; 
             margin: 0; padding: 0;
             -webkit-tap-highlight-color: transparent;
-            user-select: none;
         }
 
         body {
@@ -26,30 +24,34 @@
             width: 100%;
         }
 
-        /* O Card agora é o próprio botão */
-        .card-clicavel {
-            width: 85%;
+        /* O Card fixo */
+        .card {
+            width: 88%;
             max-width: 350px;
-            background: white;
+            background: #ffffff;
             border-radius: 30px;
-            padding: 50px 20px;
+            padding: 40px 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
             position: relative;
             z-index: 10;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .card-clicavel:active {
-            transform: scale(0.98);
+        /* Estado Inicial */
+        #inicio {
+            transition: opacity 0.3s ease;
         }
 
-        .heart {
-            font-size: 80px;
+        .heart-icon {
+            font-size: 70px;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: pulse 1.5s infinite;
+            cursor: pointer;
         }
 
         @keyframes pulse {
@@ -57,72 +59,94 @@
             50% { transform: scale(1.1); }
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 35px; margin-bottom: 15px; }
-        .message { font-size: 17px; line-height: 1.6; color: #3d1422; display: none; }
-        .instruction { color: #888; font-size: 14px; }
+        /* Estado Final (Escondido apenas pela opacidade) */
+        #final {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            z-index: 20;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 32px; margin-bottom: 10px; }
+        p { color: #3d1422; font-size: 16px; line-height: 1.5; }
 
         .particle {
             position: fixed;
             pointer-events: none;
             z-index: 100;
-            font-size: 24px;
+            font-size: 25px;
         }
     </style>
 </head>
-<body>
+<body onclick="dispararEfeito()">
 
-    <div class="card-clicavel" id="mainCard" onclick="revelarConteudo()">
-        <div id="conteudoInicial">
-            <span class="heart">❤️</span>
-            <h1>Para Geovana</h1>
-            <p class="instruction">Toque em qualquer lugar do card</p>
+    <div class="card">
+        <div id="inicio">
+            <span class="heart-icon">❤️</span>
+            <h1 style="font-size: 24px;">Para Geovana</h1>
+            <p style="color: #888;">Toque na tela</p>
         </div>
 
-        <div id="conteudoFinal" style="display: none;">
+        <div id="final">
             <h1>Geovana 🌹</h1>
-            <p style="font-size: 18px; line-height: 1.6;">
+            <p>
                 Você é a luz que transforma os meus dias em algo extraordinário.
                 <br><br>
                 <strong>Te amo infinitamente.</strong>
             </p>
-            <p style="font-family: 'Dancing Script', cursive; font-size: 26px; margin-top: 20px; color: #ff4f87;">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 24px; margin-top: 15px; color: #ff4f87;">
                 — Luiz Felipe ❤️
             </p>
         </div>
     </div>
 
 <script>
-    let clicado = false;
+    let jaClicou = false;
 
-    function revelarConteudo() {
-        if (clicado) return;
-        clicado = true;
+    function dispararEfeito() {
+        if (jaClicou) return;
+        jaClicou = true;
 
-        // Efeito visual de explosão
+        // 1. Esconde o início e mostra o final (usando opacidade para não dar erro)
+        document.getElementById('inicio').style.opacity = '0';
+        const final = document.getElementById('final');
+        final.style.opacity = '1';
+        final.style.pointerEvents = 'auto';
+
+        // 2. Cria o efeito de corações voando
         for (let i = 0; i < 30; i++) {
-            criarParticula();
+            setTimeout(criarCoracao, i * 20);
         }
-
-        // Troca o conteúdo instantaneamente
-        document.getElementById('conteudoInicial').style.display = 'none';
-        document.getElementById('conteudoFinal').style.display = 'block';
-        
-        // Remove o clique para não repetir a animação
-        document.getElementById('mainCard').style.cursor = 'default';
     }
 
-    function criarParticula() {
+    function criarCoracao() {
         const p = document.createElement('div');
         p.className = 'particle';
         p.innerHTML = '❤️';
-        p.style.left = '50vw';
-        p.style.top = '50vh';
         
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 10 + 5;
-        const dx = Math.cos(angle) * velocity * 20;
-        const dy = Math.sin(angle) * velocity * 20;
-
+        // Espalha os corações pela tela toda
+        p.style.left = (Math.random() * 100) + 'vw';
+        p.style.top = (Math.random() * 100) + 'vh';
+        
         document.body.appendChild(p);
 
-        p.animate(
+        // Animação de subida e sumiço
+        p.animate([
+            { transform: 'translateY(0) scale(1)', opacity: 1 },
+            { transform: 'translateY(-100px) scale(1.5)', opacity: 0 }
+        ], { 
+            duration: 1500, 
+            easing: 'ease-out' 
+        });
+
+        setTimeout(() => p.remove(), 1500);
+    }
+</script>
+
+</body>
+</html>
