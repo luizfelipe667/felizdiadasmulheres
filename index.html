@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Geovana ❤️</title>
+    <title>Homenagem Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             margin: 0;
-            background: #000;
+            background: #0a0a0a;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -19,64 +19,70 @@
             overflow: hidden;
         }
 
-        .fundo-luxo {
+        /* FUNDO FIXO */
+        .fundo {
             position: fixed;
             width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a050d 0%, #000 100%);
             z-index: 1;
         }
 
-        /* TEXTO QUE FICA ESCONDIDO */
-        #container-texto {
+        /* TEXTO (FICA POR BAIXO) */
+        #texto-container {
             width: 85%;
             max-width: 400px;
             text-align: center;
             color: white;
             z-index: 5;
-            padding: 20px;
-            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease-out;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin-bottom: 20px; }
-        .texto-longo { font-size: 17px; line-height: 1.7; font-weight: 300; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin: 0 0 20px; }
+        .texto-longo { font-size: 17px; line-height: 1.8; font-weight: 300; }
         .destaque { color: #ffccd5; font-weight: 600; }
         .assinatura { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
 
-        /* GRADE DE MISTÉRIO */
-        #grade-misterio {
+        /* CORTINAS (LATERAIS) */
+        .cortina {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(8, 1fr);
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: #1a1a1a;
+            background: linear-gradient(135deg, #2b0610 0%, #000 100%);
+            border: 1px solid rgba(255, 183, 197, 0.2);
             z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
         }
 
-        .pixel {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
+        .esquerda { left: 0; border-right: 1px solid #ff4d6d; }
+        .direita { right: 0; border-left: 1px solid #ff4d6d; }
 
-        .instrucao {
-            position: fixed;
-            bottom: 40px;
-            width: 100%;
-            text-align: center;
-            color: white;
+        .lacre {
+            position: absolute;
+            font-size: 60px;
             z-index: 60;
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            pointer-events: none;
-            animation: bounce 2s infinite;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 15px #ff4d6d);
         }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); opacity: 0.3; } 50% { transform: translateY(-10px); opacity: 1; } }
+        .aviso {
+            position: absolute;
+            bottom: 60px;
+            color: white;
+            letter-spacing: 4px;
+            font-size: 10px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            animation: piscar 2s infinite;
+        }
+
+        @keyframes piscar { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
         .estrela {
             position: fixed;
@@ -86,11 +92,16 @@
         }
     </style>
 </head>
-<body>
+<body onclick="abrirSurpresa(event)">
 
-    <div class="fundo-luxo"></div>
+    <div class="fundo"></div>
 
-    <div id="container-texto">
+    <div class="cortina esquerda" id="esq"></div>
+    <div class="cortina direita" id="dir"></div>
+    <div class="lacre" id="rosa">🌹</div>
+    <div class="aviso" id="msg-aviso">Toque para Geovana</div>
+
+    <div id="texto-container">
         <h1>Geovana 🌹</h1>
         <div class="texto-longo">
             Neste Dia das Mulheres, quero que você saiba o quanto sua presença é valiosa. 
@@ -104,35 +115,37 @@
         </div>
     </div>
 
-    <div id="grade-misterio"></div>
-    <div class="instrucao">Passe o dedo para revelar ✨</div>
-
 <script>
-    const grade = document.getElementById('grade-misterio');
-    const totalPixels = 40; // 5 colunas x 8 linhas
+    let aberto = false;
 
-    // Criar os blocos de vidro
-    for (let i = 0; i < totalPixels; i++) {
-        const p = document.createElement('div');
-        p.className = 'pixel';
-        // Quando o dedo passar por cima de um bloco, ele some
-        p.addEventListener('mouseover', () => revelar(p));
-        p.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            const elemento = document.elementFromPoint(touch.clientX, touch.clientY);
-            if (elemento && elemento.className === 'pixel') {
-                revelar(elemento);
-                criarEstrela(touch.clientX, touch.clientY);
+    function abrirSurpresa(e) {
+        // Estrelinhas no toque (o efeito que você gosta)
+        criarEstrela(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
+
+        if (aberto) return;
+        aberto = true;
+
+        // Animação das cortinas e elementos
+        document.getElementById('esq').style.transform = 'translateX(-100%)';
+        document.getElementById('dir').style.transform = 'translateX(100%)';
+        document.getElementById('rosa').style.transform = 'scale(0) rotate(360deg)';
+        document.getElementById('msg-aviso').style.opacity = '0';
+
+        // Mostra o texto com zoom suave
+        setTimeout(() => {
+            const container = document.getElementById('texto-container');
+            container.style.opacity = '1';
+            container.style.transform = 'scale(1)';
+            
+            // Chuva de estrelinhas automática ao abrir
+            for(let i=0; i<25; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    criarEstrela(x, y);
+                }, i * 60);
             }
-        });
-        grade.appendChild(p);
-    }
-
-    function revelar(el) {
-        if (el.style.opacity === '0') return;
-        el.style.opacity = '0';
-        el.style.transform = 'scale(0.5) rotate(15deg)';
-        el.style.pointerEvents = 'none';
+        }, 500);
     }
 
     function criarEstrela(x, y) {
@@ -144,22 +157,12 @@
         document.body.appendChild(s);
         
         s.animate([
-            { transform: 'translate(-50%, -50%) scale(1.2)', opacity: 1 },
-            { transform: `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px) scale(0)`, opacity: 0 }
-        ], { duration: 1000 });
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(${(Math.random()-0.5)*150}px, ${(Math.random()-0.5)*150}px) scale(0)`, opacity: 0 }
+        ], { duration: 1000, easing: 'ease-out' });
 
         setTimeout(() => s.remove(), 1000);
     }
-
-    // Também permite rastro de estrela no mouse para desktop
-    window.addEventListener('mousemove', (e) => {
-        if (e.buttons > 0) { // Só cria rastro se estiver clicando/arrastando
-            const elemento = document.elementFromPoint(e.clientX, e.clientY);
-            if (elemento && elemento.className === 'pixel') revelar(elemento);
-            criarEstrela(e.clientX, e.clientY);
-        }
-    });
-
 </script>
 </body>
 </html>
