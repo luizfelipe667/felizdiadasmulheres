@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Homenagem - Dia da Mulher ❤️</title>
+    <title>Homenagem para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { 
@@ -13,46 +13,81 @@
         }
 
         body {
-            background: #fff0f3; /* Rosa bem clarinho e elegante */
+            background: #fff0f3;
             font-family: 'Montserrat', sans-serif;
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: fixed;
-            width: 100%;
         }
 
-        /* Card com Glassmorphism suave */
+        /* Card Principal */
         .card {
             width: 90%;
-            max-width: 360px;
-            background: rgba(255, 255, 255, 0.95);
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 40px;
-            padding: 45px 25px;
-            box-shadow: 0 25px 50px rgba(255, 79, 135, 0.15);
+            padding: 50px 30px;
+            box-shadow: 0 25px 50px rgba(255, 79, 135, 0.2);
             text-align: center;
             position: relative;
             z-index: 100;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.5s ease;
+            border: 1px solid rgba(255, 79, 135, 0.1);
         }
 
-        /* Elementos da Tela Inicial */
+        /* Conteúdo Inicial */
         #camada-inicial {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             transition: opacity 0.5s ease;
         }
 
-        .botao-coracao {
-            font-size: 85px;
-            cursor: pointer;
-            display: inline-block;
+        .rosa-flutuante {
+            font-size: 80px;
             margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.3));
             animation: flutuar 3s infinite ease-in-out;
+            cursor: pointer;
         }
 
         @keyframes flutuar {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-1
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        /* Mensagem da Homenagem (Escondida) */
+        #mensagem-homenagem {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            color: #ff4d6d; 
+            font-size: 38px; 
+            margin-bottom: 20px; 
+        }
+
+        .texto-principal {
+            color: #594149;
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .assinatura {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: #ff4d6d;
+            margin-top: 20px;
+        }
+
+        /* Pétalas e Partículas */
+        .petala {
+            position: fixed;
+            pointer-events: none;
+            z-index:
