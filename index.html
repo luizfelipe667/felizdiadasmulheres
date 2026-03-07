@@ -6,149 +6,169 @@
     <title>Para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; }
         
         body {
             margin: 0;
-            background: #0a0a0a;
+            background: #050505;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
+            perspective: 1500px;
         }
 
-        /* Fundo de Estrelas Estático (Leve) */
-        .bg {
+        /* Fundo de Galáxia Elegante */
+        .bg-premium {
             position: fixed;
             width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a050d 0%, #000 100%);
             z-index: 1;
         }
 
-        /* Cartão Luxo - Agora com transições simples e rápidas */
-        #cartao {
+        /* CONTAINER DO CARTÃO - SISTEMA DE RASGO */
+        #cartao-container {
             width: 90%;
             max-width: 360px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 35px;
-            padding: 50px 25px;
+            height: 480px;
+            position: relative;
+            z-index: 10;
+            transform-style: preserve-3d;
+            cursor: grab;
+        }
+
+        /* PARTES DO CARTÃO (CAPA) */
+        .cartao-parte {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 183, 197, 0.3);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             color: white;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
+            overflow: hidden;
+        }
+
+        .parte-superior {
+            top: 0;
+            border-radius: 35px 35px 0 0;
+            border-bottom: none;
+        }
+
+        .parte-inferior {
+            bottom: 0;
+            border-radius: 0 0 35px 35px;
+            border-top: none;
+        }
+
+        /* O "Lacre" ou Linha de Rasgo */
+        .linha-rasgo {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff4d6d, #ffccd5, #ff4d6d, transparent);
+            box-shadow: 0 0 15px #ff4d6d;
+            z-index: 15;
+            transition: opacity 0.3s;
         }
 
         .rosa-master {
             font-size: 80px;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: flutuar 3s infinite ease-in-out;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px #ff4d6d);
         }
 
-        @keyframes flutuar {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        h1.capa-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 38px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
-        #mensagem {
-            display: none;
+        .p-capa {
+            letter-spacing: 4px;
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* MENSAGEM FINAL (ESCONDIDA ATRÁS) */
+        #mensagem-homenagem {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 35px;
+            padding: 50px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
             opacity: 0;
+            transform: translateZ(-50px) scale(0.9);
+            transition: all 1s ease;
+            z-index: 5;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 40px; color: #fff; margin: 0; }
-        .texto { font-size: 16px; line-height: 1.8; margin-top: 25px; font-weight: 300; }
-        .assinatura { display: block; margin-top: 30px; font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d; }
+        h1.homenagem-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 42px;
+            color: #fff;
+            margin: 0 0 20px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.4);
+        }
 
-        /* Estrelinhas (O efeito que você amou, agora otimizado) */
-        .estrela {
+        .texto-premium {
+            font-size: 17px;
+            line-height: 1.8;
+            font-weight: 300;
+            color: #eee;
+        }
+
+        .assinatura {
+            display: block;
+            margin-top: 35px;
+            font-family: 'Dancing Script';
+            font-size: 30px;
+            color: #ff4d6d;
+            text-shadow: 0 0 10px rgba(255,77,109,0.5);
+        }
+
+        /* Estrelinhas de Rastro (Otimizadas) */
+        .estrela-trail {
             position: fixed;
             pointer-events: none;
             z-index: 100;
-            font-size: 20px;
+            font-size: 24px;
+            user-select: none;
         }
-    </style>
-</head>
-<body onclick="abrir(event)">
 
-    <div class="bg"></div>
+        /* Efeito visual de rasgado nas bordas interiores */
+        .cartao-parte::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background-size: 20px 20px;
+            background-repeat: repeat-x;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
 
-    <div id="cartao">
-        <div id="capa">
-            <div class="rosa-master">🌹</div>
-            <h1>Para Geovana</h1>
-            <p style="letter-spacing: 3px; font-size: 10px; opacity: 0.6; margin-top: 15px;">TOQUE NA TELA</p>
-        </div>
-
-        <div id="mensagem">
-            <h1>Geovana 🌹</h1>
-            <div class="texto">
-                Feliz Dia da Mulher! <br>
-                Sua força e beleza inspiram tudo ao seu redor. Você é extraordinária e merece todo o brilho do mundo.
-                <span class="assinatura">— Luiz Felipe ❤️</span>
-            </div>
-        </div>
-    </div>
-
-<script>
-    let aberto = false;
-
-    function abrir(e) {
-        // Estrelinhas no toque (sempre funcionam)
-        criarEstrela(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
-
-        if (aberto) return;
-        aberto = true;
-
-        const cartao = document.getElementById('cartao');
-        const capa = document.getElementById('capa');
-        const msg = document.getElementById('mensagem');
-
-        // Feedback visual imediato no toque
-        cartao.style.transform = 'scale(0.95)';
-        
-        setTimeout(() => {
-            capa.style.display = 'none';
-            msg.style.display = 'block';
-            cartao.style.transform = 'scale(1)';
-            cartao.style.background = 'rgba(255, 255, 255, 0.15)';
-            
-            // Suavidade na aparição do texto
-            setTimeout(() => { msg.style.opacity = '1'; msg.style.transition = 'opacity 1s'; }, 50);
-            
-            // Explosão de estrelas central
-            for(let i=0; i<20; i++) {
-                setTimeout(() => criarEstrela(window.innerWidth/2, window.innerHeight/2), i * 50);
-            }
-        }, 150);
-    }
-
-    function criarEstrela(x, y) {
-        const s = document.createElement('div');
-        s.className = 'estrela';
-        s.innerHTML = '✨';
-        s.style.left = x + 'px';
-        s.style.top = y + 'px';
-        document.body.appendChild(s);
-
-        const destX = (Math.random() - 0.5) * 200;
-        const destY = (Math.random() - 0.5) * 200;
-
-        s.animate([
-            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-            { transform: `translate(${destX}px, ${destY}px) scale(0)`, opacity: 0 }
-        ], { duration: 1000, easing: 'ease-out' });
-
-        setTimeout(() => s.remove(), 1000);
-    }
-</script>
-
-</body>
-</html>
+        .parte-superior::after {
+            bottom: -
