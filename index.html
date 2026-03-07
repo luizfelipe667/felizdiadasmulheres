@@ -1,101 +1,194 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efeito Corações</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Geovana ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #ff4f87;
+            --secondary: #ff85a1;
+            --bg-gradient: linear-gradient(135deg, #fce4ec 0%, #ffd1dc 100%);
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
         body {
             margin: 0;
             padding: 0;
+            background: var(--bg-gradient);
+            font-family: 'Montserrat', sans-serif;
+            color: #4a1324;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #f9f9f9;
             overflow: hidden;
+            perspective: 1000px;
         }
 
-        .container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Coração Principal */
-        .heart-main {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle at 30% 30%, #ff4d6d, #c9184a);
-            transform: rotate(-45deg);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            z-index: 10;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .heart-main::before,
-        .heart-main::after {
-            content: '';
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: inherit;
-            border-radius: 50%;
-        }
-
-        .heart-main::before { top: -75px; left: 0; }
-        .heart-main::after { left: 75px; top: 0; }
-
-        /* Corações de Fundo (Partículas) */
-        .heart-small {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #ff758f;
-            transform: rotate(-45deg);
-            opacity: 0.6;
+        /* Fundo com corações flutuantes constantes */
+        .bg-hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
             z-index: 1;
         }
 
-        .heart-small::before,
-        .heart-small::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: inherit;
-            border-radius: 50%;
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 50px rgba(255, 79, 135, 0.15);
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .heart-small::before { top: -15px; left: 0; }
-        .heart-small::after { left: 15px; top: 0; }
-
-        /* Animações */
-        @keyframes pulse {
-            0%, 100% { transform: rotate(-45deg) scale(1); }
-            50% { transform: rotate(-45deg) scale(1.05); }
+        .heart-area {
+            font-size: 100px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.4));
+            animation: pulse-premium 2s infinite ease-in-out;
+            transition: transform 0.3s ease;
         }
 
-        /* Posicionamento aleatório para simular a imagem */
-        .h1 { top: -80px; left: -60px; transform: rotate(-20deg) scale(0.8); background: #ffb3c1; }
-        .h2 { top: 60px; right: -90px; transform: rotate(15deg) scale(1.2); background: #ff4d6d; }
-        .h3 { bottom: -70px; left: 20px; transform: rotate(-60deg) scale(0.6); }
-        .h4 { top: -40px; right: -50px; opacity: 0.4; }
+        .heart-area:hover { transform: scale(1.15); }
 
+        @keyframes pulse-premium {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.4)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 10px 25px rgba(255, 79, 135, 0.6)); }
+        }
+
+        .btn-reveal {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 79, 135, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            display: none;
+        }
+
+        .btn-reveal.show {
+            display: block;
+            animation: slideUp 0.6s forwards;
+        }
+
+        .final-content {
+            display: none;
+            opacity: 0;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            font-size: 38px;
+            margin: 0 0 20px 0;
+        }
+
+        .message {
+            font-size: 17px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 26px;
+            margin-top: 30px;
+            color: var(--primary);
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="heart-main"></div>
+<div class="bg-hearts" id="bgHearts"></div>
 
-        <div class="heart-small h1"></div>
-        <div class="heart-small h2"></div>
-        <div class="heart-small h3"></div>
-        <div class="heart-small h4"></div>
+<div class="container" id="card">
+    <div id="step1">
+        <div class="heart-area" onclick="handleHeartClick()">❤️</div>
+        <p style="color: #a06e7e; font-weight: 300;">Um segredo para você...</p>
+        <button class="btn-reveal" id="nextBtn" onclick="handleNextClick()">Abrir com Amor</button>
     </div>
 
-</body>
-</html>
+    <div id="step2" class="final-content">
+        <h1>Geovana 🌹</h1>
+        <div class="message">
+            Você é a luz que transforma os meus dias em algo extraordinário. 
+            <br><br>
+            Sua força e sua doçura me encantam a cada segundo. Feliz Dia da Mulher para a pessoa mais especial que eu conheço.
+            <br><br>
+            <strong>Eu te amo infinitamente.</strong>
+        </div>
+        <div class="signature">— Luiz Felipe ❤️</div>
+    </div>
+</div>
+
+<script>
+    // Criar corações flutuantes de fundo
+    function createBgHearts() {
+        const bg = document.getElementById('bgHearts');
+        for(let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'absolute';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = Math.random() * 100 + 'vh';
+            heart.style.opacity = Math.random() * 0.3;
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animation = `pulse-premium ${Math.random() * 3 + 2}s infinite`;
+            bg.appendChild(heart);
+        }
+    }
+    createBgHearts();
+
+    let clicked = false;
+
+    function handleHeartClick() {
+        if(clicked) return;
+        clicked = true;
+        
+        explode(30);
+        
+        const heartArea = document.querySelector('.heart-area');
+        const nextBtn = document.getElementById('nextBtn');
+        const hint = document.querySelector('#step1 p');
+
+        heartArea.style.transform = 'scale(0) rotate(360deg)';
+        heartArea.style.transition = 'all 0.8s ease';
+        
+        setTimeout(() => {
+            heartArea.style.display = 'none';
+            hint
