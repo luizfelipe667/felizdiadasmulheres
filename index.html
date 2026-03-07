@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Homenagem - Dia da Mulher ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { 
             box-sizing: border-box; 
@@ -13,8 +13,8 @@
         }
 
         body {
-            background: #fce4ec;
-            font-family: 'Poppins', sans-serif;
+            background: #fff0f3; /* Rosa bem clarinho e elegante */
+            font-family: 'Montserrat', sans-serif;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,129 +24,35 @@
             width: 100%;
         }
 
-        /* O Card fixo */
+        /* Card com Glassmorphism suave */
         .card {
-            width: 88%;
-            max-width: 350px;
-            background: #ffffff;
-            border-radius: 30px;
-            padding: 40px 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 360px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 45px 25px;
+            box-shadow: 0 25px 50px rgba(255, 79, 135, 0.15);
             text-align: center;
             position: relative;
-            z-index: 10;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        /* Estado Inicial */
-        #inicio {
-            transition: opacity 0.3s ease;
-        }
-
-        .heart-icon {
-            font-size: 70px;
-            display: block;
-            margin-bottom: 15px;
-            animation: pulse 1.5s infinite;
-            cursor: pointer;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Estado Final (Escondido apenas pela opacidade) */
-        #final {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-            z-index: 20;
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 32px; margin-bottom: 10px; }
-        p { color: #3d1422; font-size: 16px; line-height: 1.5; }
-
-        .particle {
-            position: fixed;
-            pointer-events: none;
             z-index: 100;
-            font-size: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.5s ease;
         }
-    </style>
-</head>
-<body onclick="dispararEfeito()">
 
-    <div class="card">
-        <div id="inicio">
-            <span class="heart-icon">❤️</span>
-            <h1 style="font-size: 24px;">Para Geovana</h1>
-            <p style="color: #888;">Toque na tela</p>
-        </div>
-
-        <div id="final">
-            <h1>Geovana 🌹</h1>
-            <p>
-                Você é a luz que transforma os meus dias em algo extraordinário.
-                <br><br>
-                <strong>Te amo infinitamente.</strong>
-            </p>
-            <p style="font-family: 'Dancing Script', cursive; font-size: 24px; margin-top: 15px; color: #ff4f87;">
-                — Luiz Felipe ❤️
-            </p>
-        </div>
-    </div>
-
-<script>
-    let jaClicou = false;
-
-    function dispararEfeito() {
-        if (jaClicou) return;
-        jaClicou = true;
-
-        // 1. Esconde o início e mostra o final (usando opacidade para não dar erro)
-        document.getElementById('inicio').style.opacity = '0';
-        const final = document.getElementById('final');
-        final.style.opacity = '1';
-        final.style.pointerEvents = 'auto';
-
-        // 2. Cria o efeito de corações voando
-        for (let i = 0; i < 30; i++) {
-            setTimeout(criarCoracao, i * 20);
+        /* Elementos da Tela Inicial */
+        #camada-inicial {
+            transition: opacity 0.5s ease;
         }
-    }
 
-    function criarCoracao() {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.innerHTML = '❤️';
-        
-        // Espalha os corações pela tela toda
-        p.style.left = (Math.random() * 100) + 'vw';
-        p.style.top = (Math.random() * 100) + 'vh';
-        
-        document.body.appendChild(p);
+        .botao-coracao {
+            font-size: 85px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.3));
+            animation: flutuar 3s infinite ease-in-out;
+        }
 
-        // Animação de subida e sumiço
-        p.animate([
-            { transform: 'translateY(0) scale(1)', opacity: 1 },
-            { transform: 'translateY(-100px) scale(1.5)', opacity: 0 }
-        ], { 
-            duration: 1500, 
-            easing: 'ease-out' 
-        });
-
-        setTimeout(() => p.remove(), 1500);
-    }
-</script>
-
-</body>
-</html>
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-1
