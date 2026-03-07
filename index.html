@@ -6,134 +6,123 @@
     <title>Para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Reset para evitar qualquer bloqueio de clique */
         * { 
             box-sizing: border-box; 
+            margin: 0; padding: 0;
             -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            user-select: none;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             background: #fce4ec;
             font-family: 'Poppins', sans-serif;
             height: 100vh;
-            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: fixed; /* Evita que a tela suba/desça no clique */
+            position: fixed;
+            width: 100%;
         }
 
-        .container {
+        /* O Card agora é o próprio botão */
+        .card-clicavel {
             width: 85%;
             max-width: 350px;
             background: white;
-            border-radius: 25px;
-            padding: 40px 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            padding: 50px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
             position: relative;
-            z-index: 999; /* Garante que está na frente de TUDO */
+            z-index: 10;
         }
 
-        /* Transformando o coração em um botão real para não falhar o toque */
-        .btn-heart {
-            background: none;
-            border: none;
+        .card-clicavel:active {
+            transform: scale(0.98);
+        }
+
+        .heart {
             font-size: 80px;
-            cursor: pointer;
-            padding: 0;
-            margin: 0 auto 20px;
             display: block;
-            animation: pulse 1.5s infinite ease-in-out;
-            outline: none;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.1); }
         }
 
-        .btn-action {
-            background: #ff4f87;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            display: none;
-        }
-
-        .step2 {
-            display: none;
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 32px; margin: 0 0 15px; }
-        .message { font-size: 16px; line-height: 1.6; color: #3d1422; }
-        .signature { font-family: 'Dancing Script', cursive; font-size: 24px; margin-top: 20px; color: #ff4f87; }
+        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 35px; margin-bottom: 15px; }
+        .message { font-size: 17px; line-height: 1.6; color: #3d1422; display: none; }
+        .instruction { color: #888; font-size: 14px; }
 
         .particle {
             position: fixed;
             pointer-events: none;
-            z-index: 1000;
+            z-index: 100;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="tela1">
-        <button class="btn-heart" id="heartBtn" aria-label="Coração">❤️</button>
-        <p id="txt" style="color: #888;">Toque no coração, Geovana</p>
-        <button class="btn-action" id="nextBtn">Para você...</button>
-    </div>
-
-    <div id="tela2" class="step2">
-        <h1>Geovana 🌹</h1>
-        <div class="message">
-            Você é a luz que transforma os meus dias em algo extraordinário. 
-            <br><br>
-            <strong>Te amo infinitamente.</strong>
+    <div class="card-clicavel" id="mainCard" onclick="revelarConteudo()">
+        <div id="conteudoInicial">
+            <span class="heart">❤️</span>
+            <h1>Para Geovana</h1>
+            <p class="instruction">Toque em qualquer lugar do card</p>
         </div>
-        <div class="signature">— Luiz Felipe ❤️</div>
+
+        <div id="conteudoFinal" style="display: none;">
+            <h1>Geovana 🌹</h1>
+            <p style="font-size: 18px; line-height: 1.6;">
+                Você é a luz que transforma os meus dias em algo extraordinário.
+                <br><br>
+                <strong>Te amo infinitamente.</strong>
+            </p>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 26px; margin-top: 20px; color: #ff4f87;">
+                — Luiz Felipe ❤️
+            </p>
+        </div>
     </div>
-</div>
 
 <script>
-    const heartBtn = document.getElementById('heartBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const tela1 = document.getElementById('tela1');
-    const tela2 = document.getElementById('tela2');
-    const txt = document.getElementById('txt');
+    let clicado = false;
 
-    // Função de clique unificada
-    function triggerHeart() {
-        explode();
-        heartBtn.style.display = 'none';
-        txt.style.display = 'none';
-        nextBtn.style.display = 'block';
+    function revelarConteudo() {
+        if (clicado) return;
+        clicado = true;
+
+        // Efeito visual de explosão
+        for (let i = 0; i < 30; i++) {
+            criarParticula();
+        }
+
+        // Troca o conteúdo instantaneamente
+        document.getElementById('conteudoInicial').style.display = 'none';
+        document.getElementById('conteudoFinal').style.display = 'block';
+        
+        // Remove o clique para não repetir a animação
+        document.getElementById('mainCard').style.cursor = 'default';
     }
 
-    function triggerFinal() {
-        explode();
-        tela1.style.display = 'none';
-        tela2.style.display = 'block';
-    }
+    function criarParticula() {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.innerHTML = '❤️';
+        p.style.left = '50vw';
+        p.style.top = '50vh';
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 10 + 5;
+        const dx = Math.cos(angle) * velocity * 20;
+        const dy = Math.sin(angle) * velocity * 20;
 
-    // Eventos para o Coração
-    heartBtn.onclick = triggerHeart;
-    heartBtn.ontouchstart = (e) => { e.preventDefault(); triggerHeart(); };
+        document.body.appendChild(p);
 
-    // Eventos para o Botão Final
-    nextBtn.onclick = triggerFinal;
-    nextBtn.ontouchstart = (e) => { e.preventDefault(); triggerFinal(); };
-
-    function explode() {
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle
+        p.animate(
