@@ -9,12 +9,12 @@
         :root {
             --primary: #ff4f87;
             --dark-text: #3d1422;
-            --glass: rgba(255, 255, 255, 0.9);
+            --glass: rgba(255, 255, 255, 0.96);
         }
 
         * { 
             box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -30,6 +30,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Garante que o scroll não atrapalhe o clique no Chrome */
+            touch-action: none; 
         }
 
         @keyframes gradientBG {
@@ -39,122 +41,219 @@
         }
 
         .container {
-            width: 85%;
+            width: 88%;
             max-width: 380px;
             background: var(--glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 35px 25px;
-            box-shadow: 0 20px 40px rgba(255, 79, 135, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            z-index: 10;
+            border-radius: 30px;
+            padding: 40px 25px;
+            box-shadow: 0 20px 50px rgba(255, 79, 135, 0.25);
+            border: 1px solid rgba(255, 255, 255, 1);
+            z-index: 100;
             text-align: center;
             position: relative;
         }
 
-        .heart-btn {
-            font-size: 80px;
+        /* Área de toque gigante para o coração */
+        .heart-click-area {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            display: inline-block;
             position: relative;
-            z-index: 20; /* Garante que fique acima de tudo para o clique */
-            transition: transform 0.2s;
-            animation: float 2s ease-in-out infinite;
+            z-index: 200;
+        }
+
+        .heart-icon {
+            font-size: 90px;
+            animation: pulse 1.5s infinite;
             filter: drop-shadow(0 5px 15px rgba(255, 79, 135, 0.4));
+            pointer-events: none; /* Deixa o clique passar para a área de clique */
             user-select: none;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-12px) scale(1.1); }
-        }
-
-        .heart-btn:active {
-            transform: scale(0.9);
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
 
         .text-area {
             font-size: 19px;
             line-height: 1.6;
-            margin-top: 15px;
-            min-height: 50px;
+            margin-top: 20px;
+            min-height: 60px;
+            font-weight: 400;
         }
 
         .btn-final {
             background: linear-gradient(45deg, var(--primary), #ff85a1);
             color: white;
             border: none;
-            padding: 14px 28px;
+            padding: 16px 35px;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 79, 135, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 79, 135, 0.3);
             display: none;
-            margin: 20px auto 0;
-            animation: fadeIn 0.5s ease;
+            margin: 25px auto 0;
+            animation: fadeIn 0.8s ease;
         }
 
         .final-msg {
             display: none;
             font-family: 'Dancing Script', cursive;
-            font-size: 24px;
             animation: fadeIn 1.5s ease forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Partículas de rastro corrigidas */
+        /* Partículas de rastro (Fundo) */
         .trail {
             position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            pointer-events: none; /* ESSENCIAL: ignora toques para não bloquear o botão */
-            z-index: 5;
+            pointer-events: none;
+            z-index: 1;
             filter: blur(1px);
         }
 
-        .particle-heart {
+        .explosion-heart {
             position: fixed;
             pointer-events: none;
-            z-index: 100;
-            user-select: none;
+            z-index: 300;
+            font-size: 25px;
         }
-
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container" id="mainCard">
     <div id="content1">
-        <div class="heart-btn" id="btnCorao" onclick="iniciarLeitura()">❤️</div>
+        <div class="heart-click-area" id="trigger">
+            <div class="heart-icon">❤️</div>
+        </div>
+        
         <div class="text-area" id="typewriter"></div>
-        <button class="btn-final" id="btnNext" onclick="mostrarFinal()">Toque aqui, Geovana</button>
+        <button class="btn-final" id="btnNext">Toque aqui, Geovana</button>
     </div>
 
     <div id="content2" class="final-msg">
-        <span style="font-size: 34px; color: var(--primary);">Feliz Dia da Mulher 🌹</span>
+        <span style="font-size: 38px; color: var(--primary);">Feliz Dia da Mulher 🌹</span>
         <br><br>
+        <span style="font-size: 26px;">
         Geovana, você é uma das coisas mais bonitas que já aconteceram na minha vida.
         <br><br>
         Seu sorriso ilumina meus dias e sua presença deixa tudo mais especial.
         <br><br>
         <strong>Te amo.</strong>
         <br><br>
-        <span style="font-size: 18px; color: #777;">— Luiz Felipe ❤️</span>
+        <span style="font-size: 20px; color: #888;">— Luiz Felipe ❤️</span>
+        </span>
     </div>
 </div>
 
 <script>
     const texto = "Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir.";
     let charIndex = 0;
-    let jaClicou = false;
+    let jaIniciou = false;
 
-    // Efeito de Rastro Mágico (Pointer Events None para não bloquear o clique)
+    // Função de explosão Pro
+    function explode(x, y) {
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'explosion-heart';
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            p.innerHTML = ['❤️', '💖', '✨'][Math.floor(Math.random() * 3)];
+            
+            const destX = (Math.random() - 0.5) * 450;
+            const destY = (Math.random() - 0.5) * 450;
+
+            document.body.appendChild(p);
+
+            p.animate([
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { transform: `translate(${destX}px, ${destY}px) scale(0)`, opacity: 0 }
+            ], { duration: 1200, easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)' });
+
+            setTimeout(() => p.remove(), 1200);
+        }
+    }
+
+    // Efeito de rastro otimizado para Chrome Android
+    const criarRastro = (e) => {
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        const y = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        const trail = document.createElement('div');
+        trail.className = 'trail';
+        trail.style.left = x + 'px';
+        trail.style.top = y + 'px';
+        trail.style.background = `hsl(${Math.random() * 20 + 340}, 100%, 80%)`;
+        document.body.appendChild(trail);
+
+        trail.animate([
+            { transform: 'scale(1)', opacity: 0.8 },
+            { transform: 'scale(0)', opacity: 0 }
+        ], { duration: 700 });
+
+        setTimeout(() => trail.remove(), 700);
+    };
+
+    window.addEventListener('mousemove', criarRastro);
+    window.addEventListener('touchmove', criarRastro, { passive: true });
+
+    // LÓGICA DE CLIQUE ROBUSTA
+    const trigger = document.getElementById('trigger');
+    
+    function acaoInicial(e) {
+        if(jaIniciou) return;
+        e.preventDefault();
+        jaIniciou = true;
+
+        const rect = trigger.getBoundingClientRect();
+        explode(rect.left + rect.width/2, rect.top + rect.height/2);
+        
+        trigger.style.display = 'none';
+        escrever();
+    }
+
+    // Ouvindo tanto clique quanto toque para garantir funcionamento no Chrome
+    trigger.addEventListener('click', acaoInicial);
+    trigger.addEventListener('touchstart', acaoInicial);
+
+    function escrever() {
+        if (charIndex < texto.length) {
+            document.getElementById("typewriter").innerHTML += texto.charAt(charIndex);
+            charIndex++;
+            setTimeout(escrever, 50);
+        } else {
+            const btn = document.getElementById("btnNext");
+            btn.style.display = "block";
+            btn.onclick = mostrarFinal;
+            btn.ontouchstart = mostrarFinal;
+        }
+    }
+
+    function mostrarFinal(e) {
+        if(e) e.preventDefault();
+        const btn = document.getElementById('btnNext');
+        const rect = btn.getBoundingClientRect();
+        explode(rect.left + rect.width/2, rect.top + rect.height/2);
+        
+        document.getElementById("content1").style.display = "none";
+        document.getElementById("content2").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
