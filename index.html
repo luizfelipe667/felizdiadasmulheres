@@ -1,223 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Geovana ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4f87;
+            --dark-text: #3d1422;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
 
-<title>Para Geovana ❤️</title>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #fce4ec, #ffd1dc, #fce4ec);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none; /* Necessário para o efeito de rastro */
+        }
 
-<style>
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-body{
-margin:0;
-background:#ff9bb3;
-font-family:'Dancing Script',cursive;
-color:white;
-text-align:center;
-overflow:hidden;
-}
+        /* Container Principal */
+        .container {
+            width: 85%;
+            max-width: 380px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px 25px;
+            box-shadow: 0 20px 40px rgba(255, 79, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            z-index: 10;
+            text-align: center;
+            position: relative;
+        }
 
-.container{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
+        .text-area {
+            font-size: 19px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 100px;
+        }
 
-h1{
-font-size:38px;
-}
+        .heart-btn {
+            font-size: 60px;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s;
+            animation: float 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(255, 79, 135, 0.3));
+        }
 
-.heart{
-font-size:90px;
-cursor:pointer;
-animation:beat 1s infinite;
-}
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
 
-@keyframes beat{
-0%{transform:scale(1)}
-50%{transform:scale(1.2)}
-100%{transform:scale(1)}
-}
+        .btn-final {
+            background: linear-gradient(45deg, var(--primary), #ff85a1);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 79, 135, 0.3);
+            display: none;
+            margin: 0 auto;
+        }
 
-.finger{
-font-size:40px;
-animation:tap 1.2s infinite;
-}
+        .final-msg {
+            display: none;
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            animation: fadeIn 1.5s ease forwards;
+        }
 
-@keyframes tap{
-0%{opacity:0}
-50%{opacity:1}
-100%{opacity:0}
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.text{
-font-size:30px;
-max-width:320px;
-line-height:1.4;
-}
+        /* Partículas de rastro (efeito pro) */
+        .trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            filter: blur(2px);
+        }
 
-button{
-margin-top:30px;
-padding:15px 25px;
-border:none;
-border-radius:25px;
-font-size:22px;
-background:white;
-color:#ff4f87;
-cursor:pointer;
-}
-
-.hidden{
-display:none;
-}
-
-.final{
-font-size:38px;
-opacity:0;
-transition:1.5s;
-}
-
-.particle{
-position:fixed;
-font-size:22px;
-pointer-events:none;
-}
-
-</style>
+        .hidden { display: none; }
+    </style>
 </head>
-
 <body>
 
-<div class="container" id="tela1">
+<div class="container" id="mainCard">
+    <div id="content1">
+        <div class="heart-btn" onclick="iniciarLeitura()">❤️</div>
+        <div class="text-area" id="typewriter"></div>
+        <button class="btn-final" id="btnNext" onclick="mostrarFinal()">Toque aqui, Geovana</button>
+    </div>
 
-<div class="finger">👇</div>
-
-<h1>Clique no coração</h1>
-
-<div class="heart" onclick="start()">❤️</div>
-
-</div>
-
-
-<div class="container hidden" id="tela2">
-
-<div class="text" id="text"></div>
-
-<button onclick="mostrarFinal()">Toque aqui Geovana</button>
-
-</div>
-
-
-<div class="container hidden" id="tela3">
-
-<div class="final" id="finalMsg">
-
-Feliz Dia da Mulher 🌹
-
-<br><br>
-
-Geovana,  
-você é uma das coisas mais bonitas que já aconteceram na minha vida.
-
-<br><br>
-
-Seu sorriso ilumina meus dias  
-e sua presença deixa tudo mais especial.
-
-<br><br>
-
-Feito com carinho pra você.
-
-<br>
-
-Te amo.
-
-<br><br>
-
-— Luiz Felipe ❤️
-
-</div>
-
+    <div id="content2" class="final-msg">
+        <span style="font-size: 34px; color: var(--primary);">Feliz Dia da Mulher 🌹</span>
+        <br><br>
+        Geovana, você é uma das coisas mais bonitas que já aconteceram na minha vida.
+        <br><br>
+        Seu sorriso ilumina meus dias e sua presença deixa tudo mais especial.
+        <br><br>
+        <strong>Te amo.</strong>
+        <br><br>
+        <span style="font-size: 18px; color: #777;">— Luiz Felipe ❤️</span>
+    </div>
 </div>
 
 <script>
+    const texto = "Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir.";
+    let charIndex = 0;
 
-let texto="Geovana... desde que você apareceu, meu mundo ficou mais leve, mais bonito e cheio de motivos para sorrir.";
+    // Efeito de Rastro Mágico (Pro)
+    window.addEventListener('pointermove', (e) => {
+        const trail = document.createElement('div');
+        trail.className = 'trail';
+        trail.style.left = e.clientX + 'px';
+        trail.style.top = e.clientY + 'px';
+        trail.style.background = `hsl(${Math.random() * 30 + 340}, 100%, 75%)`;
+        document.body.appendChild(trail);
 
-let i=0
-
-function start(){
-
-explosao()
-
-document.getElementById("tela1").classList.add("hidden")
-document.getElementById("tela2").classList.remove("hidden")
-
-escrever()
-
-}
-
-function escrever(){
-
-let area=document.getElementById("text")
-
-let interval=setInterval(()=>{
-
-area.innerHTML+=texto.charAt(i)
-
-i++
-
-if(i>=texto.length)clearInterval(interval)
-
-},45)
-
-}
-
-function mostrarFinal(){
-
-document.getElementById("tela2").classList.add("hidden")
-document.getElementById("tela3").classList.remove("hidden")
-
-setTimeout(()=>{
-
-document.getElementById("finalMsg").style.opacity=1
-
-},200)
-
-}
-
-function explosao(){
-
-for(let i=0;i<35;i++){
-
-let p=document.createElement("div")
-
-p.className="particle"
-
-p.innerHTML="❤️"
-
-p.style.left=Math.random()*window.innerWidth+"px"
-p.style.top=Math.random()*window.innerHeight+"px"
-
-document.body.appendChild(p)
-
-p.animate([
-{transform:"translateY(0)",opacity:1},
-{transform:"translateY(-200px)",opacity:0}
-],{duration:1500})
-
-setTimeout(()=>p.remove(),1500)
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
+        trail.animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(0)', opacity: 0 }
+        ],
