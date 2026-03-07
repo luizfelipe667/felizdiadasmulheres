@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             margin: 0;
@@ -15,160 +14,141 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Montserrat', sans-serif;
+            font-family: sans-serif;
             overflow: hidden;
-            perspective: 1500px;
         }
 
-        /* Fundo de Galáxia Elegante */
-        .bg-premium {
+        /* Fundo de Galáxia */
+        .bg {
             position: fixed;
             width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a050d 0%, #000 100%);
             z-index: 1;
         }
 
-        /* CONTAINER DO CARTÃO - SISTEMA DE RASGO */
-        #cartao-container {
+        #envelope {
             width: 90%;
             max-width: 360px;
-            height: 480px;
+            height: 400px;
             position: relative;
             z-index: 10;
-            transform-style: preserve-3d;
-            cursor: grab;
+            cursor: pointer;
         }
 
-        /* PARTES DO CARTÃO (CAPA) */
-        .cartao-parte {
+        /* Partes que vão abrir */
+        .aba {
             position: absolute;
             width: 100%;
             height: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 183, 197, 0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
-            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
         }
 
-        .parte-superior {
-            top: 0;
-            border-radius: 35px 35px 0 0;
-            border-bottom: none;
-        }
+        .aba-topo { top: 0; border-radius: 30px 30px 0 0; border-bottom: 2px solid #ff4d6d; }
+        .aba-baixo { bottom: 0; border-radius: 0 0 30px 30px; }
 
-        .parte-inferior {
-            bottom: 0;
-            border-radius: 0 0 35px 35px;
-            border-top: none;
-        }
-
-        /* O "Lacre" ou Linha de Rasgo */
-        .linha-rasgo {
+        /* Mensagem escondida */
+        #conteudo {
             position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #ff4d6d, #ffccd5, #ff4d6d, transparent);
-            box-shadow: 0 0 15px #ff4d6d;
-            z-index: 15;
-            transition: opacity 0.3s;
-        }
-
-        .rosa-master {
-            font-size: 80px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 15px #ff4d6d);
-        }
-
-        h1.capa-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 38px;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-
-        .p-capa {
-            letter-spacing: 4px;
-            font-size: 11px;
-            opacity: 0.7;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        /* MENSAGEM FINAL (ESCONDIDA ATRÁS) */
-        #mensagem-homenagem {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 35px;
-            padding: 50px 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 30px;
             color: white;
             opacity: 0;
-            transform: translateZ(-50px) scale(0.9);
-            transition: all 1s ease;
+            transition: opacity 1s;
             z-index: 5;
         }
 
-        h1.homenagem-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 42px;
-            color: #fff;
-            margin: 0 0 20px;
-            text-shadow: 0 0 15px rgba(255,255,255,0.4);
-        }
+        h1 { font-size: 32px; color: #ff4d6d; margin: 0; }
+        p { font-size: 18px; line-height: 1.6; color: #eee; }
 
-        .texto-premium {
-            font-size: 17px;
-            line-height: 1.8;
-            font-weight: 300;
-            color: #eee;
-        }
-
-        .assinatura {
-            display: block;
-            margin-top: 35px;
-            font-family: 'Dancing Script';
-            font-size: 30px;
-            color: #ff4d6d;
-            text-shadow: 0 0 10px rgba(255,77,109,0.5);
-        }
-
-        /* Estrelinhas de Rastro (Otimizadas) */
-        .estrela-trail {
+        .estrela {
             position: fixed;
             pointer-events: none;
             z-index: 100;
-            font-size: 24px;
-            user-select: none;
+            font-size: 20px;
         }
+    </style>
+</head>
+<body onmousemove="rastrear(event)" ontouchmove="rastrear(event)" onclick="abrir()">
 
-        /* Efeito visual de rasgado nas bordas interiores */
-        .cartao-parte::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-size: 20px 20px;
-            background-repeat: repeat-x;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
+    <div class="bg"></div>
 
-        .parte-superior::after {
-            bottom: -
+    <div id="envelope">
+        <div class="aba aba-topo" id="topo">
+            <span style="font-size: 60px;">🌹</span>
+            <h2 style="color: white; margin-top: 10px;">Para Geovana</h2>
+        </div>
+
+        <div id="conteudo">
+            <h1>Geovana 🌹</h1>
+            <p><strong>Feliz Dia da Mulher!</strong></p>
+            <p>Sua força e beleza brilham como as estrelas. Você é extraordinária!</p>
+            <p style="color: #ff4d6d; font-weight: bold; font-size: 24px;">— Luiz Felipe ❤️</p>
+        </div>
+
+        <div class="aba aba-baixo" id="baixo">
+            <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px; font-size: 12px;">TOQUE PARA ABRIR</p>
+        </div>
+    </div>
+
+<script>
+    let jaAberto = false;
+
+    // EFEITO DAS ESTRELINHAS QUE VOCÊ AMOU (Agora no movimento)
+    function rastrear(e) {
+        const x = e.clientX || e.touches[0].clientX;
+        const y = e.clientY || e.touches[0].clientY;
+        
+        const s = document.createElement('div');
+        s.className = 'estrela';
+        s.innerHTML = '✨';
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        document.body.appendChild(s);
+
+        s.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(${(Math.random()-0.5)*50}px, 50px) scale(0)`, opacity: 0 }
+        ], { duration: 800 });
+
+        setTimeout(() => s.remove(), 800);
+    }
+
+    function abrir() {
+        if (jaAberto) return;
+        jaAberto = true;
+
+        // Animação de Abrir/Rasgar
+        document.getElementById('topo').style.transform = 'translateY(-110%)';
+        document.getElementById('baixo').style.transform = 'translateY(110%)';
+        
+        setTimeout(() => {
+            document.getElementById('conteudo').style.opacity = '1';
+            
+            // Explosão final de estrelas
+            for(let i=0; i<20; i++) {
+                setTimeout(() => {
+                    const x = window.innerWidth/2 + (Math.random()-0.5)*100;
+                    const y = window.innerHeight/2 + (Math.random()-0.5)*100;
+                    rastrear({clientX: x, clientY: y});
+                }, i * 50);
+            }
+        }, 400);
+    }
+</script>
+
+</body>
+</html>
