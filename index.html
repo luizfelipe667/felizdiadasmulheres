@@ -4,103 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #ff4f87;
-            --glass: rgba(255, 255, 255, 0.9);
-        }
-
         * { 
             box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
+            -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #fce4ec 0%, #ffd1dc 100%);
-            font-family: 'Montserrat', sans-serif;
+            background: #fce4ec;
+            font-family: 'Poppins', sans-serif;
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: fixed; /* Evita que a tela suba/desça no clique */
         }
 
         .container {
-            width: 90%;
-            max-width: 380px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
+            width: 85%;
+            max-width: 350px;
+            background: white;
+            border-radius: 25px;
             padding: 40px 20px;
-            box-shadow: 0 15px 35px rgba(255, 79, 135, 0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
-            z-index: 100; /* Garante que o card esteja no topo */
+            z-index: 999; /* Garante que está na frente de TUDO */
         }
 
-        .heart-area {
-            font-size: 90px;
+        /* Transformando o coração em um botão real para não falhar o toque */
+        .btn-heart {
+            background: none;
+            border: none;
+            font-size: 80px;
             cursor: pointer;
-            display: inline-block;
-            margin-bottom: 20px;
-            user-select: none;
-            transition: transform 0.2s;
+            padding: 0;
+            margin: 0 auto 20px;
+            display: block;
             animation: pulse 1.5s infinite ease-in-out;
-            position: relative;
-            z-index: 110;
+            outline: none;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.15); }
         }
 
-        .btn-reveal {
-            background: var(--primary);
+        .btn-action {
+            background: #ff4f87;
             color: white;
             border: none;
-            padding: 18px 35px;
+            padding: 15px 30px;
             border-radius: 50px;
             font-size: 18px;
             font-weight: 600;
-            margin-top: 20px;
-            cursor: pointer;
-            display: none; /* Inicialmente escondido */
             width: 100%;
-            box-shadow: 0 8px 15px rgba(255, 79, 135, 0.3);
-        }
-
-        .final-content {
+            cursor: pointer;
             display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; color: var(--primary); font-size: 35px; margin-bottom: 15px; }
-        .message { font-size: 17px; line-height: 1.6; color: #4a1324; }
-        .signature { font-family: 'Dancing Script', cursive; font-size: 24px; margin-top: 25px; color: var(--primary); }
+        .step2 {
+            display: none;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; color: #ff4f87; font-size: 32px; margin: 0 0 15px; }
+        .message { font-size: 16px; line-height: 1.6; color: #3d1422; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 24px; margin-top: 20px; color: #ff4f87; }
 
         .particle {
             position: fixed;
             pointer-events: none;
-            z-index: 200;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="step1">
-        <div class="heart-area" id="mainHeart">❤️</div>
-        <p id="instruction" style="color: #a06e7e;">Toque no coração, Geovana</p>
-        <button class="btn-reveal" id="nextBtn">Para você...</button>
+    <div id="tela1">
+        <button class="btn-heart" id="heartBtn" aria-label="Coração">❤️</button>
+        <p id="txt" style="color: #888;">Toque no coração, Geovana</p>
+        <button class="btn-action" id="nextBtn">Para você...</button>
     </div>
 
-    <div id="step2" class="final-content">
+    <div id="tela2" class="step2">
         <h1>Geovana 🌹</h1>
         <div class="message">
             Você é a luz que transforma os meus dias em algo extraordinário. 
@@ -112,44 +105,35 @@
 </div>
 
 <script>
-    const heart = document.getElementById('mainHeart');
+    const heartBtn = document.getElementById('heartBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const step1Content = document.getElementById('step1');
-    const step2Content = document.getElementById('step2');
-    const instruction = document.getElementById('instruction');
+    const tela1 = document.getElementById('tela1');
+    const tela2 = document.getElementById('tela2');
+    const txt = document.getElementById('txt');
 
-    // Função única para clique/toque no Coração
-    function startExperience(e) {
-        e.preventDefault();
+    // Função de clique unificada
+    function triggerHeart() {
         explode();
-        
-        heart.style.display = 'none';
-        instruction.style.display = 'none';
+        heartBtn.style.display = 'none';
+        txt.style.display = 'none';
         nextBtn.style.display = 'block';
     }
 
-    // Função única para o Botão "Para você"
-    function showMessage(e) {
-        e.preventDefault();
+    function triggerFinal() {
         explode();
-        
-        step1Content.style.display = 'none';
-        step2Content.style.display = 'block';
-        setTimeout(() => { step2Content.style.opacity = '1'; }, 50);
+        tela1.style.display = 'none';
+        tela2.style.display = 'block';
     }
 
-    // Eventos robustos para Mobile e Desktop
-    heart.addEventListener('click', startExperience);
-    heart.addEventListener('touchstart', startExperience);
+    // Eventos para o Coração
+    heartBtn.onclick = triggerHeart;
+    heartBtn.ontouchstart = (e) => { e.preventDefault(); triggerHeart(); };
 
-    nextBtn.addEventListener('click', showMessage);
-    nextBtn.addEventListener('touchstart', showMessage);
+    // Eventos para o Botão Final
+    nextBtn.onclick = triggerFinal;
+    nextBtn.ontouchstart = (e) => { e.preventDefault(); triggerFinal(); };
 
     function explode() {
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 20; i++) {
             const p = document.createElement('div');
-            p.className = 'particle';
-            p.innerHTML = ['❤️', '✨', '💖'][Math.floor(Math.random() * 3)];
-            p.style.left = '50vw';
-            p.style.top = '50vh';
-            p.style.fontSize = (Math
+            p.className = 'particle
