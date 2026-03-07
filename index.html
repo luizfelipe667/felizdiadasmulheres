@@ -4,92 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --p-rose: #ff8fa3;
-            --p-deep: #ff4f87;
-            --p-gold: #f4d03f;
-            --text: #2c1a1a;
-            --glass: rgba(255, 255, 255, 0.94);
-        }
-
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            touch-action: manipulation;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             margin: 0;
             padding: 0;
-            background: #fdf2f4;
+            background-color: #fce4ec; /* Cor sólida de segurança */
+            background: linear-gradient(135deg, #fce4ec 0%, #ffc1e3 100%);
             font-family: 'Poppins', sans-serif;
-            color: var(--text);
-            overflow: hidden;
+            color: #3d1422;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-        }
-
-        /* FUNDO PREMIUM ABSTRATO (Glassmorphism Art) */
-        .bg-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
             overflow: hidden;
         }
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: moveShape 20s ease-in-out infinite;
-        }
-        .shape1 { width: 400px; height: 400px; background: var(--p-rose); top: -100px; left: -100px; }
-        .shape2 { width: 300px; height: 300px; background: #ffccd5; bottom: -50px; right: -50px; animation-delay: -5s; }
-        .shape3 { width: 250px; height: 250px; background: #fff3f5; top: 40%; left: 30%; animation-delay: -10s; }
 
-        @keyframes moveShape {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
-        }
-
-        /* CONTAINER PRINCIPAL */
         .container {
-            width: 88%;
+            width: 90%;
             max-width: 380px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 35px;
-            padding: 45px 30px;
-            box-shadow: 0 25px 60px rgba(255, 79, 135, 0.2);
-            border: 1px solid rgba(255, 255, 255, 1);
-            z-index: 100;
+            background: #ffffff; /* Fundo branco sólido para evitar erro de transparência */
+            border-radius: 20px;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(255, 79, 135, 0.2);
             text-align: center;
+            z-index: 10;
             position: relative;
-            transition: transform 0.3s ease;
         }
 
-        /* ÁREA DE TOQUE DO CORAÇÃO */
-        .heart-interaction-area {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .heart-area {
+            font-size: 80px;
             cursor: pointer;
-            position: relative;
-            z-index: 200;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
         }
 
-        .heart-main {
-            font-size:
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .btn-reveal {
+            background: #ff4f87;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+            margin: 20px auto 0;
+            cursor: pointer;
+        }
+
+        .final-content {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4f87;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            margin-top: 25px;
+            color: #777;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="card">
+    <div id="step1">
+        <div class="heart-area" onclick="handleHeartClick()" ontouchstart="handleHeartClick()">❤️</div>
+        <p style="color: #888;">Toque no coração, Geovana</p>
+        <button class="btn-reveal" id="nextBtn" onclick="handleNextClick()" ontouchstart="handleNextClick()">Para você...</button>
+    </div>
+
+    <div id="step2" class="final-content">
+        <h1>Feliz Dia da Mulher 🌹</h1>
+        <div class="message">
+            Geovana, você é uma das coisas mais bonitas que já aconteceram na minha vida.
+            <br><br>
+            Seu sorriso ilumina meus dias e sua presença deixa tudo mais especial.
+            <br><br>
+            <strong>Te amo.</strong>
+        </div>
+        <div class="signature">— Luiz Felipe ❤️</div>
+    </div>
+</div>
+
+<script>
+    let clicked = false;
+
+    function handleHeartClick() {
+        if(clicked) return;
+        clicked = true;
+        
+        // Explosão simples
+        explode();
+        
+        document.querySelector('.heart-area').style.display = 'none';
+        document.querySelector('#step1 p').style.display = 'none';
+        document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function handleNextClick() {
+        explode();
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    }
+
+    function explode() {
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.innerHTML = '❤️';
+            p.style.left = '50%';
+            p.style.top = '50%';
+            p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            
+            const dx = (Math.random() - 0.5) * 300;
+            const dy = (Math.random() - 0.5) * 300;
+
+            document.body.appendChild(p);
+
+            p.animate([
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
+            ], { duration: 1000 });
+
+            setTimeout(() => p.remove(), 1000);
+        }
+    }
+</script>
+
+</body>
+</html>
