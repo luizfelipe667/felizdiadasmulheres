@@ -3,192 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Geovana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <title>Homenagem Premium - Geovana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             margin: 0;
-            background: #0a0a0a;
+            background: #050505;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Cinzel', serif;
             overflow: hidden;
-            perspective: 1200px; /* Base para o efeito 3D */
+            perspective: 2000px;
         }
 
-        /* Fundo com aura de luz */
-        .bg-glow {
+        /* Fundo de Galáxia Elegante */
+        .stars-container {
             position: fixed;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #450a18 0%, #000 100%);
+            background: radial-gradient(circle at center, #1a050d 0%, #000 100%);
             z-index: 1;
         }
 
-        /* O CARTÃO INOVADOR (PARALAXE) */
-        #cartao {
+        /* O CARD DE OURO ROSÉ */
+        #luxury-card {
             width: 90%;
             max-width: 380px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-radius: 40px;
             padding: 60px 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 183, 197, 0.3);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
             text-align: center;
             z-index: 10;
-            color: white;
             cursor: pointer;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+            transition: transform 0.15s ease-out;
+            position: relative;
         }
 
-        /* Efeito de iluminação interna que se move */
-        #cartao::before {
+        /* Brilho Metálico Dinâmico */
+        #luxury-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.15) 0%, transparent 60%);
+            inset: 0;
             border-radius: 40px;
+            background: linear-gradient(105deg, transparent 20%, rgba(255,215,225,0.2) 40%, rgba(255,255,255,0.4) 50%, rgba(255,215,225,0.2) 60%, transparent 80%);
+            background-size: 200% 200%;
+            background-position: var(--shine-x, 50%) var(--shine-y, 50%);
             pointer-events: none;
+            mix-blend-mode: overlay;
         }
 
-        .rosa-master {
-            font-size: 90px;
-            filter: drop-shadow(0 0 20px #ff4d6d);
-            margin-bottom: 20px;
+        .main-icon {
+            font-size: 80px;
+            filter: drop-shadow(0 0 25px #ff4d6d);
+            margin-bottom: 25px;
             display: inline-block;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #mensagem-container {
+        #final-message {
             display: none;
             opacity: 0;
-            transform: translateZ(50px); /* Texto salta para fora do cartão */
+            transform: translateZ(60px);
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; margin: 0; color: #fff; }
-        .texto-premium { font-size: 18px; line-height: 1.8; margin-top: 25px; font-weight: 300; letter-spacing: 0.5px; }
-        .assinatura { display: block; margin-top: 30px; font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 48px; margin: 0; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .gold-text { color: #ffb7c5; letter-spacing: 5px; font-size: 10px; text-transform: uppercase; margin-top: 20px; }
+        .premium-body { font-family: 'Cinzel', serif; font-size: 16px; line-height: 1.8; color: #eee; margin-top: 30px; font-weight: 400; }
+        .signature { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
 
-        .sparkle {
+        .star {
             position: fixed;
-            pointer-events: none;
-            z-index: 100;
-            border-radius: 50%;
             background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
         }
     </style>
 </head>
-<body>
+<body onmousemove="updateCard(event)" ontouchmove="updateCard(event)">
 
-    <div class="bg-glow"></div>
+    <div class="stars-container" id="stars-bg"></div>
 
-    <div id="cartao" onmousemove="handleMove(event)" ontouchmove="handleMove(event)">
-        <div id="conteudo-capa">
-            <div class="rosa-master" id="rosa">🌹</div>
+    <div id="luxury-card">
+        <div id="cover">
+            <div class="main-icon">🌹</div>
             <h1>Geovana</h1>
-            <p style="text-transform: uppercase; letter-spacing: 4px; font-size: 11px; opacity: 0.6; margin-top: 15px;">Toque para sentir</p>
+            <p class="gold-text">Um Toque de Brilho</p>
         </div>
 
-        <div id="mensagem-container">
+        <div id="final-message">
             <h1>Feliz Dia da Mulher</h1>
-            <div class="texto-premium">
-                Você é a prova de que a força e a delicadeza podem andar juntas. Sua luz transforma tudo.
+            <div class="premium-body">
+                Para a mulher que redefine a palavra elegância e força. Seu brilho é a constelação que guia meus melhores pensamentos.
                 <br>
-                <span class="assinatura">— Luiz Felipe ❤️</span>
+                <span class="signature">— Luiz Felipe ❤️</span>
             </div>
         </div>
     </div>
 
 <script>
-    const cartao = document.getElementById('cartao');
-    const rosa = document.getElementById('rosa');
-    let aberto = false;
+    const card = document.getElementById('luxury-card');
+    const bg = document.getElementById('stars-bg');
+    let revealed = false;
 
-    // INOVAÇÃO: Efeito de Inclinação 3D que segue o toque
-    function handleMove(e) {
-        const rect = cartao.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
-        
-        // Atualiza luz interna
-        cartao.style.setProperty('--x', `${(x / rect.width) * 100}%`);
-        cartao.style.setProperty('--y', `${(y / rect.height) * 100}%`);
-
-        // Calcula inclinação
-        const rotX = ((y / rect.height) - 0.5) * -20;
-        const rotY = ((x / rect.width) - 0.5) * 20;
-
-        cartao.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-        
-        // Deixa rastro de brilho
-        criarBrilho(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
+    // Criar estrelas fixas de luxo no fundo
+    for(let i=0; i<100; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.width = Math.random() * 3 + 'px';
+        s.style.height = s.style.width;
+        s.style.left = Math.random() * 100 + 'vw';
+        s.style.top = Math.random() * 100 + 'vh';
+        s.style.opacity = Math.random();
+        bg.appendChild(s);
     }
 
-    cartao.onclick = function(e) {
-        if (aberto) {
-            explosaoFinal(e.clientX, e.clientY);
-            return;
-        }
-        aberto = true;
+    function updateCard(e) {
+        const rect = card.getBoundingClientRect();
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
         
-        rosa.style.transform = 'scale(0) rotate(-180deg)';
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        
+        // Movimento do Brilho Metálico
+        card.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--shine-y', `${(y / rect.height) * 100}%`);
+
+        // Inclinação 3D Suave
+        const rotX = ((y / rect.height) - 0.5) * -15;
+        const rotY = ((clientX / window.innerWidth) - 0.5) * 25;
+        card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+        // Criar estrelas cintilantes no toque (as estrelinhas que você adorou!)
+        spawnStar(clientX, clientY);
+    }
+
+    function spawnStar(x, y) {
+        const s = document.createElement('div');
+        s.innerHTML = '✨';
+        s.style.position = 'fixed';
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        s.style.color = '#fff';
+        s.style.fontSize = Math.random() * 15 + 10 + 'px';
+        s.style.pointerEvents = 'none';
+        s.style.zIndex = '100';
+        document.body.appendChild(s);
+
+        s.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px) scale(0)`, opacity: 0 }
+        ], { duration: 1000 });
+        setTimeout(() => s.remove(), 1000);
+    }
+
+    card.onclick = function() {
+        if (revealed) return;
+        revealed = true;
+        
+        document.getElementById('cover').style.transition = '0.5s';
+        document.getElementById('cover').style.opacity = '0';
+        document.getElementById('cover').style.transform = 'translateZ(0px) scale(0.8)';
+        
         setTimeout(() => {
-            document.getElementById('conteudo-capa').style.display = 'none';
-            const msg = document.getElementById('mensagem-container');
+            document.getElementById('cover').style.display = 'none';
+            const msg = document.getElementById('final-message');
             msg.style.display = 'block';
-            setTimeout(() => { msg.style.opacity = '1'; }, 50);
-            explosaoFinal(window.innerWidth/2, window.innerHeight/2);
-        }, 400);
+            setTimeout(() => { 
+                msg.style.opacity = '1'; 
+                msg.style.transform = 'translateZ(60px) scale(1)';
+            }, 50);
+            
+            // Explosão de Ouro
+            for(let i=0; i<40; i++) spawnStar(window.innerWidth/2, window.innerHeight/2);
+        }, 500);
     };
 
-    function criarBrilho(x, y) {
-        const b = document.createElement('div');
-        b.className = 'sparkle';
-        const size = Math.random() * 4 + 2;
-        b.style.width = size + 'px';
-        b.style.height = size + 'px';
-        b.style.left = x + 'px';
-        b.style.top = y + 'px';
-        b.style.boxShadow = '0 0 10px #fff';
-        document.body.appendChild(b);
-
-        b.animate([
-            { transform: 'translateY(0) scale(1)', opacity: 1 },
-            { transform: `translateY(${Math.random()*50}px) scale(0)`, opacity: 0 }
-        ], { duration: 800 });
-        setTimeout(() => b.remove(), 800);
-    }
-
-    function explosaoFinal(x, y) {
-        for(let i=0; i<30; i++) {
-            const p = document.createElement('div');
-            p.style.position = 'fixed';
-            p.style.left = x + 'px';
-            p.style.top = y + 'px';
-            p.style.zIndex = '1000';
-            p.innerHTML = ['✨', '❤️', '🌹'][Math.floor(Math.random()*3)];
-            document.body.appendChild(p);
-
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 15 + 5;
-            p.animate([
-                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-                { transform: `translate(${Math.cos(angle)*velocity*20}px, ${Math.sin(angle)*velocity*20}px) scale(0)`, opacity: 0 }
-            ], { duration: 1500 });
-            setTimeout(() => p.remove(), 1500);
-        }
-    }
-
-    // Volta o cartão ao normal quando o dedo sai
-    window.addEventListener('touchend', () => cartao.style.transform = 'rotateX(0) rotateY(0)');
-    window.addEventListener('mouseleave', () => cartao.style.transform = 'rotateX(0) rotateY(0)');
+    // Resetar posição quando parar de tocar
+    const reset = () => card.style.transform = 'rotateX(0) rotateY(0)';
+    window.addEventListener('touchend', reset);
+    window.addEventListener('mouseleave', reset);
 </script>
 
 </body>
