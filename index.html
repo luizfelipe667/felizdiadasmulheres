@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Homenagem Premium - Geovana</title>
+    <title>Homenagem Ultra-Premium - Geovana</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* RESET E FONTES PADRÃO */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -17,10 +18,10 @@
             align-items: center;
             font-family: 'Cinzel', serif;
             overflow: hidden;
-            perspective: 2000px;
+            perspective: 2500px; /* PERSPECTIVA AUMENTADA PARA EFEITO 3D MAIS SUTIL */
         }
 
-        /* Fundo de Galáxia Elegante */
+        /* FUNDO DE GALÁXIA ELEGANTE (CONSERVAÇÃO) */
         .stars-container {
             position: fixed;
             width: 100%;
@@ -29,56 +30,74 @@
             z-index: 1;
         }
 
-        /* O CARD DE OURO ROSÉ */
+        /* O CARD DE OURO ROSÉ ULTRA-PREMIUM */
         #luxury-card {
             width: 90%;
             max-width: 380px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 40px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+            backdrop-filter: blur(25px); /* BLUR LIGEIRAMENTE REDUZIDO PARA MELHOR PERFORMANCE */
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 45px; /* BORDAS MAIS ARREDONDADAS E ELEGANTES */
             padding: 60px 30px;
-            border: 1px solid rgba(255, 183, 197, 0.3);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 183, 197, 0.25); /* BORDA MAIS SUTIL */
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 30px rgba(255,77,109,0.1); /* ADICIONADA AURA DE LUZ */
             text-align: center;
             z-index: 10;
             cursor: pointer;
             transform-style: preserve-3d;
-            transition: transform 0.15s ease-out;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease; /* TRANSIÇÕES SUAVES */
             position: relative;
+            overflow: hidden; /* IMPORTANTE PARA O EFEITO DE BRILHO INTERNO */
         }
 
-        /* Brilho Metálico Dinâmico */
+        /* BRILHO HOLOGRÁFICO METÁLICO (REFINAMENTO) */
         #luxury-card::after {
             content: '';
             position: absolute;
             inset: 0;
-            border-radius: 40px;
-            background: linear-gradient(105deg, transparent 20%, rgba(255,215,225,0.2) 40%, rgba(255,255,255,0.4) 50%, rgba(255,215,225,0.2) 60%, transparent 80%);
-            background-size: 200% 200%;
+            border-radius: 45px;
+            background: linear-gradient(105deg, transparent 20%, rgba(255,215,225,0.1) 40%, rgba(255,255,255,0.3) 50%, rgba(255,215,225,0.1) 60%, transparent 80%);
+            background-size: 250% 250%; /* AUMENTADO PARA BRILHO MAIS SUAVE */
             background-position: var(--shine-x, 50%) var(--shine-y, 50%);
             pointer-events: none;
             mix-blend-mode: overlay;
+            transition: background-position 0.1s ease-out; /* TRANSIÇÃO PARA O BRILHO SEGUIR SUAVEMENTE */
         }
 
+        /* ANIMAÇÃO DE FLUTUAÇÃO DO ÍCONE (CONSERVAÇÃO COM AJUSTE) */
         .main-icon {
-            font-size: 80px;
-            filter: drop-shadow(0 0 25px #ff4d6d);
+            font-size: 75px; /* LIGEIRAMENTE REDUZIDO */
+            filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.4));
             margin-bottom: 25px;
             display: inline-block;
+            animation: floatingIcon 4s infinite ease-in-out;
         }
 
+        @keyframes floatingIcon {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px rgba(255, 77, 109, 0.4)); }
+            50% { transform: translateY(-10px) scale(1.05); filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.5)); }
+        }
+
+        /* TEXTO CAPA (CONSERVAÇÃO) */
+        .gold-text { color: #ffb7c5; letter-spacing: 5px; font-size: 10px; text-transform: uppercase; margin-top: 20px; font-weight: 300; opacity: 0.8; }
+
+        /* HOMENAGEM FINAL (O EFEITO DE REVELAÇÃO PROGRESSIVA ESTÁ AQUI) */
         #final-message {
             display: none;
             opacity: 0;
-            transform: translateZ(60px);
+            transform: translateZ(50px) scale(0.9); /* INICIA LIGEIRAMENTE MENOR */
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* TRANSIÇÃO MAIS LONGA E FLUIDA */
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 48px; margin: 0; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        .gold-text { color: #ffb7c5; letter-spacing: 5px; font-size: 10px; text-transform: uppercase; margin-top: 20px; }
-        .premium-body { font-family: 'Cinzel', serif; font-size: 16px; line-height: 1.8; color: #eee; margin-top: 30px; font-weight: 400; }
-        .signature { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 44px; margin: 0; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+        .premium-body { font-family: 'Cinzel', serif; font-size: 15px; line-height: 2; color: #f0f0f0; margin-top: 35px; font-weight: 400; letter-spacing: 0.5px; }
 
+        /* DELAYS PARA REVELAÇÃO PROGRESSIVA */
+        .premium-body span, .signature { display: inline-block; opacity: 0; transform: translateY(15px); transition: all 1s ease-out; }
+
+        .signature { display: block; margin-top: 40px; font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d; text-shadow: 0 0 10px rgba(255,77,109,0.5); }
+
+        /* ESTRELAS CINTILANTES NO TOQUE (MANUTENÇÃO) */
         .star {
             position: fixed;
             background: white;
@@ -87,9 +106,27 @@
             z-index: 2;
             opacity: 0;
         }
+
+        .tap-hint {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: blinkTap 2s infinite;
+        }
+
+        @keyframes blinkTap {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
     </style>
 </head>
-<body onmousemove="updateCard(event)" ontouchmove="updateCard(event)">
+<body onmousemove="updateCard(event)" ontouchmove="updateCard(event)" id="main-body">
 
     <div class="stars-container" id="stars-bg"></div>
 
@@ -97,15 +134,15 @@
         <div id="cover">
             <div class="main-icon">🌹</div>
             <h1>Geovana</h1>
-            <p class="gold-text">Um Toque de Brilho</p>
+            <p class="gold-text">Um Toque de Luz</p>
+            <div class="tap-hint">Toque para Geovana</div>
         </div>
 
         <div id="final-message">
-            <h1>Feliz Dia da Mulher</h1>
+            <h1 id="h1-final">Feliz Dia da Mulher</h1>
             <div class="premium-body">
-                Para a mulher que redefine a palavra elegância e força. Seu brilho é a constelação que guia meus melhores pensamentos.
-                <br>
-                <span class="signature">— Luiz Felipe ❤️</span>
+                <span id="p-text-1">Para a mulher que redefine a elegância e força. Seu brilho é a constelação que guia meus melhores pensamentos.</span>
+                <span id="p-text-2" class="signature">— Luiz Felipe ❤️</span>
             </div>
         </div>
     </div>
@@ -113,87 +150,38 @@
 <script>
     const card = document.getElementById('luxury-card');
     const bg = document.getElementById('stars-bg');
+    const body = document.getElementById('main-body');
     let revealed = false;
 
-    // Criar estrelas fixas de luxo no fundo
-    for(let i=0; i<100; i++) {
-        const s = document.createElement('div');
-        s.className = 'star';
-        s.style.width = Math.random() * 3 + 'px';
-        s.style.height = s.style.width;
-        s.style.left = Math.random() * 100 + 'vw';
-        s.style.top = Math.random() * 100 + 'vh';
-        s.style.opacity = Math.random();
-        bg.appendChild(s);
+    // Criar estrelas fixas de luxo no fundo (conserção)
+    function createBgStars() {
+        for(let i=0; i<100; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            s.style.width = Math.random() * 3 + 'px';
+            s.style.height = s.style.width;
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.top = Math.random() * 100 + 'vh';
+            s.style.opacity = Math.random();
+            bg.appendChild(s);
+        }
     }
+    createBgStars();
 
     function updateCard(e) {
+        if (revealed) {
+            updateShine(e);
+            updateTilt(e);
+        } else {
+            updateTilt(e);
+        }
+        // Criar estrelas cintilantes no toque (as estrelinhas que você adorou!)
+        spawnStar(e);
+    }
+
+    // Refinamento do Brilho Metálico Dinâmico
+    function updateShine(e) {
         const rect = card.getBoundingClientRect();
         const clientX = e.clientX || e.touches[0].clientX;
         const clientY = e.clientY || e.touches[0].clientY;
-        
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-        
-        // Movimento do Brilho Metálico
-        card.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--shine-y', `${(y / rect.height) * 100}%`);
-
-        // Inclinação 3D Suave
-        const rotX = ((y / rect.height) - 0.5) * -15;
-        const rotY = ((clientX / window.innerWidth) - 0.5) * 25;
-        card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-
-        // Criar estrelas cintilantes no toque (as estrelinhas que você adorou!)
-        spawnStar(clientX, clientY);
-    }
-
-    function spawnStar(x, y) {
-        const s = document.createElement('div');
-        s.innerHTML = '✨';
-        s.style.position = 'fixed';
-        s.style.left = x + 'px';
-        s.style.top = y + 'px';
-        s.style.color = '#fff';
-        s.style.fontSize = Math.random() * 15 + 10 + 'px';
-        s.style.pointerEvents = 'none';
-        s.style.zIndex = '100';
-        document.body.appendChild(s);
-
-        s.animate([
-            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-            { transform: `translate(${(Math.random()-0.5)*100}px, ${(Math.random()-0.5)*100}px) scale(0)`, opacity: 0 }
-        ], { duration: 1000 });
-        setTimeout(() => s.remove(), 1000);
-    }
-
-    card.onclick = function() {
-        if (revealed) return;
-        revealed = true;
-        
-        document.getElementById('cover').style.transition = '0.5s';
-        document.getElementById('cover').style.opacity = '0';
-        document.getElementById('cover').style.transform = 'translateZ(0px) scale(0.8)';
-        
-        setTimeout(() => {
-            document.getElementById('cover').style.display = 'none';
-            const msg = document.getElementById('final-message');
-            msg.style.display = 'block';
-            setTimeout(() => { 
-                msg.style.opacity = '1'; 
-                msg.style.transform = 'translateZ(60px) scale(1)';
-            }, 50);
-            
-            // Explosão de Ouro
-            for(let i=0; i<40; i++) spawnStar(window.innerWidth/2, window.innerHeight/2);
-        }, 500);
-    };
-
-    // Resetar posição quando parar de tocar
-    const reset = () => card.style.transform = 'rotateX(0) rotateY(0)';
-    window.addEventListener('touchend', reset);
-    window.addEventListener('mouseleave', reset);
-</script>
-
-</body>
-</html>
+        const x = client
