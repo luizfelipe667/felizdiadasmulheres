@@ -17,7 +17,6 @@
             align-items: center;
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
-            touch-action: manipulation;
         }
 
         .fundo {
@@ -34,6 +33,10 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
         }
 
         .painel {
@@ -49,13 +52,22 @@
         .baixo-dir { bottom: 0; right: 0; }
 
         .lacre-central {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             font-size: 65px;
             filter: drop-shadow(0 0 15px #ff4d6d);
             animation: pulsarRosa 2s infinite ease-in-out;
-            pointer-events: none;
+            z-index: 110;
+        }
+
+        .instrucao {
+            position: absolute;
+            bottom: 80px;
+            color: white;
+            letter-spacing: 3px;
+            font-size: 11px;
+            text-transform: uppercase;
+            animation: pulsarTexto 2s infinite;
+            z-index: 110;
         }
 
         /* TELA 2: TEXTO */
@@ -66,134 +78,10 @@
             text-align: center;
             color: white;
             z-index: 10;
+            display: none;
             opacity: 0;
             transform: scale(0.9);
             transition: all 0.8s ease-out;
-            display: none; /* Começa totalmente fora do fluxo */
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 40px; color: #ff4d6d; margin: 0 0 15px; }
-        .texto-longo { font-size: 16px; line-height: 1.6; font-weight: 300; }
-        .destaque { color: #ffccd5; font-weight: 600; }
-        .assinatura { display: block; margin-top: 20px; font-family: 'Dancing Script'; font-size: 28px; color: #ff4d6d; }
-
-        .btn-proximo {
-            margin-top: 25px;
-            background: #ff4d6d;
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-family: 'Montserrat';
-            font-weight: 600;
-            font-size: 14px;
-            z-index: 500; /* Super alto para garantir clique */
-            position: relative;
-        }
-
-        /* TELA 3: FINAL */
-        #tela-final {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 20;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .te-amo {
-            font-family: 'Dancing Script', cursive;
-            font-size: 55px;
-            color: #ff4d6d;
-            text-align: center;
-        }
-
-        @keyframes pulsarRosa { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
-
-        .particula {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1000;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="fundo"></div>
-
-    <div id="tela-entrada">
-        <div class="painel topo-esq" id="p1"></div>
-        <div class="painel topo-dir" id="p2"></div>
-        <div class="painel baixo-esq" id="p3"></div>
-        <div class="painel baixo-dir" id="p4"></div>
-        <div class="lacre-central">🌹</div>
-    </div>
-
-    <div id="texto-container">
-        <h1>Geovana 🌹</h1>
-        <div class="texto-longo">
-            Neste Dia das Mulheres, quero que você saiba o quanto sua presença é valiosa. 
-            Você é a definição de <span class="destaque">força, elegância e determinação</span>.
-            <br><br>
-            Você é extraordinária e merece ser celebrada todos os dias!
-            <span class="assinatura">— Luiz Felipe ❤️</span>
-        </div>
-        <button id="btn-final" class="btn-proximo">Clique aqui ❤️</button>
-    </div>
-
-    <div id="tela-final">
-        <div class="te-amo">Te amo muito!</div>
-        <div style="font-size: 50px; margin-top: 20px;">💖</div>
-    </div>
-
-<script>
-    let etapa = 1;
-
-    // Função universal de clique/toque
-    function interagir(e) {
-        const x = e.clientX || (e.touches && e.touches[0].clientX);
-        const y = e.clientY || (e.touches && e.touches[0].clientY);
-
-        if (etapa === 1) {
-            abrirHomenagem(x, y);
-        }
-    }
-
-    // Ouvintes globais
-    window.addEventListener('mousedown', interagir);
-    window.addEventListener('touchstart', (e) => {
-        interagir(e);
-    }, { passive: false });
-
-    function abrirHomenagem(x, y) {
-        etapa = 2;
-        criarParticula(x, y, '✨');
-
-        // Animação dos painéis
-        document.getElementById('p1').style.transform = 'translate(-100%, -100%)';
-        document.getElementById('p2').style.transform = 'translate(100%, -100%)';
-        document.getElementById('p3').style.transform = 'translate(-100%, 100%)';
-        document.getElementById('p4').style.transform = 'translate(100%, 100%)';
-
-        setTimeout(() => {
-            document.getElementById('tela-entrada').style.display = 'none';
-            const container = document.getElementById('texto-container');
-            container.style.display = 'block';
-            setTimeout(() => {
-                container.style.opacity = '1';
-                container.style.transform = 'scale(1)';
-            }, 50);
-        }, 600);
-    }
-
-    // Clique específico no botão final (usando ID para evitar falhas)
-    document.getElementById('btn-final').addEventListener('click', function(e) {
-        e.stopPropagation(); // Impede o clique de subir para o window
-        irParaFinal();
-    });
-    
-    document.getElementById('btn-final').addEventListener('touchstart', function
+        h1
