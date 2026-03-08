@@ -27,15 +27,12 @@
             z-index: 1;
         }
 
-        /* TELA 1: ENTRADA */
-        #tela-entrada {
+        /* TELA 1: CAMADA DE ABERTURA */
+        #camada-abertura {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             cursor: pointer;
         }
 
@@ -51,37 +48,30 @@
         .baixo-esq { bottom: 0; left: 0; }
         .baixo-dir { bottom: 0; right: 0; }
 
-        .lacre-central {
-            position: relative;
-            font-size: 65px;
-            filter: drop-shadow(0 0 15px #ff4d6d);
-            animation: pulsarRosa 2s infinite ease-in-out;
+        .lacre {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
             z-index: 110;
+            pointer-events: none;
         }
 
-        .instrucao {
-            position: absolute;
-            bottom: 80px;
+        .rosa-central {
+            font-size: 65px;
+            filter: drop-shadow(0 0 15px #ff4d6d);
+            animation: pulsar 2s infinite ease-in-out;
+            display: block;
+        }
+
+        .aviso {
             color: white;
             letter-spacing: 3px;
             font-size: 11px;
             text-transform: uppercase;
-            animation: pulsarTexto 2s infinite;
-            z-index: 110;
+            margin-top: 20px;
+            opacity: 0.8;
+            animation: brilho 2s infinite;
         }
 
-        /* TELA 2: TEXTO */
-        #texto-container {
-            position: relative;
-            width: 85%;
-            max-width: 400px;
-            text-align: center;
-            color: white;
-            z-index: 10;
-            display: none;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.8s ease-out;
-        }
-
-        h1
+        /* TELA 2
