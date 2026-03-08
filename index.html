@@ -20,7 +20,6 @@
             touch-action: manipulation;
         }
 
-        /* Camada de Fundo (Sempre visível) */
         .fundo {
             position: fixed;
             top: 0; left: 0;
@@ -29,12 +28,12 @@
             z-index: 1;
         }
 
-        /* TELA DE ENTRADA (BLOQUEIO INICIAL) */
+        /* TELA 1: ENTRADA */
         #tela-entrada {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: 100; /* Por cima de tudo */
+            z-index: 100;
             cursor: pointer;
         }
 
@@ -73,7 +72,7 @@
             pointer-events: none;
         }
 
-        /* TELA DO TEXTO (ESCONDIDA NO INÍCIO) */
+        /* TELA 2: TEXTO HOMENAGEM */
         #texto-container {
             position: relative;
             width: 85%;
@@ -83,23 +82,59 @@
             z-index: 10;
             opacity: 0;
             transform: scale(0.9);
-            transition: all 1s ease-out;
-            pointer-events: none;
+            transition: all 0.8s ease-out;
+            display: block;
         }
 
         h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin: 0 0 20px; }
-        .texto-longo { font-size: 17px; line-height: 1.8; font-weight: 300; }
+        .texto-longo { font-size: 17px; line-height: 1.6; font-weight: 300; }
         .destaque { color: #ffccd5; font-weight: 600; }
-        .assinatura { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+        .assinatura { display: block; margin-top: 25px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
 
+        .btn-proximo {
+            margin-top: 30px;
+            background: none;
+            border: 1px solid #ff4d6d;
+            color: #ff4d6d;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Montserrat';
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* TELA 3: FINAL */
+        #tela-final {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .te-amo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 60px;
+            color: #ff4d6d;
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
+            text-align: center;
+        }
+
+        /* ANIMAÇÕES E PARTICULAS */
         @keyframes pulsarRosa { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.15); } }
         @keyframes pulsarTexto { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        .estrela {
+        .particula {
             position: fixed;
             pointer-events: none;
             z-index: 200;
-            font-size: 24px;
         }
     </style>
 </head>
@@ -112,7 +147,6 @@
         <div class="painel topo-dir" id="p2"></div>
         <div class="painel baixo-esq" id="p3"></div>
         <div class="painel baixo-dir" id="p4"></div>
-        
         <div class="lacre-central" id="rosa">🌹</div>
         <div class="instrucao" id="aviso">Toque para abrir ✨</div>
     </div>
@@ -123,12 +157,16 @@
             Neste Dia das Mulheres, quero que você saiba o quanto sua presença é valiosa. 
             Você é a definição de <span class="destaque">força, elegância e determinação</span>.
             <br><br>
-            Que seu brilho continue iluminando todos os caminhos que você trilhar, 
-            pois o mundo se torna um lugar muito mais bonito através do seu olhar. 
-            <br><br>
+            Que seu brilho continue iluminando todos os caminhos que você trilhar. 
             Você é extraordinária e merece ser celebrada todos os dias!
             <span class="assinatura">— Luiz Felipe ❤️</span>
         </div>
+        <button class="btn-proximo" onclick="irParaFinal()">Clique aqui ❤️</button>
+    </div>
+
+    <div id="tela-final">
+        <div class="te-amo">Te amo muito!</div>
+        <div style="font-size: 50px; margin-top: 20px;">💖</div>
     </div>
 
 <script>
@@ -138,59 +176,9 @@
         if (aberta) return;
         aberta = true;
 
-        // Pega coordenadas para as estrelas
         const x = e.clientX || (e.touches && e.touches[0].clientX);
         const y = e.clientY || (e.touches && e.touches[0].clientY);
-        criarEstrela(x, y);
+        criarParticula(x, y, '✨');
 
-        // Inicia animação dos painéis
         document.getElementById('p1').style.transform = 'translate(-100%, -100%)';
-        document.getElementById('p2').style.transform = 'translate(100%, -100%)';
-        document.getElementById('p3').style.transform = 'translate(-100%, 100%)';
-        document.getElementById('p4').style.transform = 'translate(100%, 100%)';
-
-        // Some com a rosa e o aviso
-        document.getElementById('rosa').style.opacity = '0';
-        document.getElementById('aviso').style.opacity = '0';
-
-        // Remove a camada de bloqueio após a animação para não atrapalhar o texto
-        setTimeout(() => {
-            document.getElementById('tela-entrada').style.display = 'none';
-            
-            // Revela o texto
-            const container = document.getElementById('texto-container');
-            container.style.opacity = '1';
-            container.style.transform = 'scale(1)';
-            container.style.pointerEvents = 'auto';
-
-            // Chuva de brilho
-            for(let i=0; i<25; i++) {
-                setTimeout(() => {
-                    criarEstrela(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
-                }, i * 60);
-            }
-        }, 600);
-    }
-
-    function criarEstrela(x, y) {
-        if(!x || !y) return;
-        const s = document.createElement('div');
-        s.className = 'estrela';
-        s.innerHTML = '✨';
-        s.style.left = x + 'px';
-        s.style.top = y + 'px';
-        document.body.appendChild(s);
-        
-        s.animate([
-            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-            { transform: `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`, opacity: 0 }
-        ], { duration: 1000, easing: 'ease-out' }).onfinish = () => s.remove();
-    }
-
-    // Garante que o toque funcione em mobile também
-    document.getElementById('tela-entrada').addEventListener('touchstart', function(e) {
-        abrirHomenagem(e);
-    }, {passive: true});
-</script>
-</body>
-</html>
+        document
