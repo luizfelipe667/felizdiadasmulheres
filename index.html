@@ -17,18 +17,16 @@
         .pagina {
             position: fixed; inset: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 25px;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Transição Premium */
+            text-align: center; padding: 30px;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
         }
 
-        /* TELA 1 */
         #tela1 {
             background: radial-gradient(circle at center, #3d0a1a 0%, #000 100%);
             z-index: 30;
         }
 
-        /* TELA 2 */
         #tela2 {
             background: #050505;
             z-index: 20;
@@ -37,14 +35,12 @@
             transform: scale(1.1);
         }
 
-        /* TELA 3 */
         #tela3 {
             background: #000;
             z-index: 10;
             display: none;
         }
 
-        /* Estilo dos Elementos */
         .flor {
             font-size: 90px; filter: drop-shadow(0 0 20px #ff4d6d);
             animation: pulsar 2.5s infinite ease-in-out;
@@ -58,9 +54,17 @@
             pointer-events: none;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 48px; color: #ff4d6d; margin-bottom: 20px; }
-        .texto { font-size: 19px; line-height: 1.7; max-width: 330px; font-weight: 300; }
-        .assinatura { display: block; margin-top: 25px; font-family: 'Dancing Script'; font-size: 34px; color: #ff4d6d; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 42px; color: #ff4d6d; margin-bottom: 25px; }
+        
+        .texto { 
+            font-size: 18px; 
+            line-height: 1.8; 
+            max-width: 340px; 
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .assinatura { display: block; margin-top: 30px; font-family: 'Dancing Script'; font-size: 34px; color: #ff4d6d; }
 
         .btn-premium {
             background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
@@ -72,7 +76,6 @@
 
         .final-msg { font-family: 'Dancing Script', cursive; font-size: 65px; color: #ff4d6d; }
 
-        /* Animações de Transição Premium */
         .transicao-ativa {
             opacity: 0 !important;
             filter: blur(20px) !important;
@@ -80,80 +83,4 @@
             pointer-events: none !important;
         }
 
-        @keyframes pulsar { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px #ff4d6d); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 30px #ff4d6d); } }
-        @keyframes brilho { 0%, 100% { opacity: 0.2; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-5px); } }
-
-        .coracao { position: fixed; pointer-events: none; z-index: 100; font-size: 28px; }
-    </style>
-</head>
-<body>
-
-    <div id="tela1" class="pagina">
-        <div class="flor">🌹</div>
-        <div class="piscar">Clique na tela ✨</div>
-    </div>
-
-    <div id="tela2" class="pagina">
-        <h1>Geovana 🌹</h1>
-        <div class="texto">
-            Feliz dia da mulher, meu amor! Você é uma mulher incrível, e eu não poderia deixar de homenagear a mulher que eu tanto amo! Obrigado por fazer parte da minha vida.
-            <span class="assinatura">— Luiz Felipe ❤️</span>
-        </div>
-        <button class="btn-premium" id="btnFinal">Clique aqui ❤️</button>
-    </div>
-
-    <div id="tela3" class="pagina">
-        <div class="final-msg">Te amo muito!</div>
-        <div style="font-size: 70px; margin-top: 25px; filter: drop-shadow(0 0 15px red);">💖</div>
-    </div>
-
-<script>
-    const t1 = document.getElementById('tela1');
-    const t2 = document.getElementById('tela2');
-    const t3 = document.getElementById('tela3');
-    const btn = document.getElementById('btnFinal');
-
-    function irParaMensagem() {
-        t1.classList.add('transicao-ativa');
-        setTimeout(() => {
-            t1.style.display = 'none';
-            t2.style.opacity = '1';
-            t2.style.filter = 'blur(0)';
-            t2.style.transform = 'scale(1)';
-        }, 800);
-    }
-
-    function irParaFinal(e) {
-        if(e) e.stopPropagation();
-        t2.classList.add('transicao-ativa');
-        setTimeout(() => {
-            t2.style.display = 'none';
-            t3.style.display = 'flex';
-            t3.style.opacity = '0';
-            setTimeout(() => { 
-                t3.style.opacity = '1'; 
-                setInterval(criarCoracao, 350);
-            }, 50);
-        }, 800);
-    }
-
-    // Escuta de toque/clique reforçada
-    t1.addEventListener('pointerdown', irParaMensagem);
-    btn.addEventListener('pointerdown', irParaFinal);
-
-    function criarCoracao() {
-        const c = document.createElement('div');
-        c.className = 'coracao';
-        c.innerHTML = '❤️';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.top = '100vh';
-        document.body.appendChild(c);
-        
-        c.animate([
-            { transform: 'translateY(0) scale(1) rotate(0deg)', opacity: 1 },
-            { transform: `translateY(-110vh) scale(0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-        ], { duration: 4000, easing: 'ease-out' }).onfinish = () => c.remove();
-    }
-</script>
-</body>
-</html>
+        @keyframes pulsar { 0%, 10
