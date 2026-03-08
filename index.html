@@ -6,6 +6,7 @@
     <title>Homenagem Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* ... (Estilos anteriores mantidos) ... */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -26,7 +27,6 @@
             z-index: 1;
         }
 
-        /* TEXTO QUE FICA POR BAIXO */
         #texto-container {
             width: 85%;
             max-width: 400px;
@@ -36,6 +36,7 @@
             opacity: 0;
             transform: scale(0.9);
             transition: all 1s ease-out;
+            pointer-events: auto; /* Permite interação com o texto se necessário */
         }
 
         h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin: 0 0 20px; }
@@ -43,7 +44,6 @@
         .destaque { color: #ffccd5; font-weight: 600; }
         .assinatura { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
 
-        /* PAINÉIS DE ABERTURA (4 PARTES) */
         .painel {
             position: fixed;
             width: 50%;
@@ -66,7 +66,6 @@
             filter: drop-shadow(0 0 15px #ff4d6d);
             transition: all 0.6s ease;
             cursor: pointer;
-            /* APLICAÇÃO DO EFEITO PULSAR NA ROSA */
             animation: pulsar 2s infinite ease-in-out;
         }
 
@@ -125,53 +124,46 @@
     let jaAberto = false;
 
     function abrirTudo(e) {
-        criarEstrela(e.clientX || (e.touches && e.touches[0].clientX), e.clientY || (e.touches && e.touches[0].clientY));
+        // Gera estrelas no clique, independente de estar aberto ou não
+        const x = e.clientX || (e.touches && e.touches[0].clientX);
+        const y = e.clientY || (e.touches && e.touches[0].clientY);
+        if(x && y) criarEstrela(x, y);
 
         if (jaAberto) return;
         jaAberto = true;
 
+        // Esconde permanentemente o aviso e a rosa
+        const aviso = document.getElementById('aviso');
+        const rosa = document.getElementById('rosa');
+        
+        aviso.style.display = 'none'; // Remove do fluxo para não ocupar espaço
+        rosa.style.animation = 'none';
+        rosa.style.transform = 'scale(0) rotate(180deg)';
+        rosa.style.pointerEvents = 'none'; // Desativa cliques na rosa sumida
+
+        // Abre os painéis
         document.getElementById('p1').style.transform = 'translate(-100%, -100%)';
         document.getElementById('p2').style.transform = 'translate(100%, -100%)';
         document.getElementById('p3').style.transform = 'translate(-100%, 100%)';
         document.getElementById('p4').style.transform = 'translate(100%, 100%)';
-
-        // Para a animação e remove a rosa
-        const rosa = document.getElementById('rosa');
-        rosa.style.animation = 'none'; 
-        rosa.style.transform = 'scale(0) rotate(180deg)';
-        document.getElementById('aviso').style.opacity = '0';
 
         setTimeout(() => {
             const container = document.getElementById('texto-container');
             container.style.opacity = '1';
             container.style.transform = 'scale(1)';
             
+            // Efeito de brilho automático ao abrir
             for(let i=0; i<30; i++) {
                 setTimeout(() => {
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight;
-                    criarEstrela(x, y);
+                    const rx = Math.random() * window.innerWidth;
+                    const ry = Math.random() * window.innerHeight;
+                    criarEstrela(rx, ry);
                 }, i * 50);
             }
         }, 500);
     }
 
     function criarEstrela(x, y) {
-        if(!x || !y) return;
         const s = document.createElement('div');
         s.className = 'estrela';
-        s.innerHTML = '✨';
-        s.style.left = x + 'px';
-        s.style.top = y + 'px';
-        document.body.appendChild(s);
-        
-        s.animate([
-            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-            { transform: `translate(${(Math.random()-0.5)*180}px, ${(Math.random()-0.5)*180}px) scale(0)`, opacity: 0 }
-        ], { duration: 1000, easing: 'ease-out' });
-
-        setTimeout(() => s.remove(), 1000);
-    }
-</script>
-</body>
-</html>
+        s.innerHTML =
