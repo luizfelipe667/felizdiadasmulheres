@@ -6,166 +6,156 @@
     <title>Para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body {
+        body, html {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             background-color: #000;
             color: white;
             font-family: 'Montserrat', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             overflow: hidden;
-            touch-action: manipulation;
         }
 
-        /* TELA 1 */
-        #tela1 {
+        /* Estrutura de Camadas (Transição de Cortina) */
+        .secao {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle, #2b0610 0%, #000 100%);
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
         }
 
-        .rosa {
-            font-size: 80px;
-            filter: drop-shadow(0 0 15px #ff4d6d);
-            animation: pulsar 1.5s infinite ease-in-out;
-            pointer-events: none; /* O toque passa por ela e vai pro fundo */
-        }
-
-        .instrucao {
-            margin-top: 20px;
-            letter-spacing: 2px;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #ffccd5;
-            pointer-events: none;
+        /* TELA 1 */
+        #tela1 {
+            background: radial-gradient(circle, #2b0610 0%, #000 100%);
+            z-index: 30;
+            cursor: pointer;
         }
 
         /* TELA 2 */
         #tela2 {
-            display: none;
-            width: 85%;
-            max-width: 400px;
-            text-align: center;
-            z-index: 50;
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin-bottom: 10px; }
-        .texto { font-size: 18px; line-height: 1.6; margin-bottom: 30px; }
-        
-        #btn-final {
-            background: #ff4d6d;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            background: #0a0a0a;
+            z-index: 20;
+            padding: 20px;
         }
 
         /* TELA 3 */
         #tela3 {
-            display: none;
-            text-align: center;
-            z-index: 50;
+            background: #000;
+            z-index: 10;
         }
 
-        .final { font-family: 'Dancing Script', cursive; font-size: 60px; color: #ff4d6d; }
+        /* Estilização dos Elementos */
+        .rosa {
+            font-size: 85px;
+            filter: drop-shadow(0 0 20px #ff4d6d);
+            animation: pulsar 2s infinite ease-in-out;
+        }
+
+        .instrucao {
+            margin-top: 25px;
+            letter-spacing: 3px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #ffccd5;
+            opacity: 0.8;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin-bottom: 15px; }
+        .texto { font-size: 18px; line-height: 1.8; text-align: center; max-width: 320px; }
+        .assinatura { display: block; margin-top: 25px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+
+        .btn-fofo {
+            margin-top: 40px;
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            cursor: pointer;
+        }
+
+        .final { font-family: 'Dancing Script', cursive; font-size: 55px; color: #ff4d6d; text-align: center; }
 
         @keyframes pulsar {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.1); }
         }
 
         .coracao {
             position: fixed;
             pointer-events: none;
-            font-size: 25px;
-            z-index: 10;
+            z-index: 100;
         }
+
+        /* Classe para disparar a transição */
+        .subir { transform: translateY(-100%); }
     </style>
 </head>
 <body>
 
-    <div id="tela1">
+    <div id="tela1" class="secao" onclick="irParaMensagem()">
         <div class="rosa">🌹</div>
-        <div class="instrucao">Toque em qualquer lugar ✨</div>
+        <div class="instrucao">Clique na tela ✨</div>
     </div>
 
-    <div id="tela2">
+    <div id="tela2" class="secao">
         <h1>Geovana 🌹</h1>
         <div class="texto">
             Você é extraordinária e merece ser celebrada todos os dias!
-            <br><br>
-            <span style="font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d;">— Luiz Felipe ❤️</span>
+            <span class="assinatura">— Luiz Felipe ❤️</span>
         </div>
-        <button id="btn-final">Clique aqui ❤️</button>
+        <button class="btn-fofo" onclick="irParaFinal()">Clique aqui ❤️</button>
     </div>
 
-    <div id="tela3">
+    <div id="tela3" class="secao">
         <div class="final">Te amo muito!</div>
-        <div style="font-size: 50px; margin-top: 20px;">💖</div>
+        <div style="font-size: 60px; margin-top: 20px; filter: drop-shadow(0 0 10px red);">💖</div>
     </div>
 
 <script>
-    const tela1 = document.getElementById('tela1');
-    const tela2 = document.getElementById('tela2');
-    const tela3 = document.getElementById('tela3');
-    const btnFinal = document.getElementById('btn-final');
-
-    // FUNÇÃO PARA MUDAR DA TELA 1 PARA A 2
-    function irParaTela2() {
-        tela1.style.display = 'none';
-        tela2.style.display = 'block';
+    // Função para ir da Tela 1 para a Tela 2
+    function irParaMensagem() {
+        const tela1 = document.getElementById('tela1');
+        tela1.classList.add('subir');
+        
+        // Pequena explosão de corações ao abrir
+        for(let i=0; i<15; i++) {
+            setTimeout(criarCoracao, i * 50);
+        }
     }
 
-    // FUNÇÃO PARA MUDAR DA TELA 2 PARA A 3
-    function irParaTela3(e) {
-        if(e) e.stopPropagation(); 
-        tela2.style.display = 'none';
-        tela3.style.display = 'block';
+    // Função para ir da Tela 2 para a Tela 3
+    function irParaFinal() {
+        const tela2 = document.getElementById('tela2');
+        tela2.classList.add('subir');
+        
+        // Chuva constante de corações no final
         setInterval(criarCoracao, 300);
     }
-
-    // ESCUTADORES GLOBAIS (Garante que funcione em qualquer lugar)
-    tela1.addEventListener('click', irParaTela2);
-    tela1.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        irParaTela2();
-    }, {passive: false});
-
-    btnFinal.addEventListener('click', irParaTela3);
-    btnFinal.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        irParaTela3();
-    }, {passive: false});
 
     function criarCoracao() {
         const c = document.createElement('div');
         c.className = 'coracao';
         c.innerHTML = '❤️';
-        c.style.left = Math.random() * window.innerWidth + 'px';
-        c.style.top = window.innerHeight + 'px';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top = '100vh';
+        c.style.fontSize = (Math.random() * 20 + 20) + 'px';
         document.body.appendChild(c);
         
+        const duracao = 3000 + Math.random() * 2000;
+        
         c.animate([
-            { transform: 'translateY(0)', opacity: 1 },
-            { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
-        ], { 
-            duration: 3000 + Math.random() * 2000, 
-            easing: 'linear' 
-        }).onfinish = () => c.remove();
-    }
-</script>
-</body>
-</html>
+            { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+            { transform: `translate(${(Math.random() - 0.5) * 100}
