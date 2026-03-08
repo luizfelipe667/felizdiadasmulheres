@@ -17,7 +17,7 @@
             align-items: center;
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
-            touch-action: manipulation;
+            touch-action: none; /* Evita zoom e scroll acidental */
         }
 
         .fundo {
@@ -32,17 +32,17 @@
             max-width: 400px;
             text-align: center;
             color: white;
-            z-index: 5;
+            z-index: 10;
             opacity: 0;
             transform: scale(0.9);
             transition: all 1s ease-out;
-            pointer-events: none; /* Só ativa quando abrir */
+            pointer-events: none;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin: 0 0 20px; }
-        .texto-longo { font-size: 17px; line-height: 1.8; font-weight: 300; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 42px; color: #ff4d6d; margin: 0 0 20px; }
+        .texto-longo { font-size: 16px; line-height: 1.8; font-weight: 300; }
         .destaque { color: #ffccd5; font-weight: 600; }
-        .assinatura { display: block; margin-top: 35px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+        .assinatura { display: block; margin-top: 30px; font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d; }
 
         .painel {
             position: fixed;
@@ -51,7 +51,7 @@
             border: 0.5px solid rgba(255, 183, 197, 0.2);
             z-index: 50;
             transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-            pointer-events: none; /* O clique passa para o body */
+            pointer-events: none; /* Garante que o clique passe direto */
         }
 
         .topo-esq { top: 0; left: 0; }
@@ -62,9 +62,9 @@
         .lacre-central {
             position: fixed;
             z-index: 60;
-            font-size: 65px;
+            font-size: 60px;
             filter: drop-shadow(0 0 15px #ff4d6d);
-            transition: all 0.6s ease;
+            pointer-events: none;
             animation: pulsar 2s infinite ease-in-out;
         }
 
@@ -73,9 +73,10 @@
             bottom: 80px;
             color: white;
             letter-spacing: 3px;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             z-index: 65;
+            pointer-events: none;
             animation: pulsar 2s infinite;
         }
 
@@ -92,7 +93,7 @@
         }
     </style>
 </head>
-<body onclick="abrirTudo(event)">
+<body>
 
     <div class="fundo"></div>
 
@@ -121,28 +122,52 @@
 <script>
     let jaAberto = false;
 
-    function abrirTudo(e) {
-        // Coordenadas seguras para mouse ou touch
-        const x = e.clientX || (e.touches && e.touches[0].clientX) || (window.innerWidth / 2);
-        const y = e.clientY || (e.touches && e.touches[0].clientY) || (window.innerHeight / 2);
-        
+    // Captura o clique ou toque em qualquer lugar da janela
+    window.addEventListener('mousedown', (e) => lidarComClique(e.clientX, e.clientY));
+    window.addEventListener('touchstart', (e) => {
+        lidarComClique(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    function lidarComClique(x, y) {
         criarEstrela(x, y);
 
         if (jaAberto) return;
         jaAberto = true;
 
-        // Limpeza imediata da tela inicial
+        // Esconde os elementos iniciais
         document.getElementById('aviso').style.display = 'none';
         const rosa = document.getElementById('rosa');
-        rosa.style.animation = 'none';
-        rosa.style.transform = 'scale(0) rotate(180deg)';
         rosa.style.opacity = '0';
+        rosa.style.transform = 'scale(0)';
 
-        // Movimento dos painéis
-        document.getElementById('p1').style.transform = 'translate(-105%, -105%)';
-        document.getElementById('p2').style.transform = 'translate(105%, -105%)';
-        document.getElementById('p3').style.transform = 'translate(-105%, 105%)';
-        document.getElementById('p4').style.transform = 'translate(105%, 105%)';
+        // Abre os painéis (usando 110% para garantir que saiam da tela)
+        document.getElementById('p1').style.transform = 'translate(-110%, -110%)';
+        document.getElementById('p2').style.transform = 'translate(110%, -110%)';
+        document.getElementById('p3').style.transform = 'translate(-110%, 110%)';
+        document.getElementById('p4').style.transform = 'translate(110%, 110%)';
 
-        // Revela o texto e permite interação
-        setTimeout(()
+        // Revela o texto
+        setTimeout(() => {
+            const container = document.getElementById('texto-container');
+            container.style.opacity = '1';
+            container.style.transform = 'scale(1)';
+            container.style.pointerEvents = 'auto'; // Ativa se quiser clicar em links no futuro
+            
+            // Brilho automático
+            for(let i=0; i<20; i++) {
+                setTimeout(() => {
+                    criarEstrela(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+                }, i * 80);
+            }
+        }, 700);
+    }
+
+    function criarEstrela(x, y) {
+        const s = document.createElement('div');
+        s.className = 'estrela';
+        s.innerHTML = '✨';
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        document.body.appendChild(s);
+        
+        const anim = s
