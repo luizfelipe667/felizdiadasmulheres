@@ -6,7 +6,6 @@
     <title>Homenagem Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* ... (Estilos anteriores mantidos) ... */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -18,6 +17,7 @@
             align-items: center;
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
         .fundo {
@@ -36,7 +36,7 @@
             opacity: 0;
             transform: scale(0.9);
             transition: all 1s ease-out;
-            pointer-events: auto; /* Permite interação com o texto se necessário */
+            pointer-events: none; /* Só ativa quando abrir */
         }
 
         h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin: 0 0 20px; }
@@ -46,12 +46,12 @@
 
         .painel {
             position: fixed;
-            width: 50%;
-            height: 50%;
+            width: 50%; height: 50%;
             background: linear-gradient(135deg, #2b0610 0%, #000 100%);
             border: 0.5px solid rgba(255, 183, 197, 0.2);
             z-index: 50;
             transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+            pointer-events: none; /* O clique passa para o body */
         }
 
         .topo-esq { top: 0; left: 0; }
@@ -65,7 +65,6 @@
             font-size: 65px;
             filter: drop-shadow(0 0 15px #ff4d6d);
             transition: all 0.6s ease;
-            cursor: pointer;
             animation: pulsar 2s infinite ease-in-out;
         }
 
@@ -77,13 +76,12 @@
             font-size: 11px;
             text-transform: uppercase;
             z-index: 65;
-            opacity: 0.8;
             animation: pulsar 2s infinite;
         }
 
         @keyframes pulsar { 
-            0%, 100% { transform: scale(1); opacity: 0.8; } 
-            50% { transform: scale(1.15); opacity: 1; } 
+            0%, 100% { transform: scale(1); opacity: 0.6; } 
+            50% { transform: scale(1.1); opacity: 1; } 
         }
 
         .estrela {
@@ -124,46 +122,27 @@
     let jaAberto = false;
 
     function abrirTudo(e) {
-        // Gera estrelas no clique, independente de estar aberto ou não
-        const x = e.clientX || (e.touches && e.touches[0].clientX);
-        const y = e.clientY || (e.touches && e.touches[0].clientY);
-        if(x && y) criarEstrela(x, y);
+        // Coordenadas seguras para mouse ou touch
+        const x = e.clientX || (e.touches && e.touches[0].clientX) || (window.innerWidth / 2);
+        const y = e.clientY || (e.touches && e.touches[0].clientY) || (window.innerHeight / 2);
+        
+        criarEstrela(x, y);
 
         if (jaAberto) return;
         jaAberto = true;
 
-        // Esconde permanentemente o aviso e a rosa
-        const aviso = document.getElementById('aviso');
+        // Limpeza imediata da tela inicial
+        document.getElementById('aviso').style.display = 'none';
         const rosa = document.getElementById('rosa');
-        
-        aviso.style.display = 'none'; // Remove do fluxo para não ocupar espaço
         rosa.style.animation = 'none';
         rosa.style.transform = 'scale(0) rotate(180deg)';
-        rosa.style.pointerEvents = 'none'; // Desativa cliques na rosa sumida
+        rosa.style.opacity = '0';
 
-        // Abre os painéis
-        document.getElementById('p1').style.transform = 'translate(-100%, -100%)';
-        document.getElementById('p2').style.transform = 'translate(100%, -100%)';
-        document.getElementById('p3').style.transform = 'translate(-100%, 100%)';
-        document.getElementById('p4').style.transform = 'translate(100%, 100%)';
+        // Movimento dos painéis
+        document.getElementById('p1').style.transform = 'translate(-105%, -105%)';
+        document.getElementById('p2').style.transform = 'translate(105%, -105%)';
+        document.getElementById('p3').style.transform = 'translate(-105%, 105%)';
+        document.getElementById('p4').style.transform = 'translate(105%, 105%)';
 
-        setTimeout(() => {
-            const container = document.getElementById('texto-container');
-            container.style.opacity = '1';
-            container.style.transform = 'scale(1)';
-            
-            // Efeito de brilho automático ao abrir
-            for(let i=0; i<30; i++) {
-                setTimeout(() => {
-                    const rx = Math.random() * window.innerWidth;
-                    const ry = Math.random() * window.innerHeight;
-                    criarEstrela(rx, ry);
-                }, i * 50);
-            }
-        }, 500);
-    }
-
-    function criarEstrela(x, y) {
-        const s = document.createElement('div');
-        s.className = 'estrela';
-        s.innerHTML =
+        // Revela o texto e permite interação
+        setTimeout(()
