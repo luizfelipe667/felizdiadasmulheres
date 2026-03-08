@@ -9,27 +9,16 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #000; color: white;
+            font-family: 'Montserrat', sans-serif; overflow: hidden;
+            touch-action: none; /* Bloqueia o scroll para focar no clique */
         }
 
-        /* Estrutura de Camadas (Transição de Cortina) */
-        .secao {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        .camada {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
         }
 
@@ -37,7 +26,6 @@
         #tela1 {
             background: radial-gradient(circle, #2b0610 0%, #000 100%);
             z-index: 30;
-            cursor: pointer;
         }
 
         /* TELA 2 */
@@ -53,109 +41,26 @@
             z-index: 10;
         }
 
-        /* Estilização dos Elementos */
-        .rosa {
-            font-size: 85px;
-            filter: drop-shadow(0 0 20px #ff4d6d);
-            animation: pulsar 2s infinite ease-in-out;
-        }
+        .rosa { font-size: 80px; filter: drop-shadow(0 0 15px #ff4d6d); animation: pulsar 2s infinite; }
+        .instrucao { margin-top: 20px; letter-spacing: 3px; font-size: 11px; text-transform: uppercase; color: #ffccd5; }
 
-        .instrucao {
-            margin-top: 25px;
-            letter-spacing: 3px;
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #ffccd5;
-            opacity: 0.8;
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin-bottom: 15px; }
-        .texto { font-size: 18px; line-height: 1.8; text-align: center; max-width: 320px; }
-        .assinatura { display: block; margin-top: 25px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 42px; color: #ff4d6d; margin-bottom: 10px; }
+        .texto { font-size: 17px; line-height: 1.6; text-align: center; max-width: 300px; }
+        .assinatura { display: block; margin-top: 20px; font-family: 'Dancing Script'; font-size: 30px; color: #ff4d6d; }
 
         .btn-fofo {
-            margin-top: 40px;
-            background: #ff4d6d;
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
-            cursor: pointer;
+            margin-top: 30px; background: #ff4d6d; color: white; border: none;
+            padding: 15px 30px; border-radius: 50px; font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
         }
 
-        .final { font-family: 'Dancing Script', cursive; font-size: 55px; color: #ff4d6d; text-align: center; }
+        .final { font-family: 'Dancing Script', cursive; font-size: 50px; color: #ff4d6d; text-align: center; }
 
-        @keyframes pulsar {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .coracao {
-            position: fixed;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        /* Classe para disparar a transição */
+        @keyframes pulsar { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .coracao { position: fixed; pointer-events: none; z-index: 100; font-size: 25px; }
         .subir { transform: translateY(-100%); }
     </style>
 </head>
 <body>
 
-    <div id="tela1" class="secao" onclick="irParaMensagem()">
-        <div class="rosa">🌹</div>
-        <div class="instrucao">Clique na tela ✨</div>
-    </div>
-
-    <div id="tela2" class="secao">
-        <h1>Geovana 🌹</h1>
-        <div class="texto">
-            Você é extraordinária e merece ser celebrada todos os dias!
-            <span class="assinatura">— Luiz Felipe ❤️</span>
-        </div>
-        <button class="btn-fofo" onclick="irParaFinal()">Clique aqui ❤️</button>
-    </div>
-
-    <div id="tela3" class="secao">
-        <div class="final">Te amo muito!</div>
-        <div style="font-size: 60px; margin-top: 20px; filter: drop-shadow(0 0 10px red);">💖</div>
-    </div>
-
-<script>
-    // Função para ir da Tela 1 para a Tela 2
-    function irParaMensagem() {
-        const tela1 = document.getElementById('tela1');
-        tela1.classList.add('subir');
-        
-        // Pequena explosão de corações ao abrir
-        for(let i=0; i<15; i++) {
-            setTimeout(criarCoracao, i * 50);
-        }
-    }
-
-    // Função para ir da Tela 2 para a Tela 3
-    function irParaFinal() {
-        const tela2 = document.getElementById('tela2');
-        tela2.classList.add('subir');
-        
-        // Chuva constante de corações no final
-        setInterval(criarCoracao, 300);
-    }
-
-    function criarCoracao() {
-        const c = document.createElement('div');
-        c.className = 'coracao';
-        c.innerHTML = '❤️';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.top = '100vh';
-        c.style.fontSize = (Math.random() * 20 + 20) + 'px';
-        document.body.appendChild(c);
-        
-        const duracao = 3000 + Math.random() * 2000;
-        
-        c.animate([
-            { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
-            { transform: `translate(${(Math.random() - 0.5) * 100}
+    <div id="tela1" class="
