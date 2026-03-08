@@ -6,6 +6,7 @@
     <title>Para Geovana ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Reset total para Android */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         
         body, html {
@@ -14,27 +15,30 @@
             overflow: hidden; touch-action: none;
         }
 
+        /* O segredo: Telas em camadas simples */
         .pagina {
             position: fixed; inset: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 25px;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
+            text-align: center; padding: 20px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
+        /* TELA 1 */
         #tela1 {
-            background: radial-gradient(circle at center, #3d0a1a 0%, #000 100%);
+            background: radial-gradient(circle, #2b0610 0%, #000 100%);
             z-index: 30;
         }
 
+        /* TELA 2 */
         #tela2 {
-            background: #050505;
+            background: #0a0a0a;
             z-index: 20;
             opacity: 0;
-            filter: blur(10px);
-            transform: scale(1.1);
+            transform: scale(0.9);
+            pointer-events: none; /* Só aceita clique quando aparecer */
         }
 
+        /* TELA 3 */
         #tela3 {
             background: #000;
             z-index: 10;
@@ -42,40 +46,104 @@
         }
 
         .flor {
-            font-size: 90px; filter: drop-shadow(0 0 20px #ff4d6d);
-            animation: pulsar 2.5s infinite ease-in-out;
+            font-size: 85px; filter: drop-shadow(0 0 15px #ff4d6d);
+            animation: pulsar 2s infinite ease-in-out;
             pointer-events: none;
         }
 
         .piscar {
-            margin-top: 30px; letter-spacing: 4px; font-size: 11px;
+            margin-top: 25px; letter-spacing: 3px; font-size: 13px;
             text-transform: uppercase; color: #ffccd5;
-            animation: brilho 2s infinite;
+            animation: brilho 1.5s infinite;
             pointer-events: none;
         }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 48px; color: #ff4d6d; margin-bottom: 20px; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4d6d; margin-bottom: 20px; }
+        .texto { font-size: 18px; line-height: 1.6; max-width: 320px; margin-bottom: 30px; }
+        .assinatura { display: block; margin-top: 20px; font-family: 'Dancing Script'; font-size: 32px; color: #ff4d6d; }
+
+        .btn-acao {
+            background: #ff4d6d; color: white; border: none;
+            padding: 18px 45px; border-radius: 50px; font-weight: 600;
+            font-size: 16px; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .final-msg { font-family: 'Dancing Script', cursive; font-size: 60px; color: #ff4d6d; }
+
+        @keyframes pulsar { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes brilho { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        .coracao { position: fixed; pointer-events: none; z-index: 100; font-size: 25px; }
+    </style>
+</head>
+<body>
+
+    <div id="tela1" class="pagina">
+        <div class="flor">🌹</div>
+        <div class="piscar">Clique na tela ✨</div>
+    </div>
+
+    <div id="tela2" class="pagina">
+        <h1>Geovana 🌹</h1>
+        <div class="texto">
+            Feliz dia da mulher, meu amor! Você é uma mulher incrível, e eu não poderia deixar de homenagear a mulher que eu tanto amo! Obrigado por fazer parte da minha vida.
+            <span class="assinatura">— Luiz Felipe ❤️</span>
+        </div>
+        <button class="btn-acao" id="btnFinal">Clique aqui ❤️</button>
+    </div>
+
+    <div id="tela3" class="pagina">
+        <div class="final-msg">Te amo muito!</div>
+        <div style="font-size: 65px; margin-top: 20px; filter: drop-shadow(0 0 10px #ff4d6d);">💖</div>
+    </div>
+
+<script>
+    const t1 = document.getElementById('tela1');
+    const t2 = document.getElementById('tela2');
+    const t3 = document.getElementById('tela3');
+    const btn = document.getElementById('btnFinal');
+
+    // FUNÇÃO PARA ABRIR (TELA 1 -> TELA 2)
+    function acaoAbrir() {
+        t1.style.opacity = '0';
+        t1.style.transform = 'translateY(-100%)';
+        setTimeout(() => {
+            t1.style.display = 'none';
+            t2.style.opacity = '1';
+            t2.style.transform = 'scale(1)';
+            t2.style.pointerEvents = 'auto';
+        }, 600);
+    }
+
+    // FUNÇÃO FINAL (TELA 2 -> TELA 3)
+    function acaoFinal(e) {
+        if(e) e.stopPropagation();
+        t2.style.display = 'none';
+        t3.style.display = 'flex';
+        setInterval(criarCoracao, 300);
+    }
+
+    // EVENTOS PARA TELA 1 (TOQUE E CLIQUE)
+    t1.addEventListener('touchstart', (e) => { e.preventDefault(); acaoAbrir(); }, {passive: false});
+    t1.addEventListener('click', acaoAbrir);
+
+    // EVENTOS PARA O BOTÃO (TOQUE E CLIQUE)
+    btn.addEventListener('touchstart', (e) => { e.preventDefault(); acaoFinal(e); }, {passive: false});
+    btn.addEventListener('click', acaoFinal);
+
+    function criarCoracao() {
+        const c = document.createElement('div');
+        c.className = 'coracao';
+        c.innerHTML = '❤️';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top = '100vh';
+        document.body.appendChild(c);
         
-        .texto { 
-            font-size: 19px; 
-            line-height: 1.7; 
-            max-width: 330px; 
-            font-weight: 300;
-            text-align: center; /* Garante a centralização do bloco de texto */
-            margin: 0 auto;
-        }
-
-        .assinatura { display: block; margin-top: 25px; font-family: 'Dancing Script'; font-size: 34px; color: #ff4d6d; }
-
-        .btn-premium {
-            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
-            color: white; border: none; padding: 18px 50px; border-radius: 50px;
-            font-weight: 600; font-size: 15px; margin-top: 40px;
-            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.3);
-            cursor: pointer;
-        }
-
-        .final-msg { font-family: 'Dancing Script', cursive; font-size: 65px; color: #ff4d6d; }
-
-        .transicao-ativa {
-            opacity
+        c.animate([
+            { transform: 'translateY(0)', opacity: 1 },
+            { transform: `translateY(-110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        ], { duration: 3000 + Math.random() * 2000 }).onfinish = () => c.remove();
+    }
+</script>
+</body>
+</html>
